@@ -1,0 +1,88 @@
+@import "./variables.scss";
+
+mat-form-field {
+  min-width: 0;
+  &.mat-form-field-appearance-outline {
+    .mat-form-field-prefix {
+      top: 0;
+    }
+  }
+
+  &.disabled {
+    color: rgba(0, 0, 0, 0.38);
+  }
+
+  input {
+    &.mat-chip-input {
+      width: 100%;
+      margin: 0;
+    }
+  }
+}
+
+mat-form-field {
+  &.small {
+    .mat-mdc-text-field-wrapper {
+      display: flex;
+      height: 40px;
+      align-items: center;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .mdc-floating-label {
+      text-overflow: ellipsis;
+      width: 48px;
+      &:not(.mdc-floating-label--float-above) {
+        top: 18px !important;
+      }
+    }
+  }
+  &.prefix {
+    span {
+      padding: 0 4px 0 8px;
+    }
+  }
+  &.grey-color {
+    mat-icon {
+      color: $grey;
+    }
+  }
+
+  &.p-2 {
+    .mat-mdc-form-field-hint-wrapper {
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+  }
+
+  &.chip-input {
+    .mat-mdc-form-field-infix {
+      overflow-x: auto;
+      height: 56px;
+      overflow-y: hidden;
+      mat-chip-grid {
+        .mdc-evolution-chip-set__chips {
+          flex-flow: nowrap;
+        }
+      }
+    }
+  }
+
+  &.start {
+    justify-content: flex-start;
+  }
+}
+
+.mat-mdc-checkbox.mat-primary {
+  --mdc-checkbox-selected-checkmark-color: #fff;
+  --mdc-checkbox-selected-focus-icon-color: #1c1b1f;
+  --mdc-checkbox-selected-hover-icon-color: #1c1b1f;
+  --mdc-checkbox-selected-icon-color: #1c1b1f;
+  --mdc-checkbox-selected-pressed-icon-color: #1c1b1f;
+  --mdc-checkbox-unselected-focus-icon-color: #212121;
+  --mdc-checkbox-unselected-hover-icon-color: #212121;
+  --mdc-checkbox-disabled-selected-icon-color: rgba(0, 0, 0, 0.38);
+  --mdc-checkbox-disabled-unselected-icon-color: rgba(0, 0, 0, 0.38);
+  --mdc-checkbox-unselected-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-checkbox-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+}

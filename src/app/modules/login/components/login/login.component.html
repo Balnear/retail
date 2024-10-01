@@ -1,34 +1,68 @@
-
-
 <div class="background"></div>
+
     <div class="container">
-        <div class="content">
-            <h2 class="logo"><i class='bx bxl-firebase' ></i>Retail</h2>
-
-            <div class="text-sci">
-                <h2>Welcome<br><span>to our new website!</span></h2>
-
-                <p>We're delighted to have you here. If you need any assistance, feel free to reach out!</p>
+        <div class="content-info">
+            <img src="../../../../../assets/official-logo2.jpg" alt="logo">
+            <h2 class="logo">Retail</h2>
+            <div class="text">
+                <h2>Welcome</h2>
+                <h3>to our new website!</h3>
+                <h4>We're delighted to have you here. If you need any assistance, feel free to reach out!</h4>
             </div>
         </div>
 
             
 
-        <div class="logreg-box">
+        <div class="login-box">
             <div class="form-box">
-                <form action="#">
-                    <h2>Login</h2>
-
+                <form (ngSubmit)="submitForm()" [formGroup]="form">
+                    <h2>{{ labelConstant.login }}</h2>
                     <div class="input-box">
-                        <span class="icon"><i class='bx bxs-envelope' ></i></span>
-                        <input type="email" required>
-                        <label>Email</label>
+                        <mat-form-field class="email" appearance="outline">
+                            <mat-label>{{ labelConstant.mail }} </mat-label>
+                            <input
+                              matInput
+                              class="form-control"
+                              type="email"
+                              formControlName="email"
+                              autocomplete="email"
+                              noEmoji
+                            />
+                            <mat-error>
+                              {{
+                                this.form.get("email")?.hasError("pattern") &&
+                                !this.form.get("email")?.hasError("required")
+                                  ? errorConstant.email_address
+                                  : errorConstant.campo_obbligatorio
+                              }}
+                            </mat-error>
+                          </mat-form-field>
                     </div>
 
                     <div class="input-box">
-                        <span class="icon"><i class='bx bxs-lock-alt' ></i></span>
-                        <input type="password" required>
-                        <label>Password</label>
+                        <mat-form-field class="email" appearance="outline">
+                            <mat-label> {{ labelConstant.password }} </mat-label>
+                            <div class="input-password">
+                              <input
+                                matInput
+                                [type]="passwordHide ? 'password' : 'text'"
+                                formControlName="password"
+                                noEmoji
+                              />
+                              <mat-icon mat-suffix (click)="passwordHide = !passwordHide">{{
+                                passwordHide
+                                  ? iconConstant.visibility_off
+                                  : iconConstant.visibility
+                              }}</mat-icon>
+                            </div>
+                            <mat-error>
+                              {{
+                                this.form.get("password")?.hasError("required")
+                                  ? errorConstant.campo_obbligatorio
+                                  : errorConstant.campo_non_valido
+                              }}
+                            </mat-error>
+                          </mat-form-field>
                     </div>
 
                     <div class="remember-forgot">
