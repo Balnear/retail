@@ -1,7 +1,7 @@
 @import "../../../../../assets/scss/variables.scss";
 
 .container {
-  background: linear-gradient(to top, #ff0000, $primary);
+  background: linear-gradient(to left,$primary, $secondary);
   width: 80px;
   height: 100%;
   padding: 16px;
@@ -21,16 +21,14 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 35px;
-  height: 35px;
+  width: 50px;
+  height: 50px;
   flex: none;
   order: 0;
   flex-shrink: 0;
-  margin-left: 6px;
 }
 
 .logo img {
-  // width: $icon-size;
   height: $icon-size;
 }
 
@@ -57,7 +55,7 @@
   font-size: $font-24;
   width: $icon-size;
   height: $icon-size;
-  color: $dark-brown;
+  // color: $dark-brown;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -120,7 +118,7 @@ mat-tree {
 
 h5 {
   margin-top: 5px;
-  @include text($font-15, 600, $dark-brown, 18px, none);
+  @include text($font-15, 600, $white, 18px, none);
   vertical-align: middle;
   position: absolute;
   left: 48px;
@@ -130,7 +128,7 @@ h5 {
   margin-top: 11px;
   display: flex;
   flex-direction: column;
-  @include text($font-15, 400, $dark-brown, 18px, none);
+  @include text($font-15, 400, $white, 18px, none);
   p {
     padding-left: 48px;
     position: relative;
@@ -168,6 +166,6 @@ h5 {
 }
 
 .sidenav-logo {
-  width: 110px;
-  margin-left: 12px;
+  width: 150px;
+  height: 70px;
 }

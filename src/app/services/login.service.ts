@@ -37,7 +37,9 @@ export class LoginService {
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
-  ) {}
+    private router: Router,
+  ) {
+  }
 
    /**
    * Effettua l'accesso all'applicazione
@@ -45,7 +47,7 @@ export class LoginService {
   login(email: string, password: string){
     signInWithEmailAndPassword(this.auth,email,password).then((res)=>{
       console.log('accesso eseguito');
-      
+      this.router.navigate(['/bo/dashboard']);
       console.log(res,'credenziali');
       
     }).catch((error)=>{

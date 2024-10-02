@@ -51,12 +51,12 @@ export class HeaderComponent {
   options = [
     {
       icon: this.iconConstant.person,
-      // label: this.labelConstant.profilo,
+      label: this.labelConstant.profilo,
       callback: () => this.editOrChangeProfile(),
     },
     {
       icon: this.iconConstant.logout,
-      // label: this.labelConstant.logout,
+      label: this.labelConstant.logout,
       callback: () => this.logout(),
     },
   ];

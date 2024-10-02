@@ -12,7 +12,7 @@ export const routes: Routes = [
       {
         path: 'bo',
         loadChildren: () =>
-          import('./modules/login/login-routing').then(
+          import('./modules/app-layout/app-layout-routing').then(
             (m) => m.routes
           ),
       },
@@ -21,13 +21,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./modules/login/login-routing').then((m) => m.routes),
       },
-    //   {
-    //     path: 'reimposta-password',
-    //     loadChildren: () =>
-    //       import(
-    //         './modules/nuova-password/reimposta-password-routing.module'
-    //       ).then((m) => m.routes),
-    //   },
+      // {
+      //   path: 'reimposta-password',
+      //   loadChildren: () =>
+      //     import(
+      //       './modules/nuova-password/reimposta-password-routing.module'
+      //     ).then((m) => m.routes),
+      // },
       {
         path: '**',
         redirectTo: '',

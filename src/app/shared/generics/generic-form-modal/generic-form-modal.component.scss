@@ -1,7 +1,7 @@
 @import "../../../../assets/scss/variables.scss";
 
 .title {
-  @include text($font-28, 700, $dark-brown, 33px, none);
+  @include text($font-28, 700, $white, 33px, none);
 }
 
 .subtitle {

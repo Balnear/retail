@@ -1,5 +1,4 @@
 export const LABEL_CONSTANT = {
-  logo: 'Retail',
   login: 'Login',
   mail: 'Email',
   password: 'Password',
@@ -12,6 +11,8 @@ export const LABEL_CONSTANT = {
   allestimenti: 'Allestimenti',
   prenotazioni: 'Prenotazioni',
   statistiche: 'Statistiche',
+  logout: 'Logout',
+  profilo: 'Profilo',
 };
 
 /** Costante per i messaggi di nessun risultato */

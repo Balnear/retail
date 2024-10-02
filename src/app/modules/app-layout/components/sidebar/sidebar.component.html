@@ -6,7 +6,7 @@
   (mouseleave)="setSidebarState()"
 >
   <div class="flex">
-    <img class="logo" src="assets/images/logo.png" alt="logo" />
+    <img class="logo" src="../../../../../assets/images/official-logo.png" alt="logo" *ngIf="state === 'close'"/>
     <img
       src="../../../../../assets/images/logo.png"
       class="sidenav-logo"

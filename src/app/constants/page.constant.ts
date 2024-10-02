@@ -6,7 +6,7 @@ export const PAGE_CONSTANT = {
     name: 'Dashboard',
     icon: ICON_CONSTANT.dashboard,
     path: 'bo/dashboard',
-    deniedPermission: ['ADMIN', 'USER'],
+    deniedPermission: ['AMMINISTRATORE', 'MAGAZZINIERE'],
   },
   // utenti: {
   //   name: 'Utenti',

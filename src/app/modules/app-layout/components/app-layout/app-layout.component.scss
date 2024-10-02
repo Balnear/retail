@@ -25,13 +25,13 @@
         display: flex;
       }
       p {
-        @include text($font-48, 600, $dark-brown, 48px, none);
+        @include text($font-48, 600, $secondary, 48px, none);
       }
     }
     mat-sidenav-container {
       padding: 24px;
       height: calc(100% - 60px);
-      background-color: #f3f3f3;
+      background-color: $sand;
       mat-sidenav-content {
         height: 100%;
         width: 100%;
