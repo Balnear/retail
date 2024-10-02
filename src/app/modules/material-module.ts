@@ -34,11 +34,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTreeModule } from '@angular/material/tree';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon } from '@angular/material/icon';
 
 @NgModule({
   imports: [
-    MatIconModule,
+    MatIcon,
     MatCheckboxModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -74,6 +74,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatTreeModule,
   ],
   exports: [
+    MatIcon,
     MatCheckboxModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -97,7 +98,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatExpansionModule,
     MatButtonToggleModule,
     MatChipsModule,
-    MatIconModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatDialogModule,

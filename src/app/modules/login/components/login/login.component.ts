@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AngularMaterialModule } from '../../../material-module';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LABEL_CONSTANT, ICON_CONSTANT, BUTTON_CONSTANT, ERROR_CONSTANT } from '../../../../constants/index';
+import { LoginService } from '../../../../services';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +40,7 @@ export default class LoginComponent {
    */
    constructor(
     // private loaderSpinnerService: LoaderSpinnerService,
-    // private loginService: LoginService,
+    private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -70,13 +72,13 @@ export default class LoginComponent {
   submitForm() {
     const email = this.form.value.email;
     const password = this.form.value.password;
-    // this.loginService.login(email, password);
+    this.loginService.login(email, password);
   }
   /**
   Funzione per il ritorno alla pagina di login
    */
-  // recuperaPassword() {
-  //   this.loginService.tempPasswordStatus = 'default';
-  //   this.router.navigate(['login/recupera-password']);
-  // }
+  recuperaPassword() {
+    // this.loginService.tempPasswordStatus = 'default';
+    this.router.navigate(['login/recupera-password']);
+  }
 }

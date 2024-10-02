@@ -1,9 +1,11 @@
 export const LABEL_CONSTANT = {
+  logo: 'Retail',
   login: 'Login',
   mail: 'Email',
   password: 'Password',
-  ricordami: 'Ricordami',
-  password_dimenticata: 'Password dimenticata',
+  forgot_password: 'Forgot password',
+  welcome: 'Welcome',
+  to_website: 'to our new website!',
 };
 
 /** Costante per i messaggi di nessun risultato */

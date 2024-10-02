@@ -14,7 +14,7 @@ button {
     }
   }
 
-  @include text($font-15, 700, null, 26px, null);
+  @include text($font-15, 700, none, 26px, none);
   &:not(:disabled) {
     &:hover {
       &.mat-primary {
@@ -98,4 +98,5 @@ button {
   min-width: 120px;
   font-size: $font-15;
   font-weight: 700;
+  color: white;
 }

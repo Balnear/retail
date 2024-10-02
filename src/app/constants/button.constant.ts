@@ -1,6 +1,6 @@
 /** Costante per la label delle CTA ( Click to action ) */
 export const BUTTON_CONSTANT = {
-  accedi: 'ACCEDI',
+  login: 'LOGIN',
   annulla: 'ANNULLA',
   avanti: 'AVANTI',
   conferma: 'CONFERMA',
@@ -9,5 +9,4 @@ export const BUTTON_CONSTANT = {
   salva_modifiche: 'SALVA MODIFICHE',
   salva: 'SALVA',
   applica: 'APPLICA',
-  registrati: 'REGISTRATI',
 };
