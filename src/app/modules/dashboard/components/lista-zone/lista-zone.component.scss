@@ -1,0 +1,54 @@
+@import "../../../../../assets/scss/variables.scss";
+
+.container {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  padding: 24px;
+  background-color: $white;
+  border-radius: 8px;
+  overflow: scroll;
+  .subtitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    width: 100%;
+    height: 54px;
+    padding: 0px, 0px, 12px, 0px;
+    background-color: $white;
+    border-bottom: 1px solid $opacity-grey;
+    .cta-container {
+      display: flex;
+      gap: 8px;
+    }
+  }
+  .table-container {
+    padding-top: 13px;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .filters-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    .table-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      overflow-y: auto;
+    }
+  }
+  .body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+      @include text($font-15, 700, $grey, 15px, none);
+    }
+  }
+}
