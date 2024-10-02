@@ -1,0 +1,36 @@
+<mat-toolbar class="header">
+  <div id="breadcrumb">
+    <div>
+      {{ title | breadcrumbs : breadcumbsHeader : "title" }}
+    </div>
+    <div class="breadcrumb-container">
+      {{ subTitle | breadcrumbs : breadcumbsHeader : "subTitle" }}
+    </div>
+  </div>
+  <div class="container">
+    <div class="image-profile">
+      <img [src]="data.profile_picture" />
+    </div>
+    {{ data.displayName }}
+    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+      <mat-icon class="dropdown">{{ iconConstant.imgcreden }}</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let opt of options"
+        (click)="opt.callback()"
+      >
+        <mat-icon class="material-icons-outlined">{{ opt.icon }}</mat-icon>
+        {{ opt.label }}
+      </button>
+      <div class="cl-toggle-switch">
+        <label class="cl-switch">
+          <input type="checkbox" (click)="toggleDarkMode()">
+          <span></span>
+        </label>
+      </div>
+    </mat-menu>
+  </div>
+</mat-toolbar>
+

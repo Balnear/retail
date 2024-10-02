@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="sidebar-holder"></div>
+  <app-sidebar></app-sidebar>
+  <div class="content">
+    <app-header></app-header>
+    <mat-sidenav-container>
+      <mat-sidenav-content>
+        <div class="title-container mb-24">
+          <p>{{ title | setTextByUrl : dashboardHeader : "title" }}</p>
+          <div class="cta-container">
+            <app-generic-drop-down-menu
+              *ngIf="section != 'dashboard'"
+              [action]="action"
+            ></app-generic-drop-down-menu>
+            <app-generic-drop-down-menu
+              [actions]="actions"
+            ></app-generic-drop-down-menu>
+          </div>
+        </div>
+        <div class="router-container">
+          <!-- <app-tabs-container *tabsNgIf></app-tabs-container> -->
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>

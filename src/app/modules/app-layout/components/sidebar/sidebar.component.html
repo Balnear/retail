@@ -1,0 +1,76 @@
+<div class="overlay" *ngIf="state === 'open'" (click)="setSidebarState()"></div>
+<div
+  class="container"
+  [@sidebar]="state"
+  (mouseenter)="state = 'open'"
+  (mouseleave)="setSidebarState()"
+>
+  <div class="flex">
+    <img class="logo" src="assets/images/logo.png" alt="logo" />
+    <img
+      src="../../../../../assets/images/logo.png"
+      class="sidenav-logo"
+      *ngIf="state === 'open'"
+    />
+  </div>
+  <div class="menu-icon">
+    <div class="action-menu pointer">
+      <mat-icon class="pointer">{{
+        state === "close" ? "drag_handle" : "close"
+      }}</mat-icon>
+    </div>
+    <ng-container *ngFor="let p of pages; let i = index">
+      <div
+        class="voci-menu"
+        (click)="
+          state === 'open' && !p.path
+            ? (p.showChild = !p.showChild)
+            : p.path
+            ? navigateTo(p.path)
+            : (state = 'open') && (p.showChild = false)
+        "
+        [ngClass]="{
+          'voci-menu-active': p.path
+            ? isPageActive(p.path)
+            : p.childPaths
+            ? isPageChildActive(p.childPaths)
+            : ''
+        }"
+      >
+        <mat-icon
+          class="material-icons"
+          [ngClass]="{
+            active: p.path
+              ? isPageActive(p.path)
+              : p.childPaths
+              ? isPageChildActive(p.childPaths)
+              : ''
+          }"
+        >
+          {{ p.icon }}
+        </mat-icon>
+        <h5 class="father" *ngIf="state === 'open'">{{ p.name }}</h5>
+        <ng-container *ngIf="p.child?.length && state === 'open'">
+          <div class="child-icon">
+            <mat-icon class="no-bg">{{
+              p.showChild ? "expand_less" : "expand_more"
+            }}</mat-icon>
+          </div>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="state === 'open' && p.showChild">
+        <div class="list">
+          <div *ngFor="let child of p.child">
+            <p
+              class="pointer"
+              (click)="navigateTo(child)"
+              [ngClass]="{ active: child.active }"
+            >
+              {{ child.name }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

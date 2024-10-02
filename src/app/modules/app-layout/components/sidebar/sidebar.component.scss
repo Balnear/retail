@@ -1,0 +1,173 @@
+@import "../../../../../assets/scss/variables.scss";
+
+.container {
+  background: linear-gradient(to top, #ff0000, $primary);
+  width: 80px;
+  height: 100%;
+  padding: 16px;
+  padding-top: 0;
+  position: absolute;
+  left: 0;
+  z-index: 999;
+  border-right: 2px solid #e9e7e5;
+}
+
+.flex {
+  display: flex;
+  margin-top: 13px;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  flex: none;
+  order: 0;
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+.logo img {
+  // width: $icon-size;
+  height: $icon-size;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.action-menu {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  height: 72px;
+  align-items: center;
+}
+
+.action-menu .mat-icon:hover {
+  background-color: #fff5e6;
+  cursor: auto;
+}
+
+.mat-icon {
+  font-size: $font-24;
+  width: $icon-size;
+  height: $icon-size;
+  color: $dark-brown;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active,
+.active:hover {
+  color: $primary;
+}
+
+.voci-menu {
+  display: flex;
+  height: $icon-size;
+  align-items: center;
+  position: relative;
+  margin-top: 8px;
+  width: 100%;
+  &:hover {
+    background-color: #fff5e6;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 8px;
+  }
+  &-active {
+    background-color: #fff5e6;
+    border-radius: 8px;
+    width: 100%;
+    cursor: auto;
+    justify-content: flex-start;
+    color: $primary;
+    h5 {
+      color: $primary;
+      margin-top: 5px;
+      position: absolute;
+      left: 48px;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      left: -16px;
+      width: 3px;
+      height: 70%;
+      background-color: $primary;
+    }
+  }
+  .mat-icon {
+    position: absolute;
+  }
+  .child-icon {
+    position: absolute;
+    left: 80%;
+    top: 0;
+  }
+}
+
+mat-tree {
+  background-color: transparent;
+}
+
+h5 {
+  margin-top: 5px;
+  @include text($font-15, 600, $dark-brown, 18px, none);
+  vertical-align: middle;
+  position: absolute;
+  left: 48px;
+}
+
+.list {
+  margin-top: 11px;
+  display: flex;
+  flex-direction: column;
+  @include text($font-15, 400, $dark-brown, 18px, none);
+  p {
+    padding-left: 48px;
+    position: relative;
+    &:hover {
+      color: $primary;
+      &::before {
+        content: "\2022";
+        color: inherit;
+        padding-right: 4px;
+        position: absolute;
+        left: 35px;
+        border-radius: 50%;
+      }
+    }
+    &.active {
+      color: $primary;
+      &::before {
+        content: "\2022";
+        color: inherit;
+        padding-right: 4px;
+        position: absolute;
+        left: 35px;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.32);
+  z-index: 10;
+}
+
+.sidenav-logo {
+  width: 110px;
+  margin-left: 12px;
+}

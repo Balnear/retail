@@ -1,0 +1,63 @@
+@import "../../../../../assets/scss/variables.scss";
+@import "../../../../../assets/scss/scrollbar.scss";
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  .sidebar-holder {
+    width: 80px;
+  }
+  .content {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .mb-8 {
+      margin-bottom: 8px;
+    }
+    .title-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .cta-container {
+        display: flex;
+      }
+      p {
+        @include text($font-48, 600, $dark-brown, 48px, none);
+      }
+    }
+    mat-sidenav-container {
+      padding: 24px;
+      height: calc(100% - 60px);
+      background-color: #f3f3f3;
+      mat-sidenav-content {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        .flex {
+          display: flex;
+          gap: 8px;
+        }
+        .router-container {
+          height: 89%;
+        }
+      }
+    }
+  }
+}
+* {
+  padding: 0;
+  /* Reset `padding` and `margin` of all elements */
+  margin: 0;
+
+  &::-webkit-scrollbar {
+    display: unset;
+  }
+
+  -ms-overflow-style: unset;
+  /* Internet Explorer 10+ */
+  scrollbar-width: unset;
+  /* Firefox */
+}
