@@ -1,0 +1,20 @@
+@import '../../../../../../assets/scss/variables.scss';
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-icon {
+  padding-top: 5px;
+  @include text($font-14, 600, $grey, unset, unset);
+}
+
+span {
+  @include text($font-14, 700, $black, 17px, unset);
+}
+
+.down {
+  transform: rotate(180deg);
+}

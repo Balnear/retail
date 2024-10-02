@@ -1,0 +1,130 @@
+@import "../../../../../../assets/scss/variables.scss";
+
+.table-actions-container {
+  display: flex;
+  overflow-x: auto;
+  align-items: center;
+  justify-content: flex-end;
+
+  .button-outline-accent {
+    width: 210px;
+  }
+
+  mat-divider {
+    height: 24px;
+  }
+}
+
+mat-icon {
+  color: $black;
+
+  &.disabled {
+    color: $black;
+    filter: opacity(0.1);
+  }
+}
+
+.flex-cell {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  width: 135px;
+  .value {
+    margin-right: 8px;
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #f0e6fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.chips-container {
+  display: flex;
+  position: relative;
+  right: 10px;
+  .chip-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 36px;
+    padding: 4px;
+    border-radius: 16px;
+    background-color: $grey-down;
+    @include text($font-13, 700, $lite-brown, 16px, none);
+  }
+}
+
+mat-chip-listbox {
+  mat-chip-row {
+    height: 24px;
+    .chip {
+      background: none;
+      &.stato-attivo {
+        @include text($font-14, 700, $success1, 16px, none);
+      }
+      &.stato-inattivo {
+        @include text($font-14, 700, $yellow-ligth, 16px, none);
+      }
+    }
+    &.chip-in-corso {
+      background-color: $orange-ligth;
+      color: $yellow-ligth;
+    }
+    &.tipologia-stagionale {
+      background-color: $success2;
+      color: $success1;
+    }
+    &.tipologia-perenne {
+      background-color: red;
+      color: $success1;
+    }
+    &.stato-attivo {
+      background-color: $success2;
+    }
+    &.stato-inattivo {
+      background-color: $orange-ligth;
+    }
+    &.chip-disabilitato {
+      background: none;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  .spacer {
+    padding: 8px;
+  }
+  img {
+    height: 24px;
+    width: 24px;
+  }
+  .dot {
+    margin-right: 8px;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    &.red {
+      background-color: #d32f2f;
+    }
+  }
+}
+
+.flex {
+  mat-divider {
+    border-right-width: 2px;
+    border-right-color: rgba(37, 18, 0, 0.1);
+    height: 22px;
+    width: 10px;
+    margin-right: 10px;
+  }
+}

@@ -1,0 +1,41 @@
+<div class="modal-container">
+  <form [formGroup]="form" class="modal-content">
+    <div>
+      <div class="mb-16">
+        <h2 class="title">{{ data.headerLabels.title }}</h2>
+        <h3 class="subtitle">{{ data.headerLabels.subtitle }}</h3>
+      </div>
+      <mat-icon class="close-icon" (click)="customDialogService.closeDialog()"
+        >close</mat-icon
+      >
+      <mat-divider></mat-divider>
+    </div>
+
+    <div class="current-step">
+      <ng-template stepHost></ng-template>
+    </div>
+
+    <div>
+      <mat-divider></mat-divider>
+      <div class="flex-cta mt-12">
+        <button
+          mat-stroked-button
+          class="button-outline-accent h-42"
+          color="accent"
+          (click)="customDialogService.closeDialog()"
+        >
+          {{ buttonConstant.annulla }}
+        </button>
+        <button
+          class="h-42 white-color"
+          mat-raised-button
+          color="primary"
+          [disabled]="!formDirty || !form.valid"
+          (click)="data.callback(form)"
+        >
+          {{ data.submitFormText }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

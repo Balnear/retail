@@ -1,0 +1,38 @@
+<div class="mb-16" *ngIf="hasHeaderLabels">
+  <h2 class="title">{{ headerLabels.title }}</h2>
+  <h3 class="subtitle">{{ headerLabels.subtitle }}</h3>
+</div>
+<mat-divider></mat-divider>
+<ul class="steps-list mt-24 mb-36">
+  <li
+    *ngFor="let step of stepsList; let index = index; let last = last"
+    class="step"
+  >
+    <div class="step-element">
+      <div
+        class="step-element-round"
+        [ngClass]="{
+          current: currentStep === index,
+          completed: currentStep > index
+        }"
+      >
+        <ng-container *ngIf="currentStep < index + 1; else completedStep">
+          {{ index + 1 }}
+        </ng-container>
+        <ng-template #completedStep>
+          <mat-icon>check</mat-icon>
+        </ng-template>
+      </div>
+      <span
+        class="step-element-label"
+        [ngClass]="{
+          current: currentStep === index,
+          next: currentStep < index,
+          completed: currentStep > index
+        }"
+        >{{ step }}</span
+      >
+    </div>
+    <mat-icon *ngIf="!last">chevron_right</mat-icon>
+  </li>
+</ul>

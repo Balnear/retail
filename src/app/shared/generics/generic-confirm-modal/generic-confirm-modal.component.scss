@@ -1,0 +1,57 @@
+@import "../../../../assets/scss/variables.scss";
+
+.modal-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .sm {
+    height: 269px;
+  }
+  .lg {
+    height: 565px;
+  }
+  .modal-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+      color: $black;
+      margin-top: 60px;
+      .modal-title {
+        @include text($font-20, 600, $black, 24px, none);
+        text-align: center;
+      }
+      .modal-subtitle {
+        @include text($font-16, 400, $grey, 24px, none);
+        text-align: center;
+      }
+    }
+
+    .modal-body {
+      width: 100%;
+      mat-divider {
+        width: 100%;
+      }
+      .modal-action-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        width: 100%;
+        .c-button-medium {
+          min-width: 120px;
+        }
+      }
+    }
+  }
+}

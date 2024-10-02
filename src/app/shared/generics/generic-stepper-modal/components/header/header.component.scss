@@ -1,0 +1,73 @@
+@import '../../../../../../assets/scss/variables.scss';
+
+.title {
+  @include text($font-28, 700, $black, 33px, null);
+}
+
+.subtitle {
+  @include text($font-16, 400, $black, 22px, null);
+}
+
+mat-divider {
+  width: 100%;
+  background-color: $light-grey;
+}
+
+.steps-list {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  overflow: hidden;
+  overflow-x: auto;
+
+  .step {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-evenly;
+    &-element {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+
+      &-round {
+        min-width: 24px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.1);
+        color: $white;
+        &.current {
+          background-color: $primary;
+          color: $black;
+        }
+        &.completed {
+          background-color: rgba(46, 125, 50, 0.1);
+          mat-icon {
+            transform: scale(0.6);
+            color: $success;
+          }
+        }
+      }
+      &-label {
+        min-width: fit-content;
+        @include text($font-14, 500, $black, 22px, null);
+        letter-spacing: 0.1px;
+
+        &.next {
+          @include text($font-14, 400, rgba(0, 0, 0, 0.1), 22px, null);
+        }
+        &.completed {
+          @include text($font-14, 500, $success, 22px, null);
+        }
+      }
+    }
+  }
+}

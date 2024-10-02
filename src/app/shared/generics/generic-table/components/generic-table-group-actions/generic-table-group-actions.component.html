@@ -1,0 +1,34 @@
+<div class="table-header-actions pl-12 mt-12">
+  <ng-container *ngIf="typeActions == 'default'">
+    <mat-form-field
+      appearance="outline"
+      color="primary"
+      class="select-azione-gruppo small grey-color"
+      [subscriptSizing]="'dynamic'"
+    >
+      <mat-label>{{ inputConstant.azioni_di_gruppo }}</mat-label>
+      <mat-select [formControl]="selectAzioneGruppo">
+        <mat-select-trigger>
+          {{ selectAzioneGruppo.value }}
+        </mat-select-trigger>
+        <mat-option
+          *ngFor="let azione of azioniDiGruppo"
+          [value]="azione.value"
+        >
+          <mat-icon>{{ azione.icon }}</mat-icon
+          >{{ azione.value }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      color="primary"
+      appearance="outline"
+      (click)="applicaAzioneDiGruppo()"
+      [disabled]="!enableGroupActions || !selectAzioneGruppo.value?.length"
+      class="button-apply"
+    >
+      {{ buttonConstant.applica }}
+    </button>
+  </ng-container>
+</div>

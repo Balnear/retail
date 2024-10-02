@@ -1,0 +1,22 @@
+<div class="modal-container">
+  <form [formGroup]="form" class="modal-content">
+    <mat-icon class="close-icon" (click)="customDialogService.closeDialog()">close</mat-icon>
+    <app-header
+      [headerLabels]="headerLabels"
+      [stepsList]="stepsList"
+      [currentStep]="currentStep"
+    ></app-header>
+    <div class="current-step">
+      <ng-template stepHost></ng-template>
+    </div>
+    <app-footer
+      [currentStep]="currentStep"
+      [disabled]="form.invalid"
+      [stepsNumber]="stepsNumber"
+      [submitFormText]="submitFormText"
+      (changeStepEmitter)="changeStep($event)"
+      (confirmSubmit)="confirmSubmit()"
+    >
+    </app-footer>
+  </form>
+</div>

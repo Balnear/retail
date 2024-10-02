@@ -1,0 +1,110 @@
+<section class="table-section">
+  <div class="flex-group" *ngIf="!notHasSelectSearch">
+    <ng-container *ngIf="hasSearch">
+      <app-generic-table-search
+        [inputLabel]="inputLabel"
+        (emitSearchValue)="!isFiltering && search($event)"
+      ></app-generic-table-search>
+    </ng-container>
+    <ng-container *ngIf="hasSearchId">
+      <app-generic-table-search
+        [inputLabel]="inputConstant.id"
+        (emitSearchValue)="!isFiltering && search($event)"
+      ></app-generic-table-search>
+    </ng-container>
+    <ng-container *ngIf="hasSelect">
+      <app-generic-table-select
+        [selectOptions]="selectOptions"
+        [selectLabel]="selectLabel"
+        (emitSelectedOption)="selectOption($event)"
+      ></app-generic-table-select>
+      <ng-container *ngIf="hasDownload">
+      </ng-container>
+    </ng-container>
+  </div>
+  <mat-divider *ngIf="hasGroupActions"></mat-divider>
+  <ng-container *ngIf="hasGroupActions">
+    <app-generic-table-group-actions
+      [typeActions]="'default'"
+      [azioniDiGruppo]="azioniDiGruppo"
+      [enableGroupActions]="selection.selected.length > 0"
+      (emitApplicaAzioniDiGruppo)="applicaAzioniDiGruppo($event)"
+    >
+    </app-generic-table-group-actions>
+  </ng-container>
+  <div class="table-container show-scrollbar">
+    <table>
+      <div
+        class="row row-head"
+        [ngStyle]="{
+          display: 'grid',
+          gridTemplateColumns: gridTemplate,
+          gridColumnGap: '12px'
+        }"
+      >
+        <th *ngFor="let col of displayedColumns">
+          <app-generic-head-cell
+            [col]="col"
+            [type]="cellHeadTypes ? cellHeadTypes[col] : null"
+            [small]="small"
+            [sorted]="sortedItems ? sortedItems[col] : null"
+            [selected]="selection.selected"
+            [isAllSelected]="isAllSelected()"
+            [numeroTabella]="numeroTabella"
+            (emitSelectAll)="checkAll()"
+            (emitSortEvent)="sortEvent($event)"
+          ></app-generic-head-cell>
+        </th>
+      </div>
+      <ng-container *ngIf="dataSource?.data?.length; else noItems">
+        <div class="content-container">
+          <div
+            class="table-content row"
+            *ngFor="let row of dataSource?.data"
+            [ngClass]="
+              row.stato && row.stato === 'Assegnato'
+                ? 'row-assegnata'
+                : row.stato && row.stato === 'Nuova Richiesta'
+                ? 'bald-font'
+                : ''
+            "
+            [ngStyle]="{
+              display: 'grid',
+              gridTemplateColumns: gridTemplate,
+              gridColumnGap: '12px'
+            }"
+          >
+            <td *ngFor="let col of displayedColumns">
+              <app-generic-body-cell
+                [element]="row"
+                [col]="col"
+                [bodyType]="cellBodyTypes ? cellBodyTypes[col] : null"
+                [numeroTabella]="numeroTabella"
+                (emitCheckElement)="checkElement($event)"
+              ></app-generic-body-cell>
+            </td>
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #noItems>
+        <div class="row">
+          {{ noItemsMessage }}
+        </div>
+      </ng-template>
+    </table>
+  </div>
+  <div class="pagination-container" *ngIf="!isHide">
+    <mat-paginator
+      color="accent"
+      [pageSizeOptions]="[]"
+      [length]="totalElements"
+      [pageSize]="size"
+      [pageIndex]="pageIndex"
+      [showFirstLastButtons]="true"
+      [attr.aria-label]="labelConstant.paginazione_tabella"
+      [hidePageSize]="true"
+      (page)="!isFiltering && changePage($event)"
+    >
+    </mat-paginator>
+  </div>
+</section>

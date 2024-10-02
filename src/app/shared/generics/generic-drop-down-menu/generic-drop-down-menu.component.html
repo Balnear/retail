@@ -1,0 +1,26 @@
+<div class="cta">
+  <button class="dot" type="button" [matMenuTriggerFor]="menu">
+    <mat-icon class="icon">{{ iconConstant.more_horiz }}</mat-icon>
+  </button>
+  <div [ngSwitch]="action || actions"></div>
+  <mat-menu class="drop-menu-header blu" #menu="matMenu">
+    <button
+      class="h-36"
+      *ngFor="let act of actions"
+      mat-menu-item
+      (click)="act.callback()"
+    >
+      <mat-icon class="mr-32">{{ act.icon }}</mat-icon>
+      {{ act.name }}
+    </button>
+    <button
+      class="h-36"
+      *ngFor="let act of action"
+      mat-menu-item
+      (click)="act.callback()"
+    >
+      <mat-icon class="mr-32">{{ act.icon }}</mat-icon>
+      {{ act.name }}
+    </button>
+  </mat-menu>
+</div>

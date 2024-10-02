@@ -1,0 +1,21 @@
+@import '../../../../../../assets/scss/variables.scss';
+
+.table-header-actions{
+  display: flex;
+}
+.button-apply {
+  width: 76px;
+  min-width: 76px;
+  display: inline-flex;
+  justify-content: center;
+  height: auto
+}
+
+.select-azione-gruppo {
+  margin-right: 12px;
+}
+
+.pl-12 {
+  padding-left: 12px;
+}
+
