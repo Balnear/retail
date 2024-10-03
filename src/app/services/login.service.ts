@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, confirmPasswordReset, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -66,5 +66,21 @@ export class LoginService {
       console.log(err,'errore disconnessione');
       
     })
+  }
+
+  /**Recupero della password */
+  recuperaPassword(email: string){
+
+    sendPasswordResetEmail(this.auth, email)
+  .then((res) => {
+    console.log(res,'email inviata');
+    // this.router.navigate(['/reimposta-password']);
+    this.router.navigate(['/login']);
+    
+  })
+  .catch((err) => {
+    console.log(err,'fallito');
+    
+  });
   }
 }

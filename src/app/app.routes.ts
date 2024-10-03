@@ -21,13 +21,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./modules/login/login-routing').then((m) => m.routes),
       },
-      // {
-      //   path: 'reimposta-password',
-      //   loadChildren: () =>
-      //     import(
-      //       './modules/nuova-password/reimposta-password-routing.module'
-      //     ).then((m) => m.routes),
-      // },
+      {
+        path: 'reimposta-password',
+        loadChildren: () =>
+          import(
+            './modules/nuova-password/reimposta-password-routing.module'
+          ).then((m) => m.routes),
+      },
       {
         path: '**',
         redirectTo: '',

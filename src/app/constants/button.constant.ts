@@ -1,6 +1,8 @@
 /** Costante per la label delle CTA ( Click to action ) */
 export const BUTTON_CONSTANT = {
   login: 'LOGIN',
+  invia_email: 'SEND EMAIL',
+  go_to_login: 'GO TO LOGIN',
   annulla: 'ANNULLA',
   avanti: 'AVANTI',
   conferma: 'CONFERMA',

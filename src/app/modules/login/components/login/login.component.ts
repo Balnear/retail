@@ -1,16 +1,31 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularMaterialModule } from '../../../material-module';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { LABEL_CONSTANT, ICON_CONSTANT, BUTTON_CONSTANT, ERROR_CONSTANT } from '../../../../constants/index';
+import {
+  LABEL_CONSTANT,
+  ICON_CONSTANT,
+  BUTTON_CONSTANT,
+  ERROR_CONSTANT,
+} from '../../../../constants/index';
 import { LoginService } from '../../../../services';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, AngularMaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    AngularMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -30,7 +45,7 @@ export default class LoginComponent {
   /** messaggio errore email o password */
   errorLogin?: string;
 
-   /**
+  /**
    * Il costruttore della classes.
    * Si inizializza il FormGroup.
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinner
@@ -38,7 +53,7 @@ export default class LoginComponent {
    * @param {FormBuilder} fb L'injectable del FormBuilder
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
-   constructor(
+  constructor(
     // private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
     private fb: FormBuilder,
@@ -75,9 +90,9 @@ export default class LoginComponent {
     this.loginService.login(email, password);
   }
   /**
-  Funzione per il ritorno alla pagina di login
+  Funzione per il recupero della password
    */
-  recuperaPassword() {
+  forgotPassword() {
     // this.loginService.tempPasswordStatus = 'default';
     this.router.navigate(['login/recupera-password']);
   }
