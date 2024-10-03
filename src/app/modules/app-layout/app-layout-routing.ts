@@ -19,6 +19,16 @@ export const routes: Routes = [
         loadChildren: () =>
           import('../dashboard/dashboard-routing').then((m) => m.routes),
       },
+      {
+        path: 'locatori',
+        loadChildren: () =>
+          import('../locatori/locatori-routing').then((m) => m.routes),
+      },
+      // {
+      //   path: 'inquilini',
+      //   loadChildren: () =>
+      //     import('../coltivatori/coltivatori-routing').then((m) => m.routes),
+      // },
     ],
   },
 ];

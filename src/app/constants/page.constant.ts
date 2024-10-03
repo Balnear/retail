@@ -8,27 +8,23 @@ export const PAGE_CONSTANT = {
     path: 'bo/dashboard',
     deniedPermission: ['AMMINISTRATORE', 'MAGAZZINIERE'],
   },
-  // utenti: {
-  //   name: 'Utenti',
-  //   icon: 'supervisor_account',
-  //   childPaths: ['bo/gestori', 'bo/coltivatori'],
-  //   showChild: false,
-  //   deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
-  //   child: [
-  //     {
-  //       name: 'Gestori',
-  //       path: 'bo/gestori',
-  //     },
-  //     {
-  //       name: 'Coltivatori',
-  //       path: 'bo/coltivatori',
-  //     },
-  //     {
-  //       name: 'Grower',
-  //       path: 'bo/grower',
-  //     },
-  //   ],
-  // },
+  utenti: {
+    name: 'Utenti',
+    icon: 'supervisor_account',
+    childPaths: ['bo/locatori', 'bo/inquilini'],
+    showChild: false,
+    deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
+    child: [
+      {
+        name: 'Locatori',
+        path: 'bo/locatori',
+      },
+      {
+        name: 'Inquilini',
+        path: 'bo/inquilini',
+      },
+    ],
+  },
   // colture: {
   //   name: 'Colture',
   //   icon: ICON_CONSTANT.colture,
@@ -69,10 +65,24 @@ export const DASHBOARD_HEADER = {
   '/bo/dashboard': {
     title: 'Dashboard',
   },
+  '/bo/locatori': {
+    title: 'Locatori',
+  },
+  '/bo/inquilini': {
+    title: 'Inquilini',
+  },
 };
 
 export const BREADCRUBS_HEADER = {
   '/bo/dashboard': {
     title: 'DASHBOARD',
+  },
+  '/bo/locatori': {
+    title: 'bo >',
+    subTitle: '  Locatori',
+  },
+  '/bo/inquilini': {
+    title: 'bo >',
+    subTitle: '  Inquilini',
   },
 };

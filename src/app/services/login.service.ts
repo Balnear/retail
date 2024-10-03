@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -54,7 +54,17 @@ export class LoginService {
       console.log(error,'errore');
       
     })
+  }
 
-
+  /**Effettua la disconnessione dall'applicazione */
+  logout(){
+    signOut(this.auth).then((res)=>{
+      console.log(res,'utente disconnesso');
+      
+      this.router.navigate(['/login']);
+    }).catch((err)=>{
+      console.log(err,'errore disconnessione');
+      
+    })
   }
 }
