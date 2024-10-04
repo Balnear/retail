@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 
 
@@ -79,7 +79,9 @@ export class HeaderComponent {
     private dialog: MatDialog,
     private router: Router,
     private fb: FormBuilder,
-  ) {}
+  ) {
+    
+  }
   /**
    * quando viene inizializzata la pagina,
    */
@@ -87,9 +89,8 @@ export class HeaderComponent {
     this.currentUser = this.loginService.getCurrentUser();   
     console.log(this.currentUser,'currentUser');
     // Se desideri anche recuperare dal localStorage:
-    this.data = this.loginService.getUserProfileFromLocalStorage();
-    console.log('Profilo utente dal localStorage:', this.data);
-    
+    this.data = this.loginService.getUserFromLocalStorage();
+    console.log('utente dal localStorage:', this.data);
   }
 
   /**Funzione per effettuazione logout */

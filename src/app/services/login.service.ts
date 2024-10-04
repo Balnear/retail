@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { User as FirebaseUser } from 'firebase/auth'; // Firebase User Type
+import {
+  browserSessionPersistence,
+  User as FirebaseUser,
+  setPersistence,
+} from 'firebase/auth'; // Firebase User Type
 import { Router } from '@angular/router';
-import { Observable, from, map } from 'rxjs';
+import { BehaviorSubject, Observable, from, map, of, switchMap } from 'rxjs';
 import { User } from '../models';
 
 @Injectable({
@@ -32,6 +37,11 @@ export class LoginService {
   numberPhone!: string;
   /**dati utente */
   datiUser: any;
+  /**Subject per tenere traccia dell'utente corrente */
+  private currentUserSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  /**Observable per permettere ad altri componenti di ascoltare i cambiamenti dell'utente corrente */
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   /**
    * Il costruttore del service
@@ -40,14 +50,35 @@ export class LoginService {
    * @param {HttpClient} http L'injectable dell'httpClient
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
-  constructor(private router: Router, private auth: Auth) {}
+  constructor(private router: Router, private auth: Auth) {
+    this.initCurrentUser();
+  }
+
+  /**Inizializza l'utente corrente all'avvio del servizio */
+  private initCurrentUser() {
+    // Ascolta i cambiamenti nello stato di autenticazione dell'utente
+    onAuthStateChanged(this.auth, (user) => {
+      // Mappa l'utente Firebase al modello User e aggiorna il subject
+      this.currentUserSubject.next(this.mapFirebaseUserToUser(user));
+    });
+  }
 
   /**
    * Effettua l'accesso all'applicazione
    */
   login(email: string, password: string): Observable<User | null> {
-    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      map((userCredential) => this.mapFirebaseUserToUser(userCredential.user))
+    // Prima imposta la persistenza, poi esegue il login
+    // Imposta la persistenza su 'session' per mantenere l'utente autenticato anche dopo il refresh
+    return from(setPersistence(this.auth, browserSessionPersistence)).pipe(
+      switchMap(() =>
+        from(signInWithEmailAndPassword(this.auth, email, password))
+      ),
+      map((userCredential) => {
+        const user = this.mapFirebaseUserToUser(userCredential.user);
+        // Salva le informazioni dell'utente nel localStorage
+        localStorage.setItem('user', JSON.stringify(user));
+        return user;
+      })
     );
   }
 
@@ -59,11 +90,9 @@ export class LoginService {
   // Metodo per ottenere il profilo dell'utente autenticato
   getCurrentUser(): User | null {
     const firebaseUser = this.auth.currentUser; // Ottieni l'utente Firebase
-
-    const userProfile = this.mapFirebaseUserToUser(firebaseUser); // Mappa a User
-    this.saveUserProfileToLocalStorage(userProfile); // Salva nel localStorage
-
-    return userProfile; // Restituisce il profilo dell'utente
+    const user = this.mapFirebaseUserToUser(firebaseUser); // Mappa a User
+    this.saveUserProfileToLocalStorage(user); // Salva nel localStorage
+    return user; // Restituisce il profilo dell'utente
   }
 
   // Mappa l'oggetto Firebase User al modello User
@@ -83,30 +112,26 @@ export class LoginService {
     };
   }
 
- // Salva il profilo utente nel localStorage
- private saveUserProfileToLocalStorage(userProfile: User | null): void {
-  if (userProfile) {
-    localStorage.setItem('userProfile', JSON.stringify(userProfile));
-  } else {
-    localStorage.removeItem('userProfile'); // Rimuove il profilo se non c'è un utente
+  // Salva il profilo utente nel localStorage
+  private saveUserProfileToLocalStorage(userProfile: User | null): void {
+    if (userProfile) {
+      localStorage.setItem('userProfile', JSON.stringify(userProfile));
+    } else {
+      localStorage.removeItem('userProfile'); // Rimuove il profilo se non c'è un utente
+    }
   }
-}
 
-// Recupera il profilo utente dal localStorage
-getUserProfileFromLocalStorage(): User | null {
-  const userProfile = localStorage.getItem('userProfile');
-  return userProfile ? JSON.parse(userProfile) : null;
-}
-
-
-
+  // Recupera l'utente dal localStorage
+  getUserFromLocalStorage(): User | null {
+    const userProfile = localStorage.getItem('user');
+    return userProfile ? JSON.parse(userProfile) : null;
+  }
 
   /**Recupero della password */
   recuperaPassword(email: string) {
     sendPasswordResetEmail(this.auth, email)
       .then((res) => {
         console.log(res, 'email inviata');
-        // this.router.navigate(['/reimposta-password']);
         this.router.navigate(['/login']);
       })
       .catch((err) => {
