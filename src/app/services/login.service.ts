@@ -1,13 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Auth, confirmPasswordReset, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Injectable } from '@angular/core';
+import {
+  Auth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+} from '@angular/fire/auth';
+import { User as FirebaseUser } from 'firebase/auth'; // Firebase User Type
 import { Router } from '@angular/router';
+import { Observable, from, map } from 'rxjs';
+import { User } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-
   /** Booleana se il token è in refresh */
   isRefreshingToken: boolean = false;
   /** Booleana se l'utente è loggato */
@@ -26,8 +32,6 @@ export class LoginService {
   numberPhone!: string;
   /**dati utente */
   datiUser: any;
-  /**Dati autenticazione */
-  private auth = inject(Auth);
 
   /**
    * Il costruttore del service
@@ -36,51 +40,54 @@ export class LoginService {
    * @param {HttpClient} http L'injectable dell'httpClient
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
-  constructor(
-    private router: Router,
-  ) {
-  }
+  constructor(private router: Router, private auth: Auth) {}
 
-   /**
+  /**
    * Effettua l'accesso all'applicazione
    */
-  login(email: string, password: string){
-    signInWithEmailAndPassword(this.auth,email,password).then((res)=>{
-      console.log('accesso eseguito');
-      this.router.navigate(['/bo/dashboard']);
-      console.log(res,'credenziali');
-      
-    }).catch((error)=>{
-      console.log(error,'errore');
-      
-    })
+  login(email: string, password: string): Observable<User | null> {
+    return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+      map((userCredential) => this.mapFirebaseUserToUser(userCredential.user))
+    );
   }
 
   /**Effettua la disconnessione dall'applicazione */
-  logout(){
-    signOut(this.auth).then((res)=>{
-      console.log(res,'utente disconnesso');
-      
-      this.router.navigate(['/login']);
-    }).catch((err)=>{
-      console.log(err,'errore disconnessione');
-      
-    })
+  logout(): Observable<void> {
+    return from(signOut(this.auth));
+  }
+
+  // Metodo per ottenere il profilo dell'utente autenticato
+  getCurrentUser(): FirebaseUser | null {
+    return this.auth.currentUser;
+  }
+
+  // Mappa l'oggetto Firebase User al modello User
+  private mapFirebaseUserToUser(
+    firebaseUser: FirebaseUser | null
+  ): User | null {
+    if (!firebaseUser) {
+      return null;
+    }
+
+    return {
+      uid: firebaseUser.uid,
+      email: firebaseUser.email || '',
+      displayName: firebaseUser.displayName || '',
+      photoURL: firebaseUser.photoURL || '',
+      emailVerified: firebaseUser.emailVerified,
+    };
   }
 
   /**Recupero della password */
-  recuperaPassword(email: string){
-
+  recuperaPassword(email: string) {
     sendPasswordResetEmail(this.auth, email)
-  .then((res) => {
-    console.log(res,'email inviata');
-    // this.router.navigate(['/reimposta-password']);
-    this.router.navigate(['/login']);
-    
-  })
-  .catch((err) => {
-    console.log(err,'fallito');
-    
-  });
+      .then((res) => {
+        console.log(res, 'email inviata');
+        // this.router.navigate(['/reimposta-password']);
+        this.router.navigate(['/login']);
+      })
+      .catch((err) => {
+        console.log(err, 'fallito');
+      });
   }
 }

@@ -87,7 +87,16 @@ export default class LoginComponent {
   submitForm() {
     const email = this.form.value.email;
     const password = this.form.value.password;
-    this.loginService.login(email, password);
+    this.loginService.login(email, password).subscribe({
+      next: (res) => {
+         console.log('accesso eseguito');
+      this.router.navigate(['/bo/dashboard']);
+      console.log(res,'credenziali');
+      },
+      error: (err) => {
+        console.log(err,'errore');
+      },
+    });
   }
   /**
   Funzione per il recupero della password

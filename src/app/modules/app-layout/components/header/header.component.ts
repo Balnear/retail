@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 
@@ -73,7 +73,6 @@ export class HeaderComponent {
    */
   constructor(
     private loginService: LoginService,
-    // private userService: UserService,
     private loaderSpinner: LoaderSpinnerService,
     private dialog: MatDialog,
     private router: Router,
@@ -83,9 +82,9 @@ export class HeaderComponent {
    * quando viene inizializzata la pagina,
    */
   ngOnInit() {
-    // this.data = this.loginService.getUserDataFromLocalStorage();
+    this.data = this.loginService.getCurrentUser();   
     console.log(this.data);
-        
+    
   }
 
   /**Funzione per effettuazione logout */
