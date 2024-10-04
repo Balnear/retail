@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="container">
-    <div class="image-profile" *ngIf="data.photoURL !== null; else noPhoto">
+    <div class="image-profile" *ngIf="data.photoURL !== ''; else noPhoto">
       <img [src]="data.photoURL" />
     </div>
     <ng-template #noPhoto>
@@ -31,12 +31,6 @@
         <mat-icon class="material-icons-outlined">{{ opt.icon }}</mat-icon>
         {{ opt.label }}
       </button>
-      <div class="cl-toggle-switch">
-        <label class="cl-switch">
-          <!-- <input type="checkbox" (click)="toggleDarkMode()"> -->
-          <span></span>
-        </label>
-      </div>
     </mat-menu>
   </div>
 </mat-toolbar>

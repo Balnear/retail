@@ -33,6 +33,8 @@ import { AngularMaterialModule } from '../../../material-module';
 export class HeaderComponent {
   /**Dati dello User */
   data: any;
+  /**Dati utente loggato */
+  currentUser: any;
   /**Constante label generiche */
   labelConstant = LABEL_CONSTANT;
   /**Constante icone generiche */
@@ -82,8 +84,11 @@ export class HeaderComponent {
    * quando viene inizializzata la pagina,
    */
   ngOnInit() {
-    this.data = this.loginService.getCurrentUser();   
-    console.log(this.data);
+    this.currentUser = this.loginService.getCurrentUser();   
+    console.log(this.currentUser,'currentUser');
+    // Se desideri anche recuperare dal localStorage:
+    this.data = this.loginService.getUserProfileFromLocalStorage();
+    console.log('Profilo utente dal localStorage:', this.data);
     
   }
 
@@ -95,7 +100,8 @@ export class HeaderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
-            // this.loginService.logout();
+            this.loginService.logout();
+            this.router.navigate(['/login']);
             // this.loginService.goToLogin();
             // TODO: Verificare come si comporta il localStorage
             // this.loginService.clearStorage();

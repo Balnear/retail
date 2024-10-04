@@ -57,8 +57,13 @@ export class LoginService {
   }
 
   // Metodo per ottenere il profilo dell'utente autenticato
-  getCurrentUser(): FirebaseUser | null {
-    return this.auth.currentUser;
+  getCurrentUser(): User | null {
+    const firebaseUser = this.auth.currentUser; // Ottieni l'utente Firebase
+
+    const userProfile = this.mapFirebaseUserToUser(firebaseUser); // Mappa a User
+    this.saveUserProfileToLocalStorage(userProfile); // Salva nel localStorage
+
+    return userProfile; // Restituisce il profilo dell'utente
   }
 
   // Mappa l'oggetto Firebase User al modello User
@@ -77,6 +82,24 @@ export class LoginService {
       emailVerified: firebaseUser.emailVerified,
     };
   }
+
+ // Salva il profilo utente nel localStorage
+ private saveUserProfileToLocalStorage(userProfile: User | null): void {
+  if (userProfile) {
+    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+  } else {
+    localStorage.removeItem('userProfile'); // Rimuove il profilo se non c'è un utente
+  }
+}
+
+// Recupera il profilo utente dal localStorage
+getUserProfileFromLocalStorage(): User | null {
+  const userProfile = localStorage.getItem('userProfile');
+  return userProfile ? JSON.parse(userProfile) : null;
+}
+
+
+
 
   /**Recupero della password */
   recuperaPassword(email: string) {
