@@ -113,7 +113,7 @@ export class LoginService {
   }
 
   // Salva il profilo utente nel localStorage
-  private saveUserProfileToLocalStorage(userProfile: User | null): void {
+  saveUserProfileToLocalStorage(userProfile: User | null): void {
     if (userProfile) {
       localStorage.setItem('userProfile', JSON.stringify(userProfile));
     } else {
