@@ -16,7 +16,11 @@ import {
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants/index';
-import { LoaderSpinnerService, LoginService } from '../../../../services';
+import {
+  LoaderSpinnerService,
+  LoginService,
+  NotificationService,
+} from '../../../../services';
 
 /** Una classe per il componente del form di login */
 @Component({
@@ -58,6 +62,7 @@ export default class LoginComponent {
   constructor(
     private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
+    private notifica: NotificationService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -92,14 +97,14 @@ export default class LoginComponent {
     const password = this.form.value.password;
     this.loginService.login(email, password).subscribe({
       next: (res) => {
-        console.log('accesso eseguito');
         this.router.navigate(['/bo/dashboard']);
         console.log(res, 'credenziali');
         this.loaderSpinnerService.hide();
+        this.notifica.show('Accesso eseguito correttamente', -1, 'success');
       },
-      error: (err) => {
-        console.log(err, 'errore');
+      error: (error) => {
         this.loaderSpinnerService.hide();
+        this.firebaseError(error.code);
       },
     });
   }
@@ -108,5 +113,17 @@ export default class LoginComponent {
    */
   forgotPassword() {
     this.router.navigate(['login/recupera-password']);
+  }
+
+  /**Gestione casi di errore */
+  firebaseError(code: string) {
+    switch (code) {
+      case 'auth/invalid-credential':
+        return this.notifica.show('Email o Password errate', 5000, 'error');
+      case 'PERMISSION_DENIED':
+        return this.notifica.show('Permesso negato', 5000, 'error');
+      default:
+        return 'Errore sconosciuto';
+    }
   }
 }

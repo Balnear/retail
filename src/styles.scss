@@ -565,27 +565,35 @@ mat-dialog-container {
 //   display: none;
 // }
 
-// .custom-snackbar {
-//   width: 100%;
-//   min-height: 78px;
-//   max-height: 150px;
-//   max-width: 39vw;
-//   &.snack-warning {
-//     .mdc-snackbar__surface {
-//       background-color: $warning-bg-color !important;
-//     }
-//   }
-//   &.snack-error {
-//     .mdc-snackbar__surface {
-//       background-color: $error-bg-color !important;
-//     }
-//   }
-//   &.snack-success {
-//     .mdc-snackbar__surface {
-//       background-color: $success-bg-color !important;
-//     }
-//   }
-// }
+.custom-snackbar {
+  .cdk-overlay-pane{
+      height: 100px; 
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  &.snack-warning {
+    .mdc-snackbar__surface {
+      background-color: $warning-bg-color !important;
+    }
+  }
+  &.snack-error {
+    .mdc-snackbar__surface {
+      background-color: $error-bg-color !important;
+    }
+  }
+  &.snack-success {
+    .mdc-snackbar__surface {
+      background-color: $success-bg-color !important;
+    }
+  }
+  
+}
+
+
 
 // .leaflet-control-container {
 //   display: none;
@@ -612,3 +620,5 @@ mat-dialog-container {
 //     margin-left: auto;
 //   }
 // }
+
+

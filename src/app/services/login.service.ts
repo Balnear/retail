@@ -12,13 +12,7 @@ import {
   User as FirebaseUser,
   setPersistence,
 } from 'firebase/auth'; // Firebase User Type
-import {
-  BehaviorSubject,
-  Observable,
-  from,
-  map,
-  switchMap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, from, map, switchMap } from 'rxjs';
 import { User } from '../models';
 import { MatDialog } from '@angular/material/dialog';
 import { PanelService } from './panel.service';

@@ -15,7 +15,7 @@ import {
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants';
-import { LoaderSpinnerService, LoginService } from '../../../../services';
+import { LoaderSpinnerService, LoginService, NotificationService } from '../../../../services';
 
 /** classe per il componente di recupero della password */
 @Component({
@@ -55,6 +55,7 @@ export default class RecuperaPasswordComponent {
   constructor(
     private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
+    private notifica: NotificationService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -80,12 +81,11 @@ export default class RecuperaPasswordComponent {
     const email = this.form.value.email;
     this.loginService.recuperaPassword(email).subscribe({
       next: (res) => {
-        console.log('email inviata correttamente');
         this.router.navigate(['/login']);
         this.loaderSpinnerService.hide();
+        this.notifica.show('Email per il reset della password inviata', 5000, 'success');
       },
       error: (err) => {
-        console.log(err, 'errore');
         this.loaderSpinnerService.hide();
       },
     });

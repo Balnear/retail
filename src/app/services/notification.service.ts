@@ -26,10 +26,16 @@ export class NotificationService {
     duration: number = -1,
     severity: 'error' | 'warning' | 'success'
   ) {
+    // Imposta la durata a 5 secondi se la severity è 'success'
+    if (severity === 'success') {
+      duration = 5000;
+    }
+
     const snackBar = this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: { message: message, severity: severity, snackBar: this.snackBar },
       duration: duration,
-      horizontalPosition: 'left',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
       panelClass: ['custom-snackbar', 'snack-' + severity],
     });
     snackBar.onAction().subscribe(() => {

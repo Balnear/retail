@@ -17,7 +17,10 @@ import {
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants';
-import { LoaderSpinnerService, LoginService } from '../../../../services';
+import {
+  LoaderSpinnerService,
+  NotificationService,
+} from '../../../../services';
 
 @Component({
   selector: 'app-reimposta-password',
@@ -57,13 +60,12 @@ export default class ReimpostaPasswordComponent implements OnInit {
    * Il costruttore della classes.
    * Si inizializza il FormGroup.
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinner
-   * @param {LoginService} loginService L'injectable del service Login
    * @param {FormBuilder} fb L'injectable del FormBuilder
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private loaderSpinnerService: LoaderSpinnerService,
-    private loginService: LoginService,
+    private notifica: NotificationService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
@@ -121,12 +123,11 @@ export default class ReimpostaPasswordComponent implements OnInit {
     confirmPasswordReset(this.auth, this.oobCode, newPassword)
       .then((res) => {
         this.loaderSpinnerService.hide();
-        console.log(res, 'password cambiata');
         this.router.navigate(['/login']);
+        this.notifica.show('La password è stata aggiornata', 5000, 'success');
       })
       .catch((err) => {
         this.loaderSpinnerService.hide();
-        console.log(err, 'fallito');
       });
   }
 }
