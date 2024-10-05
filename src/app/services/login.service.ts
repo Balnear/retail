@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   Auth,
   onAuthStateChanged,
@@ -11,9 +12,16 @@ import {
   User as FirebaseUser,
   setPersistence,
 } from 'firebase/auth'; // Firebase User Type
-import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, from, map, of, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  from,
+  map,
+  switchMap,
+} from 'rxjs';
 import { User } from '../models';
+import { MatDialog } from '@angular/material/dialog';
+import { PanelService } from './panel.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +58,12 @@ export class LoginService {
    * @param {HttpClient} http L'injectable dell'httpClient
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
-  constructor(private router: Router, private auth: Auth) {
+  constructor(
+    private router: Router,
+    private auth: Auth,
+    private panelService: PanelService,
+    private dialog: MatDialog
+  ) {
     this.initCurrentUser();
   }
 
@@ -87,7 +100,7 @@ export class LoginService {
     return from(signOut(this.auth));
   }
 
-  // Metodo per ottenere il profilo dell'utente autenticato
+  /** Metodo per ottenere il profilo dell'utente autenticato */
   getCurrentUser(): User | null {
     const firebaseUser = this.auth.currentUser; // Ottieni l'utente Firebase
     const user = this.mapFirebaseUserToUser(firebaseUser); // Mappa a User
@@ -95,7 +108,7 @@ export class LoginService {
     return user; // Restituisce il profilo dell'utente
   }
 
-  // Mappa l'oggetto Firebase User al modello User
+  /** Mappa l'oggetto Firebase User al modello User */
   private mapFirebaseUserToUser(
     firebaseUser: FirebaseUser | null
   ): User | null {
@@ -112,7 +125,7 @@ export class LoginService {
     };
   }
 
-  // Salva il profilo utente nel localStorage
+  /**Salva il profilo utente nel localStorage */
   saveUserProfileToLocalStorage(userProfile: User | null): void {
     if (userProfile) {
       localStorage.setItem('userProfile', JSON.stringify(userProfile));
@@ -121,21 +134,32 @@ export class LoginService {
     }
   }
 
-  // Recupera l'utente dal localStorage
+  /**Recupera l'utente dal localStorage */
   getUserFromLocalStorage(): User | null {
     const userProfile = localStorage.getItem('user');
     return userProfile ? JSON.parse(userProfile) : null;
   }
 
   /**Recupero della password */
-  recuperaPassword(email: string) {
-    sendPasswordResetEmail(this.auth, email)
-      .then((res) => {
-        console.log(res, 'email inviata');
-        this.router.navigate(['/login']);
-      })
-      .catch((err) => {
-        console.log(err, 'fallito');
-      });
+  recuperaPassword(email: string): Observable<void> {
+    return from(sendPasswordResetEmail(this.auth, email));
+  }
+
+  /** Naviga all'url del login */
+  goToLogin() {
+    this.dialog.closeAll();
+    if (this.panelService.componentRef) {
+      this.panelService.close();
+    }
+    if (this.panelService.parentComponentRef) {
+      this.panelService.parentComponentRef.instance.closeDialog();
+    }
+    this.router.navigateByUrl('/login');
+  }
+
+  /** Esegue il clear del localStorage e del sessionStorage */
+  clearStorage(): void {
+    localStorage.clear();
+    sessionStorage.clear();
   }
 }

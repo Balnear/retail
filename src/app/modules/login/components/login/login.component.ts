@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularMaterialModule } from '../../../material-module';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -9,14 +8,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { AngularMaterialModule } from '../../../material-module';
 import {
   LABEL_CONSTANT,
   ICON_CONSTANT,
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants/index';
-import { LoginService } from '../../../../services';
+import { LoaderSpinnerService, LoginService } from '../../../../services';
 
+/** Una classe per il componente del form di login */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -54,7 +56,7 @@ export default class LoginComponent {
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
-    // private loaderSpinnerService: LoaderSpinnerService,
+    private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router
@@ -85,16 +87,19 @@ export default class LoginComponent {
    * Nella callback salva il nominativo dell'utente nel localStorage e il token nel localStorage o sessionStorage (in base alla selezione remember me).
    */
   submitForm() {
+    this.loaderSpinnerService.show();
     const email = this.form.value.email;
     const password = this.form.value.password;
     this.loginService.login(email, password).subscribe({
       next: (res) => {
-         console.log('accesso eseguito');
-      this.router.navigate(['/bo/dashboard']);
-      console.log(res,'credenziali');
+        console.log('accesso eseguito');
+        this.router.navigate(['/bo/dashboard']);
+        console.log(res, 'credenziali');
+        this.loaderSpinnerService.hide();
       },
       error: (err) => {
-        console.log(err,'errore');
+        console.log(err, 'errore');
+        this.loaderSpinnerService.hide();
       },
     });
   }
@@ -102,7 +107,6 @@ export default class LoginComponent {
   Funzione per il recupero della password
    */
   forgotPassword() {
-    // this.loginService.tempPasswordStatus = 'default';
     this.router.navigate(['login/recupera-password']);
   }
 }

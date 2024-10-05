@@ -19,7 +19,6 @@ export class CustomDialogService {
    */
   constructor(private dialog: MatDialog) {}
 
-
   /** Funzione per la chiusura del dialog, fa apparire la modale di conferma nel caso del form valorizzato */
   closeDialog() {
     if (this.hasFormValues) {
@@ -32,7 +31,6 @@ export class CustomDialogService {
           this.dialog.closeAll();
         }
       });
-    } else this.dialog.closeAll()
-
+    } else this.dialog.closeAll();
   }
 }

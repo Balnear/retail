@@ -5,7 +5,6 @@ import { LABEL_CONSTANT, ERROR_CONSTANT } from '../../constants';
 import { AngularMaterialModule } from '../../modules/material-module';
 import { LoaderSpinnerService } from '../../services/loader-spinner.service';
 
-
 /** Componente per lo spinner */
 @Component({
   selector: 'app-spinner',

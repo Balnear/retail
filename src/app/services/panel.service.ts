@@ -49,7 +49,7 @@ export class PanelService {
       this.overlayRef = overlayRef;
       this.componentRef = componentRef;
     } else {
-      this.parentComponentRef = componentRef
+      this.parentComponentRef = componentRef;
     }
 
     overlayRef.backdropClick().subscribe(() => {

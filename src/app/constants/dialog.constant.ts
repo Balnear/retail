@@ -25,8 +25,8 @@ export const GENERIC_CONFIRM = {
     autoFocus: false,
     scrollStrategy: new NoopScrollStrategy(),
     data: {
-      // title: LABEL_CONSTANT.sicuro_di_uscire,
-      // subtitle: LABEL_CONSTANT.modifiche_non_salvate,
+      title: LABEL_CONSTANT.sicuro_di_uscire,
+      subtitle: LABEL_CONSTANT.modifiche_non_salvate,
       buttonText: BUTTON_CONSTANT.esci,
       buttonType: 'primary',
       dimension: 'sm',
@@ -38,8 +38,8 @@ export const GENERIC_CONFIRM = {
     autoFocus: false,
     scrollStrategy: new NoopScrollStrategy(),
     data: {
-      // title: LABEL_CONSTANT.effettua_logout,
-      // subtitle: LABEL_CONSTANT.conferma_logout,
+      title: LABEL_CONSTANT.effettua_logout,
+      subtitle: LABEL_CONSTANT.conferma_logout,
       buttonText: BUTTON_CONSTANT.conferma,
       buttonType: 'primary',
       dimension: 'sm',

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { AngularMaterialModule } from '../../../material-module';
 import {
   FormBuilder,
   FormGroup,
@@ -9,14 +8,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Auth, confirmPasswordReset } from '@angular/fire/auth';
+
+import { AngularMaterialModule } from '../../../material-module';
 import {
   LABEL_CONSTANT,
   ICON_CONSTANT,
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants';
-import { LoginService } from '../../../../services';
-import { Auth, confirmPasswordReset } from '@angular/fire/auth';
+import { LoaderSpinnerService, LoginService } from '../../../../services';
 
 @Component({
   selector: 'app-reimposta-password',
@@ -49,7 +50,6 @@ export default class ReimpostaPasswordComponent implements OnInit {
   errorLogin?: string;
   /** codice fornito per il reset della password */
   oobCode: string = '';
-
   /**Dati autenticazione */
   private auth = inject(Auth);
 
@@ -62,12 +62,13 @@ export default class ReimpostaPasswordComponent implements OnInit {
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
-    // private loaderSpinnerService: LoaderSpinnerService,
+    private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
   ) {
+    /** Inizializzazione del form */
     this.form = fb.group(
       {
         password: [
@@ -91,6 +92,9 @@ export default class ReimpostaPasswordComponent implements OnInit {
     );
   }
 
+  /**
+   * Metodo OnInit eseguito all'inizializzazione del componente.
+   */
   ngOnInit() {
     // Ottieni i parametri dell'URL
     this.route.queryParams.subscribe((params) => {
@@ -112,13 +116,16 @@ export default class ReimpostaPasswordComponent implements OnInit {
    * Submit del form del reimposta-password.
    */
   submitForm() {
+    this.loaderSpinnerService.show();
     const newPassword = this.form.value.password;
     confirmPasswordReset(this.auth, this.oobCode, newPassword)
       .then((res) => {
+        this.loaderSpinnerService.hide();
         console.log(res, 'password cambiata');
         this.router.navigate(['/login']);
       })
       .catch((err) => {
+        this.loaderSpinnerService.hide();
         console.log(err, 'fallito');
       });
   }

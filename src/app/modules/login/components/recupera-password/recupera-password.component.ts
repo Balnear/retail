@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+
 import { AngularMaterialModule } from '../../../material-module';
 import {
   LABEL_CONSTANT,
@@ -14,8 +15,9 @@ import {
   BUTTON_CONSTANT,
   ERROR_CONSTANT,
 } from '../../../../constants';
-import { LoginService } from '../../../../services';
+import { LoaderSpinnerService, LoginService } from '../../../../services';
 
+/** classe per il componente di recupero della password */
 @Component({
   selector: 'app-recupera-password',
   standalone: true,
@@ -51,11 +53,12 @@ export default class RecuperaPasswordComponent {
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
-    // private loaderSpinnerService: LoaderSpinnerService,
+    private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
     private fb: FormBuilder,
     private router: Router
   ) {
+    /** Inizializzazione del form */
     this.form = fb.group({
       email: [
         '',
@@ -73,7 +76,18 @@ export default class RecuperaPasswordComponent {
    * Submit del form di recupera-password.
    */
   submitForm() {
+    this.loaderSpinnerService.show();
     const email = this.form.value.email;
-    this.loginService.recuperaPassword(email);
+    this.loginService.recuperaPassword(email).subscribe({
+      next: (res) => {
+        console.log('email inviata correttamente');
+        this.router.navigate(['/login']);
+        this.loaderSpinnerService.hide();
+      },
+      error: (err) => {
+        console.log(err, 'errore');
+        this.loaderSpinnerService.hide();
+      },
+    });
   }
 }

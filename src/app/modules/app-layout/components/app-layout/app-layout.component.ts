@@ -10,17 +10,18 @@ import {
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
+import { AngularMaterialModule } from '../../../material-module';
 import { MatDialog } from '@angular/material/dialog';
-
-
-import { AppSidebarComponent } from '../sidebar/sidebar.component';
-import { HeaderComponent } from '../header/header.component';
-import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
+import {
+  GenericTableService,
+  LoaderSpinnerService,
+  LoginService,
+} from '../../../../services';
 import { DASHBOARD_HEADER, ICON_CONSTANT } from '../../../../constants';
 import { SetTextByUrlPipe } from '../../../../pipes';
-import { GenericTableService, LoaderSpinnerService, LoginService } from '../../../../services';
-import { AngularMaterialModule } from '../../../material-module';
-
+import { HeaderComponent } from '../header/header.component';
+import { AppSidebarComponent } from '../sidebar/sidebar.component';
+import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
 
 /**
  * Component utilizzato come layout per le pagine dell'applicazione.
@@ -51,9 +52,7 @@ export class AppLayoutComponent {
   iconConstant = ICON_CONSTANT;
   /** Le actions della dropdown */
   /**Variabile section */
-  section!:
-    | ''
-    | 'dashboard';
+  section!: '' | 'dashboard' | 'locatori' | 'inquilini';
   /**
    * Sottoscrizione all'evento di navigazione della Router
    */
@@ -118,6 +117,10 @@ export class AppLayoutComponent {
   setSection() {
     if (this.router.url.includes('/bo/dashboard')) {
       this.section = 'dashboard';
+    } else if (this.router.url.includes('/bo/locatori')) {
+      this.section = 'locatori';
+    } else if (this.router.url.includes('/bo/inquilini')) {
+      this.section = 'inquilini';
     } else {
       this.section = '';
     }

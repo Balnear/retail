@@ -2,7 +2,7 @@ export const LABEL_CONSTANT = {
   login: 'Login',
   email: 'Email',
   password: 'Password',
-  repetPassword:'Repet password',
+  repetPassword: 'Repet password',
   forgot_password: 'Forgot password',
   insert_password: 'Insert a new password',
   new_password: 'New Password',
@@ -17,6 +17,10 @@ export const LABEL_CONSTANT = {
   statistiche: 'Statistiche',
   logout: 'Logout',
   profilo: 'Profilo',
+  sicuro_di_uscire: 'Vuoi uscire?',
+  modifiche_non_salvate: 'I dati inseriti andranno persi.',
+  effettua_logout: 'Effettua Logout',
+  conferma_logout: 'Sei sicuro di voler effettuare il logout?',
 };
 
 /** Costante per i messaggi di nessun risultato */

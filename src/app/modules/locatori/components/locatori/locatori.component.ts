@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './locatori.component.html',
-  styleUrl: './locatori.component.scss'
+  styleUrl: './locatori.component.scss',
 })
-export default class LocatoriComponent {
-
-}
+export default class LocatoriComponent {}

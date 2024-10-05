@@ -4,12 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-
-import { GenericTableSearchComponent } from '../../../../shared/generics/generic-table/components/generic-table-search/generic-table-search.component';
-import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
-import { RESULT_CONSTANT, INPUT_CONSTANT } from '../../../../constants';
-import { GenericTableService, LoaderSpinnerService } from '../../../../services';
 import { AngularMaterialModule } from '../../../material-module';
+import {
+  GenericTableService,
+  LoaderSpinnerService,
+} from '../../../../services';
+import { RESULT_CONSTANT, INPUT_CONSTANT } from '../../../../constants';
+import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
+import { GenericTableSearchComponent } from '../../../../shared/generics/generic-table/components/generic-table-search/generic-table-search.component';
 
 /** Componente per la lista delle zone */
 @Component({

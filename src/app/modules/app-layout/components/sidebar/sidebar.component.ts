@@ -12,8 +12,8 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
-import { PAGE_CONSTANT, ICON_CONSTANT } from '../../../../constants';
 import { LoginService } from '../../../../services';
+import { PAGE_CONSTANT, ICON_CONSTANT } from '../../../../constants';
 
 /** Component per la sidebar dell'applicazione */
 @Component({
@@ -123,9 +123,6 @@ export class AppSidebarComponent {
       child: [],
     };
 
-    this.pages = [
-      pages.dashboard,
-      pages.utenti,
-    ];
+    this.pages = [pages.dashboard, pages.utenti];
   }
 }

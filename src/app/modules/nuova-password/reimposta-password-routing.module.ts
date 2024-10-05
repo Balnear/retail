@@ -3,7 +3,8 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./components/reimposta-password/reimposta-password.component'),
+    loadComponent: () =>
+      import('./components/reimposta-password/reimposta-password.component'),
     children: [],
   },
 ];

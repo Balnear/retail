@@ -1,23 +1,30 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-
-
-
-
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LABEL_CONSTANT, ICON_CONSTANT, BREADCRUBS_HEADER, GENERIC_CONFIRM, BUTTON_CONSTANT, GENERIC_FEEDBACK } from '../../../../constants';
-import { BreadcrumbsPipe } from '../../../../pipes';
-import { LoginService, LoaderSpinnerService } from '../../../../services';
-import { GenericConfirmModalComponent, GenericFormModalComponent, GenericFeedbackModalComponent } from '../../../../shared';
+import { Subscription } from 'rxjs';
+
 import { AngularMaterialModule } from '../../../material-module';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LoginService, LoaderSpinnerService } from '../../../../services';
+import {
+  LABEL_CONSTANT,
+  ICON_CONSTANT,
+  BREADCRUBS_HEADER,
+  GENERIC_CONFIRM,
+  BUTTON_CONSTANT,
+  GENERIC_FEEDBACK,
+} from '../../../../constants';
+import { BreadcrumbsPipe } from '../../../../pipes';
+import {
+  GenericConfirmModalComponent,
+  GenericFormModalComponent,
+  GenericFeedbackModalComponent,
+} from '../../../../shared';
 
-
-/**  Component utilizzato come header per le pagine dell'applicazione.*/
+/**Component utilizzato come header per le pagine dell'applicazione.*/
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -78,16 +85,13 @@ export class HeaderComponent {
     private loaderSpinner: LoaderSpinnerService,
     private dialog: MatDialog,
     private router: Router,
-    private fb: FormBuilder,
-  ) {
-    
-  }
+    private fb: FormBuilder
+  ) {}
   /**
    * quando viene inizializzata la pagina,
    */
   ngOnInit() {
-    this.currentUser = this.loginService.getCurrentUser();   
-    console.log(this.currentUser,'currentUser');
+    this.currentUser = this.loginService.getCurrentUser();
     // Se desideri anche recuperare dal localStorage:
     this.data = this.loginService.getUserFromLocalStorage();
     console.log('utente dal localStorage:', this.data);
@@ -102,15 +106,11 @@ export class HeaderComponent {
         next: (res) => {
           if (res) {
             this.loginService.logout();
-            this.router.navigate(['/login']);
-            // this.loginService.goToLogin();
-            // TODO: Verificare come si comporta il localStorage
-            // this.loginService.clearStorage();
+            this.loginService.goToLogin();
+            this.loginService.clearStorage();
           }
         },
-        error: (res) => {
-          this.loaderSpinner.hide();
-        },
+        error: (err) => {},
       });
   }
 
@@ -180,7 +180,7 @@ export class HeaderComponent {
   //   this.userService
   //     .updatePhoneNumber(userId, newPhoneNumber)
   //     .subscribe(() => {
-  //       this.data.telphoneNumber = newPhoneNumber;        
+  //       this.data.telphoneNumber = newPhoneNumber;
   //       localStorage.setItem(`user_${userId}_telphoneNumber`, newPhoneNumber);
   //     });
   // }
@@ -190,7 +190,7 @@ export class HeaderComponent {
   //   const obj = form.value;
   //   this.userService
   //     .editProfile(obj.uid, obj.email, obj.profile_picture)
-  //     .then(() => {  
+  //     .then(() => {
   //       this.onUpdatePhoneNumber(obj.uid, obj.phoneNumber);
   //       this.data.telphoneNumber = obj.phoneNumber;
   //       this.data.profile_picture = obj.profile_picture;

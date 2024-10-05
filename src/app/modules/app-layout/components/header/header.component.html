@@ -13,11 +13,9 @@
     </div>
     <ng-template #noPhoto>
       <div class="image-profile">
-      
-        <img src="../../../../../assets/images/img-profile.png">
-     </div>
+        <img src="../../../../../assets/images/img-profile.png" />
+      </div>
     </ng-template>
-    
     {{ data.displayName }}
     <button mat-button [matMenuTriggerFor]="menu" class="menu">
       <mat-icon class="dropdown">{{ iconConstant.imgcreden }}</mat-icon>
@@ -34,4 +32,3 @@
     </mat-menu>
   </div>
 </mat-toolbar>
-
