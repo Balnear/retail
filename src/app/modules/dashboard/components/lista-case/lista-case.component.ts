@@ -13,12 +13,12 @@ import { RESULT_CONSTANT, INPUT_CONSTANT } from '../../../../constants';
 import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
 import { GenericTableSearchComponent } from '../../../../shared/generics/generic-table/components/generic-table-search/generic-table-search.component';
 
-/** Componente per la lista delle zone */
+/** Componente per la lista delle case */
 @Component({
-  selector: 'app-lista-zone',
+  selector: 'app-lista-case',
   standalone: true,
-  templateUrl: './lista-zone.component.html',
-  styleUrls: ['./lista-zone.component.scss'],
+  templateUrl: './lista-case.component.html',
+  styleUrls: ['./lista-case.component.scss'],
   imports: [
     CommonModule,
     GenericTableSearchComponent,
@@ -28,7 +28,7 @@ import { GenericTableSearchComponent } from '../../../../shared/generics/generic
     GenericDropDownMenuComponent,
   ],
 })
-export default class ListaZoneComponent {
+export default class ListaCaseComponent {
   /** Costante per il risultato vuoto della tabella */
   resultConstant = RESULT_CONSTANT;
   /** Constante per l'input della ricera */
@@ -45,8 +45,8 @@ export default class ListaZoneComponent {
   actions: any[] = [{}];
 
   /**
-   * Il costruttore della classe, si popola la variabile listaZone con la lista delle zone instanziata nel resolver
-   * @param {ZoneService} zoneService L'injectable del service ZoneService
+   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case instanziata nel resolver
+   * @param {CaseService} caseService L'injectable del service CaseService
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
    * @param {ActivatedRoute} activatedRoute Fornisce accesso alle informazioni sulla rotta associata a questa componente
    */

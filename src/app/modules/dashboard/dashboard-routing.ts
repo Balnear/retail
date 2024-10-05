@@ -6,11 +6,11 @@ export const routes: Routes = [
     title: 'Dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component'),
     resolve: {
-      // listaZone: () => inject(ZoneService).resolveLista(),
+      // listaCase: () => inject(CaseService).resolveLista(),
     },
-    // loadComponent: () => import('./components/lista-zone/lista-zone.component'),
+    // loadComponent: () => import('./components/lista-case/lista-case.component'),
     // resolve: {
-    //   listaZone: () => inject(ZoneService).resolveLista(),
+    //   listaCase: () => inject(CaseService).resolveLista(),
     // },
   },
   {
