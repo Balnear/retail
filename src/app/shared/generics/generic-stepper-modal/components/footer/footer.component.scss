@@ -1,0 +1,17 @@
+@import '../../../../../../assets/scss/variables.scss';
+
+mat-divider {
+  width: 100%;
+  background-color: $light-grey;
+}
+.footer-actions {
+  display: flex;
+  justify-content: space-between;
+  &.first {
+    justify-content: flex-end;
+  }
+}
+
+.white {
+  color: $white;
+}

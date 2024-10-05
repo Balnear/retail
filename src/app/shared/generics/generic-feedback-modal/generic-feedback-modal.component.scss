@@ -1,0 +1,105 @@
+@import "../../../../assets/scss/variables.scss";
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+
+  .modal-content {
+    justify-content: center;
+  }
+
+  .sm {
+    height: 269px;
+  }
+  .lg {
+    height: 565px;
+  }
+
+  .circle {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .rotate {
+      transform: scaleX(-1);
+      color: rgba(0, 0, 0, 0.54);
+    }
+  }
+  .circle-big {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .mat-icon {
+      font-size: 35px;
+      height: 35px;
+      width: 35px;
+    }
+    .rotate {
+      transform: scaleX(-1);
+      color: rgba(0, 0, 0, 0.54);
+    }
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: $black;
+    .modal-title {
+      @include text($font-20, 600, null, 24px, none);
+    }
+    .modal-subtitle {
+      @include text($font-16, 400, $grey, 24px, none);
+    }
+  }
+}
+
+.bg {
+  &-success {
+    background: rgba(46, 125, 50, 0.1);
+  }
+  &-warn {
+    background: rgba(237, 108, 2, 0.3);
+  }
+  &-error {
+    background: rgba(211, 47, 47, 0.3);
+  }
+  &-info {
+    background: rgba(0, 148, 255, 0.1);
+  }
+}
+
+.warn {
+  // color: $orange;
+}
+.success {
+  color: $success;
+}
+.error {
+  // color: $red;
+}
+.info {
+  color: $info-color;
+}
+
+mat-icon {
+  &.inverted {
+    transform: rotate(360deg) scaleX(-1);
+  }
+}
+
+.textCentered {
+  text-align: center;
+  width: 435px;
+}

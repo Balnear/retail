@@ -1,0 +1,15 @@
+<mat-form-field
+  class="search-input small grey-color"
+  [subscriptSizing]="'dynamic'"
+  appearance="outline"
+  color="primary"
+>
+  <mat-label class="custom-form-field">{{ inputLabel }}</mat-label>
+  <input
+    type="search"
+    matInput
+    [formControl]="searchValue"
+    (keydown.enter)="changePage()"
+  />
+  <mat-icon matSuffix (click)="changePage()">search</mat-icon>
+</mat-form-field>

@@ -1,0 +1,79 @@
+<div class="background"></div>
+<div class="container">
+  <div class="content-info">
+    <img class="logo" src="../../../../../assets/images/logo2.png" alt="Logo" />
+    <div class="text">
+      <h2>{{ labelConstant.welcome }}</h2>
+      <h3>{{ labelConstant.to_website }}</h3>
+    </div>
+  </div>
+  <div class="login-box">
+    <div class="form-box">
+      <form (ngSubmit)="submitForm()" [formGroup]="form">
+        <h2>{{ labelConstant.login }}</h2>
+        <div class="input-box">
+          <mat-form-field class="email" appearance="outline">
+            <mat-label>{{ labelConstant.email }} </mat-label>
+            <input
+              matInput
+              class="form-control"
+              type="email"
+              formControlName="email"
+              noEmoji
+            />
+            <mat-error>
+              {{
+                this.form.get("email")?.hasError("pattern") &&
+                !this.form.get("email")?.hasError("required")
+                  ? errorConstant.email_address
+                  : errorConstant.campo_obbligatorio
+              }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="input-box">
+          <mat-form-field class="email" appearance="outline">
+            <mat-label> {{ labelConstant.password }} </mat-label>
+            <div class="input-password">
+              <input
+                matInput
+                [type]="passwordHide ? 'password' : 'text'"
+                formControlName="password"
+                noEmoji
+              />
+              <mat-icon mat-suffix (click)="passwordHide = !passwordHide">{{
+                passwordHide
+                  ? iconConstant.visibility_off
+                  : iconConstant.visibility
+              }}</mat-icon>
+            </div>
+            <mat-error>
+              {{
+                this.form.get("password")?.hasError("required")
+                  ? errorConstant.campo_obbligatorio
+                  : errorConstant.campo_non_valido
+              }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="check">
+          <div class="button" mat-icon-button>
+            <a (click)="forgotPassword()">
+              {{ labelConstant.forgot_password }}
+            </a>
+          </div>
+        </div>
+        <button
+          mat-raised-button
+          appearance="outline"
+          color="primary"
+          class="btn"
+          type="submit"
+          [disabled]="!form.valid"
+        >
+          {{ buttonConstant.login }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

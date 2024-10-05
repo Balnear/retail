@@ -1,0 +1,40 @@
+@import '../../../assets/scss/variables.scss';
+
+.snack-wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @include text($font-16, 600, $error-text-color, 19px, none)
+  }
+  .close-flex {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .snackbar-content-wrap {
+    overflow: hidden;
+
+    span {
+      text-overflow: clip;
+      white-space: pre-wrap;
+    }
+    span.error {
+      @include text($font-14, 400, $error-text-color, 150%, none);
+    }
+    span.success {
+      @include text($font-14, 400, $success-text-color, 150%, none);
+    }
+  }
+
+
+  .material-symbols-outlined {
+    justify-self: flex-end;
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+  }
+}

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="subtitle">
+    <h2>Zone</h2>
+    <div class="cta-container">
+      <!-- <app-button-crea-zona></app-button-crea-zona> -->
+      <app-generic-drop-down-menu
+        [actions]="actions"
+      ></app-generic-drop-down-menu>
+    </div>
+  </div>
+  <div class="table-container">
+    <div class="filters-row mb-24">
+      <app-generic-table-search
+        [inputLabel]="inputConstant.nome"
+        (emitSearchValue)="filterValue($event)"
+      ></app-generic-table-search>
+    </div>
+    <div class="table-content" *ngIf="listaZone.length; else noZone">
+      <ng-container *ngFor="let zona of listaZone">
+        <!-- <app-generic-card
+          [redirect]="true"
+          [data]="zona"
+          (actionEmit)="navigate($event)"
+        ></app-generic-card> -->
+      </ng-container>
+    </div>
+    <ng-template #noZone>
+      <div class="body mt-24">
+        <!-- <span>{{ resultConstant.nessuna_zona }}</span> -->
+      </div>
+    </ng-template>
+  </div>
+</div>

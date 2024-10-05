@@ -1,0 +1,17 @@
+@import "../../../../assets/scss/variables.scss";
+.cta {
+  @include flex(flex, row, center, center, unset, unset);
+  width: 42px;
+  height: 42px;
+  // background-color: $grey-down;
+  border-radius: 8px;
+  padding: 9px;
+
+  .icon {
+    @include flex(flex, row, unset, unset, unset, unset);
+    color: $black;
+  }
+}
+.drop-menu-header {
+  height: 50px !important;
+}

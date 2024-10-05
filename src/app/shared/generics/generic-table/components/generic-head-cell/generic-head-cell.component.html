@@ -1,0 +1,21 @@
+<div class="container">
+  <ng-container *ngIf="type === 'sort'">
+    <div class="flex pointer" (click)="sortCol()">
+      <span>{{ tableConstant[col] }}</span>
+      <mat-icon>{{ sorted ? "arrow_upward" : "arrow_downward" }}</mat-icon>
+    </div>
+  </ng-container>
+  <ng-container class="check-flex" *ngIf="type === 'checkbox'">
+    <mat-checkbox
+      class="checkbox"
+      color="primary"
+      (change)="$event ? masterToggle() : null"
+      [checked]="selected.length > 0 && isAllSelected"
+      [indeterminate]="selected.length > 0 && !isAllSelected"
+    >
+    </mat-checkbox>
+  </ng-container>
+  <ng-container class="sort" *ngIf="type !== 'sort' && type !== 'checkbox'">
+    <span>{{ tableConstant[col] }}</span>
+  </ng-container>
+</div>

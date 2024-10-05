@@ -1,0 +1,42 @@
+@import "../../../../assets/scss/variables.scss";
+
+.detail-modal-content {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: $white;
+  right: -50%;
+
+  .modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  &.h-100 {
+    height: 100%;
+  }
+}
+
+.panel {
+  width: 680px;
+  @media screen and (min-width: $xl-min) {
+    width: 50vw;
+    box-shadow: #00000085 -20px 0px 70px -12px;
+  }
+}
+
+.subpanel {
+  box-shadow: #00000085 -20px 0px 70px -12px;
+  width: 540px;
+  @media screen and (min-width: $xl-min) {
+    width: 40vw;
+  }
+}
+
+mat-divider {
+  background-color: $light-grey;
+}

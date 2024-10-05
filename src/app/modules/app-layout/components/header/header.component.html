@@ -1,0 +1,34 @@
+<mat-toolbar class="header">
+  <div id="breadcrumb">
+    <div>
+      {{ title | breadcrumbs : breadcumbsHeader : "title" }}
+    </div>
+    <div class="breadcrumb-container">
+      {{ subTitle | breadcrumbs : breadcumbsHeader : "subTitle" }}
+    </div>
+  </div>
+  <div class="container">
+    <div class="image-profile" *ngIf="data.photoURL !== ''; else noPhoto">
+      <img [src]="data.photoURL" />
+    </div>
+    <ng-template #noPhoto>
+      <div class="image-profile">
+        <img src="../../../../../assets/images/img-profile.png" />
+      </div>
+    </ng-template>
+    {{ data.displayName }}
+    <button mat-button [matMenuTriggerFor]="menu" class="menu">
+      <mat-icon class="dropdown">{{ iconConstant.imgcreden }}</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let opt of options"
+        (click)="opt.callback()"
+      >
+        <mat-icon class="material-icons-outlined">{{ opt.icon }}</mat-icon>
+        {{ opt.label }}
+      </button>
+    </mat-menu>
+  </div>
+</mat-toolbar>

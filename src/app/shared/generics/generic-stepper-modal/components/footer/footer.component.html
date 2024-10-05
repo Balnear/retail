@@ -1,0 +1,25 @@
+<mat-divider></mat-divider>
+<div class="footer-actions mt-12" [ngClass]="{ first: currentStep === 0 }">
+  <button
+    *ngIf="currentStep > 0"
+    mat-stroked-button
+    class="button-outline-accent h-42"
+    color="accent"
+    type="button"
+    (click)="goToPreviousStep()"
+    (keydown.enter)="goToPreviousStep()"
+  >
+    {{ buttonConstant.indietro }}
+  </button>
+  <button
+    class="h-42 white"
+    mat-raised-button
+    color="primary"
+    (click)="changeStep()"
+    [disabled]="disabled"
+  >
+    {{
+      currentStep === stepsNumber - 1 ? submitFormText : buttonConstant.avanti
+    }}
+  </button>
+</div>

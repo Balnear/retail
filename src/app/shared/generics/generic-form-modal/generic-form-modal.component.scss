@@ -1,0 +1,38 @@
+@import "../../../../assets/scss/variables.scss";
+
+.title {
+  @include text($font-28, 700, $white, 33px, none);
+}
+
+.subtitle {
+  @include text($font-16, 400, $grey, 22px, none);
+}
+
+.modal-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 11fr 1fr;
+    overflow: auto;
+    .close-icon {
+      top: 0;
+      right: 0;
+    }
+    .current-step {
+      height: 100%;
+    }
+    .flex-cta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .white-color {
+        color: $white;
+      }
+    }
+  }
+}

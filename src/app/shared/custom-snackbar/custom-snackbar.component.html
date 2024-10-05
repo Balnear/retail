@@ -1,0 +1,18 @@
+<div class="snack-wrap">
+  <div class="flex">
+    <span>{{ data.status }}</span>
+    <div class="close-flex" (click)="closeSnackbar()">
+      <span>CHIUDI</span>
+      <mat-icon
+        class="material-symbols-outlined snackbar-icon"
+        [ngClass]="data.severity"
+        >close</mat-icon
+      >
+    </div>
+  </div>
+  <div class="snackbar-content-wrap">
+    <span class="snackbar-content" [ngClass]="data.severity">{{
+      data.message
+    }}</span>
+  </div>
+</div>
