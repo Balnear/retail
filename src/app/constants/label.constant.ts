@@ -21,6 +21,7 @@ export const LABEL_CONSTANT = {
   modifiche_non_salvate: 'I dati inseriti andranno persi.',
   effettua_logout: 'Effettua Logout',
   conferma_logout: 'Sei sicuro di voler effettuare il logout?',
+  elimina: 'Elimina',
 };
 
 /** Costante per i messaggi di nessun risultato */

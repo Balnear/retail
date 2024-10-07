@@ -98,5 +98,6 @@ button {
   min-width: 120px;
   font-size: $font-15;
   font-weight: 700;
-  color: white;
+  color: $secondary;
+  background-color: $primary;
 }

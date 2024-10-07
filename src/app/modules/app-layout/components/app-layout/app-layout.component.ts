@@ -17,11 +17,16 @@ import {
   LoaderSpinnerService,
   LoginService,
 } from '../../../../services';
-import { DASHBOARD_HEADER, ICON_CONSTANT } from '../../../../constants';
+import {
+  DASHBOARD_HEADER,
+  ICON_CONSTANT,
+  LABEL_CONSTANT,
+} from '../../../../constants';
 import { SetTextByUrlPipe } from '../../../../pipes';
 import { HeaderComponent } from '../header/header.component';
 import { AppSidebarComponent } from '../sidebar/sidebar.component';
 import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
+import { ButtonCreaCasaComponent } from '../../../../shared/buttons/button-crea-casa/button-crea-casa.component';
 
 /**
  * Component utilizzato come layout per le pagine dell'applicazione.
@@ -39,6 +44,7 @@ import { GenericDropDownMenuComponent } from '../../../../shared/generics/generi
     RouterModule,
     SetTextByUrlPipe,
     GenericDropDownMenuComponent,
+    ButtonCreaCasaComponent,
   ],
 })
 export class AppLayoutComponent {
@@ -60,9 +66,9 @@ export class AppLayoutComponent {
   /** Le actions della dropdown del dettaglio zona*/
   actions: any[] = [
     {
-      // name: LABEL_CONSTANT.elimina,
+      name: LABEL_CONSTANT.elimina,
       icon: ICON_CONSTANT.delete,
-      // callback: () => this.eliminaZona(this.zoneService.idZona),
+      // callback: () => this.eliminaCasa(this.caseService.idCasa),
     },
   ];
   /** Le action della dropdown generica */
