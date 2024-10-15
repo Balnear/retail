@@ -1,9 +1,21 @@
 /** Costante per la label degli input */
 export const INPUT_CONSTANT = {
-  tipologia: 'Tipologia',
   nome: 'Nome',
+  indirizzo: 'Indirizzo',
+  citta: 'Città',
+  codicePostale: 'Codice postale',
+  dataDisponibile: 'Data disponibile',
+  arredamento: 'Arredamento',
+  locatore: 'Locatore',
+  dimensione: 'Dimensione',
+  camere: 'Camere',
+  bagni: 'Bagni',
   id: 'Id',
   azioni_di_gruppo: '+ Azioni',
+  tipologia: 'Tipologia',
+  seleziona_data: 'Seleziona data',
+  importoAffittoMensile: 'Importo mensile',
+  durataContratto: 'Durata contratto',
 };
 
 /** Costante per le lable delle head cell della tabella */

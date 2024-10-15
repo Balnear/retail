@@ -1,0 +1,50 @@
+@import "../../../../assets/scss/variables.scss";
+
+.container-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+  .h-89 {
+    width: 100%;
+    height: 100%;
+  }
+  form {
+    @include flex(flex, row, space-between, unset, unset, wrap);
+    width: 100%;
+    mat-form-field {
+      .label-sel {
+        @include text($font-12, 400, $grey, 120%, none);
+      }
+      .font-text {
+        @include text($font-16, 400, $dark-brown, 24px, none);
+      }
+    }
+    div {
+      margin-top: 24px;
+      width: 100%;
+      .w-100 {
+        width: 100%;
+      }
+    }
+  }
+  .w-49 {
+    width: 49%;
+  }
+  .w-100 {
+    width: 100%;
+  }
+  mat-error {
+    font-size: $font-12;
+  }
+  .checkbox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+  }
+}

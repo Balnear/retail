@@ -48,4 +48,5 @@ export const ICON_CONSTANT = {
   colture: 'grass',
   duplica: 'content_copy',
   add: 'add',
+  cloud_upload: 'cloud_upload',
 };

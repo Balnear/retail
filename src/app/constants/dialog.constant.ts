@@ -114,20 +114,20 @@ export const GENERIC_CONFIRM = {
 
 /** Config per la GenericFeedbackModal */
 export const GENERIC_FEEDBACK = {
-  // crea_coltura: {
-  //   width: '548px',
-  //   height: '280px',
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     titolo: LABEL_CONSTANT.coltura_creata,
-  //     subtitle: LABEL_CONSTANT.dati_coltura_creata,
-  //     icona: ICON_CONSTANT.done,
-  //     tipo: 'circle',
-  //     status: 'success',
-  //     dimensione: 'sm',
-  //     autoCloseTime: 3000,
-  //   },
-  // },
+  crea_casa: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.casa_creata,
+      subtitle: LABEL_CONSTANT.dati_casa_creata,
+      icona: ICON_CONSTANT.done,
+      tipo: 'circle',
+      status: 'success',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
   // eliminazione_coltura: {
   //   width: '548px',
   //   height: '280px',

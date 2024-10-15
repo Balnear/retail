@@ -1,0 +1,115 @@
+<div class="container-form" [formGroup]="form">
+  <mat-form-field class="font-text w-49" appearance="outline">
+    <mat-label>{{ labelConstant.nome }}</mat-label>
+    <mat-select formControlName="nome">
+      <mat-option *ngFor="let opt of tipologie" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ inputConstant.indirizzo }}</mat-label>
+    <input type="text" matInput formControlName="indirizzo" noEmoji />
+    <mat-error>{{
+      form.get("indirizzo")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ inputConstant.citta }}</mat-label>
+    <input type="text" matInput formControlName="citta" noEmoji />
+    <mat-error>{{
+      form.get("citta")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ inputConstant.codicePostale }}</mat-label>
+    <input type="text" matInput formControlName="codicePostale" noEmoji />
+    <mat-error>{{
+      form.get("codicePostale")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ labelConstant.statoAffitto }}</mat-label>
+    <mat-select formControlName="statoAffitto">
+      <mat-option *ngFor="let opt of affitto" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ labelConstant.statoManutenzione }}</mat-label>
+    <mat-select formControlName="statoManutenzione">
+      <mat-option *ngFor="let opt of manutenzione" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ inputConstant.dataDisponibile }}</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="dataDisponibile"
+      [matDatepickerFilter]="filtroDateFuture"
+    />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <ng-container formGroupName="locatore">
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.locatore }}</mat-label>
+      <mat-select formControlName="id" noEmoji trim>
+        <mat-option value="">Nessuno</mat-option>
+        <mat-option *ngFor="let opt of locatoriOption" [value]="opt.id">{{
+          opt.displayName | titlecase
+        }}</mat-option>
+      </mat-select>
+      <mat-error></mat-error>
+    </mat-form-field>
+  </ng-container>
+  <mat-checkbox
+    formControlName="arredamento"
+    appearanche="outline"
+    class="arredamento"
+    (change)="onArredamentoChange()"
+    >{{ labelConstant.arredata }}</mat-checkbox
+  >
+  <div
+    *ngIf="form.get('arredamento')?.value === true"
+    class="upload"
+    (click)="triggerFileInput()"
+    (drop)="onFileDropped($event)"
+    (dragover)="preventDefault($event)"
+  >
+    <div class="drop-area" *ngIf="!file">
+      <mat-icon>{{ iconConstant.cloud_upload }}</mat-icon>
+      <p>{{ labelConstant.trascina_qui }}</p>
+    </div>
+    <input
+      type="file"
+      #fileInput
+      style="display: none"
+      (change)="onFileSelected($event)"
+    />
+    <div class="preview-images" *ngIf="file">
+      <div class="info">
+        <img src="../../../../assets/images/bacground_file_p.png" alt="" />
+        <div>
+          <button mat-icon-button color="warn" (click)="removeFile()">
+            <mat-icon>{{ iconConstant.delete }}</mat-icon>
+          </button>
+          <span>{{ file.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

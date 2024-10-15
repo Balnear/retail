@@ -1,0 +1,78 @@
+<div class="container-form" [formGroup]="form">
+  <mat-form-field
+    appearance="outline"
+    formGroupName="caratteristiche"
+    class="font-text w-49"
+  >
+    <mat-label>{{ inputConstant.dimensione }}</mat-label>
+    <input type="number" matInput formControlName="dimensione" noEmoji />
+    <mat-error>{{
+      form.get("dimensione")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field
+    appearance="outline"
+    formGroupName="caratteristiche"
+    class="font-text w-49"
+  >
+    <mat-label>{{ inputConstant.camere }}</mat-label>
+    <input type="number" matInput formControlName="camere" noEmoji />
+    <mat-error>{{
+      form.get("camere")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field
+    appearance="outline"
+    formGroupName="caratteristiche"
+    class="font-text w-49"
+  >
+    <mat-label>{{ inputConstant.bagni }}</mat-label>
+    <input type="number" matInput formControlName="bagni" noEmoji />
+    <mat-error>{{
+      form.get("bagni")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+  <mat-form-field
+    class="font-text w-49"
+    appearance="outline"
+    formGroupName="caratteristiche"
+  >
+    <mat-label>{{ labelConstant.piano }}</mat-label>
+    <mat-select formControlName="piano">
+      <mat-option *ngFor="let opt of altezzaPiano" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <mat-form-field
+    class="font-text w-100"
+    appearance="outline"
+    formGroupName="caratteristiche"
+  >
+    <mat-label>{{ labelConstant.tipoRiscaldamento }}</mat-label>
+    <mat-select formControlName="tipoRiscaldamento">
+      <mat-option *ngFor="let opt of riscaldamento" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <div formGroupName="caratteristiche" class="checkbox">
+    <mat-checkbox formControlName="giardino" appearanche="outline">{{
+      labelConstant.giardino
+    }}</mat-checkbox>
+    <mat-checkbox formControlName="postoAuto" appearanche="outline">{{
+      labelConstant.postoAuto
+    }}</mat-checkbox>
+    <mat-checkbox formControlName="ariaCondizionata" appearanche="outline">{{
+      labelConstant.ariaCondizionata
+    }}</mat-checkbox>
+  </div>
+</div>

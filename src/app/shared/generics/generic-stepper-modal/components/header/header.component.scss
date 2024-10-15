@@ -1,11 +1,11 @@
-@import '../../../../../../assets/scss/variables.scss';
+@import "../../../../../../assets/scss/variables.scss";
 
 .title {
-  @include text($font-28, 700, $black, 33px, null);
+  @include text($font-28, 700, $black, 33px, none);
 }
 
 .subtitle {
-  @include text($font-16, 400, $black, 22px, null);
+  @include text($font-16, 400, $black, 22px, none);
 }
 
 mat-divider {
