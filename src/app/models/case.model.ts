@@ -81,6 +81,8 @@ export interface AssociaCasa {
     email: string;
     phoneNumber: string;
   };
-  /**pagamento effettuato (si o no) */
+  /**pagamento effettuato (si o no) 
+   * visualizzare tramite una chip (pagato o non pagato)
+  */
   pagato: boolean;
 }

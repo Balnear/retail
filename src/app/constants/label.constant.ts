@@ -61,6 +61,8 @@ export const LABEL_CONSTANT = {
   dataInizioContratto: 'Data inizio del contratto',
   dataFineContratto: 'Data fine del contratto',
   durataContratto: 'Durata del contratto',
+  modifica_casa: 'Modifica Casa',
+  elimina_casa: 'Elimina Casa',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
@@ -74,4 +76,5 @@ export const LABEL_CONSTANT = {
 /** Costante per i messaggi di nessun risultato */
 export const RESULT_CONSTANT = {
   nessun_risultato: 'Nessun risultato trovato.',
+  nessuna_casa: 'Nessuna casa trovata.',
 };

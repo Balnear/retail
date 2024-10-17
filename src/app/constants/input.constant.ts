@@ -21,16 +21,20 @@ export const INPUT_CONSTANT = {
 /** Costante per le lable delle head cell della tabella */
 export const TABLE_INPUT_CONSTANT = {
   nome: 'NOME',
+  indirizzo: 'INDIRIZZO',
+  citta: 'CITTA',
+  statoAffitto: 'STATO DEL AFFITTO',
+  assegnaCasa: 'ASSEGNATO A',
 };
 
 /** Costante contenente tutte le colonne delle generic table */
 export const TABLE_COLUMNS = {
-  gestori: [
+  case: [
     'nome',
-    'telefono',
-    'mail',
-    'ruolo',
-    'ultima_connessione',
+    'indirizzo',
+    'citta',
+    'statoAffitto',
+    'assegnaCasa',
     'action',
   ],
 };

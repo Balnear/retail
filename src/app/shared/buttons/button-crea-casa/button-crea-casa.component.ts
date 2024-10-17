@@ -192,7 +192,7 @@ export class ButtonCreaCasaComponent {
               /**Costi */
               {
                 field: 'costi.importoAffittoMensile',
-                validators: Validators.required,
+                validators: [Validators.required, Validators.pattern('^[0-9]*$')],
               },
               //TODO: ASSEGNAZIONE INQUILINO
               // {

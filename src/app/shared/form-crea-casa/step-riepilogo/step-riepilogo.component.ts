@@ -71,7 +71,6 @@ export class StepRiepilogoComponent {
     this.primoIndirizzo = this.formValue.indirizzo;
     this.primaCitta = this.formValue.citta;
     this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
-    console.log(this.formValue, 'formvalue');
   }
 
   /**
