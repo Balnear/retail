@@ -4,7 +4,7 @@ export const INPUT_CONSTANT = {
   indirizzo: 'Indirizzo',
   citta: 'Città',
   codicePostale: 'Codice postale',
-  dataDisponibile: 'Data disponibile',
+  dataInserimento: 'Data inserimento',
   arredamento: 'Arredamento',
   locatore: 'Locatore',
   dimensione: 'Dimensione',

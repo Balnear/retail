@@ -54,11 +54,11 @@
     <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
   </mat-form-field>
   <mat-form-field appearance="outline" class="font-text w-49">
-    <mat-label>{{ inputConstant.dataDisponibile }}</mat-label>
+    <mat-label>{{ inputConstant.dataInserimento }}</mat-label>
     <input
       matInput
       [matDatepicker]="picker"
-      formControlName="dataDisponibile"
+      formControlName="dataInserimento"
       [matDatepickerFilter]="filtroDateFuture"
     />
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>

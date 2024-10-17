@@ -48,7 +48,7 @@ export class StepCostiComponent {
   /**Tipo di pagamento */
   tipoPagamento = ['Online', 'Contanti'];
   /**Definisci un EventEmitter che emetterà un valore alla madre */
-  @Output() durataContrattoChanged = new EventEmitter<string>();
+  // @Output() durataContrattoChanged = new EventEmitter<string>();
 
   /**
    * Il costruttore della classe
@@ -60,18 +60,18 @@ export class StepCostiComponent {
   ngOnInit() {
     this.form = this.parentF.form;
     console.log(this.form, 'form costi');
-    // Sottoscrizione ai cambiamenti dei valori dei campi
-    this.form
-      .get('costi.dataInizioContratto')
-      ?.valueChanges.subscribe((value) => {
-        this.controllaERicalcolaDurataContratto();
-      });
+    // // Sottoscrizione ai cambiamenti dei valori dei campi
+    // this.form
+    //   .get('costi.dataInizioContratto')
+    //   ?.valueChanges.subscribe((value) => {
+    //     this.controllaERicalcolaDurataContratto();
+    //   });
 
-    this.form
-      .get('costi.dataFineContratto')
-      ?.valueChanges.subscribe((value) => {
-        this.controllaERicalcolaDurataContratto();
-      });
+    // this.form
+    //   .get('costi.dataFineContratto')
+    //   ?.valueChanges.subscribe((value) => {
+    //     this.controllaERicalcolaDurataContratto();
+    //   });
   }
   /**Metodo per disabilitare i giorni precedenti alla data corrente */
   dateFilter = (date: Date | null): boolean => {
@@ -82,92 +82,92 @@ export class StepCostiComponent {
   };
 
   /**Metodo che controlla se entrambi i valori sono presenti e chiama il calcolo */
-  controllaERicalcolaDurataContratto() {
-    const dataInizio = this.form.get('costi.dataInizioContratto')?.value;
-    const dataFine = this.form.get('costi.dataFineContratto')?.value;
+  // controllaERicalcolaDurataContratto() {
+  //   const dataInizio = this.form.get('costi.dataInizioContratto')?.value;
+  //   const dataFine = this.form.get('costi.dataFineContratto')?.value;
 
-    if (dataInizio && dataFine) {
-      this.aggiornaDurataContratto();
-      console.log('Calcolo effettuato.');
-    }
-  }
+  //   if (dataInizio && dataFine) {
+  //     this.aggiornaDurataContratto();
+  //     console.log('Calcolo effettuato.');
+  //   }
+  // }
 
-  /**Calcola la durata in giorni, settimane e mesi */
-  calculateDuration(): string {
-    const start = new Date(this.form.get('costi.dataInizioContratto')?.value);
-    const end = new Date(this.form.get('costi.dataFineContratto')?.value);
-    let risultato = '';
+  // /**Calcola la durata in giorni, settimane e mesi */
+  // calculateDuration(): string {
+  //   const start = new Date(this.form.get('costi.dataInizioContratto')?.value);
+  //   const end = new Date(this.form.get('costi.dataFineContratto')?.value);
+  //   let risultato = '';
 
-    // Durata in giorni
-    const timeDifference = end.getTime() - start.getTime();
-    const totalDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  //   // Durata in giorni
+  //   const timeDifference = end.getTime() - start.getTime();
+  //   const totalDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 
-    // Durata in settimane e giorni rimanenti
-    const fullWeeks = Math.floor(totalDays / 7); // Numero di settimane complete
-    const remainingDays = totalDays % 7; // Giorni rimanenti dopo le settimane
+  //   // Durata in settimane e giorni rimanenti
+  //   const fullWeeks = Math.floor(totalDays / 7); // Numero di settimane complete
+  //   const remainingDays = totalDays % 7; // Giorni rimanenti dopo le settimane
 
-    // Durata in mesi
-    const startYear = start.getFullYear();
-    const endYear = end.getFullYear();
-    const startMonth = start.getMonth();
-    const endMonth = end.getMonth();
-    const fullMonths = (endYear - startYear) * 12 + (endMonth - startMonth);
+  //   // Durata in mesi
+  //   const startYear = start.getFullYear();
+  //   const endYear = end.getFullYear();
+  //   const startMonth = start.getMonth();
+  //   const endMonth = end.getMonth();
+  //   const fullMonths = (endYear - startYear) * 12 + (endMonth - startMonth);
 
-    // Calcola le settimane rimanenti in caso di mesi incompleti
-    const startDatePlusMonths = new Date(start);
-    startDatePlusMonths.setMonth(startDatePlusMonths.getMonth() + fullMonths);
-    const remainingTimeAfterMonths =
-      end.getTime() - startDatePlusMonths.getTime();
-    const remainingDaysAfterMonths = Math.ceil(
-      remainingTimeAfterMonths / (1000 * 60 * 60 * 24)
-    );
+  //   // Calcola le settimane rimanenti in caso di mesi incompleti
+  //   const startDatePlusMonths = new Date(start);
+  //   startDatePlusMonths.setMonth(startDatePlusMonths.getMonth() + fullMonths);
+  //   const remainingTimeAfterMonths =
+  //     end.getTime() - startDatePlusMonths.getTime();
+  //   const remainingDaysAfterMonths = Math.ceil(
+  //     remainingTimeAfterMonths / (1000 * 60 * 60 * 24)
+  //   );
 
-    // Se la differenza di giorni è minore di 7, restituisce solo giorni
-    if (totalDays < 7) {
-      if (totalDays === 1) {
-        risultato = '1 giorno';
-      } else {
-        risultato = `${totalDays} giorni`;
-      }
-    }
-    // Se ci sono settimane, calcoliamo settimane e giorni rimanenti
-    else if (fullWeeks >= 1 && totalDays < 30) {
-      risultato = `${fullWeeks} ${fullWeeks === 1 ? 'settimana' : 'settimane'}`;
-      if (remainingDays > 0) {
-        risultato += ` e ${remainingDays} ${
-          remainingDays === 1 ? 'giorno' : 'giorni'
-        }`;
-      }
-    }
-    // Se ci sono mesi, calcoliamo i mesi, le settimane e i giorni rimanenti
-    else if (fullMonths >= 1) {
-      risultato = `${fullMonths} ${fullMonths === 1 ? 'mese' : 'mesi'}`;
-      if (remainingDaysAfterMonths >= 7) {
-        const remainingWeeks = Math.floor(remainingDaysAfterMonths / 7);
-        risultato += ` e ${remainingWeeks} ${
-          remainingWeeks === 1 ? 'settimana' : 'settimane'
-        }`;
-      }
-      const leftoverDays = remainingDaysAfterMonths % 7;
-      if (leftoverDays > 0) {
-        risultato += ` e ${leftoverDays} ${
-          leftoverDays === 1 ? 'giorno' : 'giorni'
-        }`;
-      }
-    }
-    return risultato;
-  }
+  //   // Se la differenza di giorni è minore di 7, restituisce solo giorni
+  //   if (totalDays < 7) {
+  //     if (totalDays === 1) {
+  //       risultato = '1 giorno';
+  //     } else {
+  //       risultato = `${totalDays} giorni`;
+  //     }
+  //   }
+  //   // Se ci sono settimane, calcoliamo settimane e giorni rimanenti
+  //   else if (fullWeeks >= 1 && totalDays < 30) {
+  //     risultato = `${fullWeeks} ${fullWeeks === 1 ? 'settimana' : 'settimane'}`;
+  //     if (remainingDays > 0) {
+  //       risultato += ` e ${remainingDays} ${
+  //         remainingDays === 1 ? 'giorno' : 'giorni'
+  //       }`;
+  //     }
+  //   }
+  //   // Se ci sono mesi, calcoliamo i mesi, le settimane e i giorni rimanenti
+  //   else if (fullMonths >= 1) {
+  //     risultato = `${fullMonths} ${fullMonths === 1 ? 'mese' : 'mesi'}`;
+  //     if (remainingDaysAfterMonths >= 7) {
+  //       const remainingWeeks = Math.floor(remainingDaysAfterMonths / 7);
+  //       risultato += ` e ${remainingWeeks} ${
+  //         remainingWeeks === 1 ? 'settimana' : 'settimane'
+  //       }`;
+  //     }
+  //     const leftoverDays = remainingDaysAfterMonths % 7;
+  //     if (leftoverDays > 0) {
+  //       risultato += ` e ${leftoverDays} ${
+  //         leftoverDays === 1 ? 'giorno' : 'giorni'
+  //       }`;
+  //     }
+  //   }
+  //   return risultato;
+  // }
 
-  /**Metodo per aggiornare l'input con il risultato di calculation() */
-  aggiornaDurataContratto() {
-    const calcolato = this.calculateDuration(); // Ottieni il valore calcolato
-    console.log(this.form.get('costi.durataContratto')?.value, 'aggiorno');
-    console.log(calcolato, 'calcolato');
-    console.log(
-      this.form.get('costi.dataInizioContratto')?.value,
-      'dataInizio'
-    );
-    this.form.get('costi.durataContratto')?.setValue(calcolato); // Aggiorna il FormControl
-    this.durataContrattoChanged.emit(calcolato); // Emetti l'evento con il valore calcolato
-  }
+  // /**Metodo per aggiornare l'input con il risultato di calculation() */
+  // aggiornaDurataContratto() {
+  //   const calcolato = this.calculateDuration(); // Ottieni il valore calcolato
+  //   console.log(this.form.get('costi.durataContratto')?.value, 'aggiorno');
+  //   console.log(calcolato, 'calcolato');
+  //   console.log(
+  //     this.form.get('costi.dataInizioContratto')?.value,
+  //     'dataInizio'
+  //   );
+  //   this.form.get('costi.durataContratto')?.setValue(calcolato); // Aggiorna il FormControl
+  //   this.durataContrattoChanged.emit(calcolato); // Emetti l'evento con il valore calcolato
+  // }
 }

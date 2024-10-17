@@ -43,7 +43,7 @@ export const LABEL_CONSTANT = {
   indirizzo: 'Indirizzo',
   citta: 'Citta',
   codice_postale: 'Codice postale',
-  dataDisponibile: 'Data Disponibile',
+  dataInserimento: 'Data Inserimento',
   locatore: 'Locatore',
   arredamento: 'Arredamento',
   con_arredamento: 'Si + 1 documento allegato',

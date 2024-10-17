@@ -39,9 +39,9 @@
     </div>
     <div class="flex-content">
       <div>
-        <p class="subtitle">{{ labelConstant.dataDisponibile }}</p>
+        <p class="subtitle">{{ labelConstant.dataInserimento }}</p>
         <p class="info">
-          {{ formValue.dataDisponibile | date : "dd/MM/yyyy" }}
+          {{ formValue.dataInserimento | date : "dd/MM/yyyy" }}
         </p>
       </div>
       <div class="w-27">
@@ -52,15 +52,15 @@
         <p class="subtitle">{{ labelConstant.arredamento }}</p>
         <p class="info">
           {{
-            formValue.arredameto
-              ? labelConstant.senza_arredamento
-              : labelConstant.con_arredamento
+            formValue.arredamento
+              ? labelConstant.con_arredamento
+              : labelConstant.senza_arredamento
           }}
         </p>
       </div>
     </div>
     <div class="flex-content">
-      <div class="map"></div>
+      <div id="map" style="height: 400px"></div>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -90,7 +90,7 @@
     <div class="flex-content">
       <div>
         <p class="subtitle">{{ labelConstant.piano }}</p>
-        <p class="info">{{ formValue.caratteristiche.piano + " MQ" }}</p>
+        <p class="info">{{ formValue.caratteristiche.piano }}</p>
       </div>
       <div class="w-27">
         <p class="subtitle">{{ labelConstant.giardino }}</p>
@@ -147,7 +147,12 @@
           {{ formValue.costi.importoAffittoMensile + " Euro" }}
         </p>
       </div>
-      <div>
+      <div class="w-32">
+        <p class="subtitle">{{ labelConstant.metodoPagamento }}</p>
+        <p class="info">{{ formValue.costi.metodoPagamento }}</p>
+      </div>
+      <!-- TODO: Gestirlo nel assegnazione del inquilino -->
+      <!-- <div>
         <p class="subtitle">{{ labelConstant.dataInizioContratto }}</p>
         <p class="info">
           {{ formValue.costi.dataInizioContratto | date : "dd/MM/yyyy" }}
@@ -158,17 +163,11 @@
         <p class="info">
           {{ formValue.costi.dataFineContratto | date : "dd/MM/yyyy" }}
         </p>
-      </div>
-    </div>
-    <div class="flex-content">
+      </div> 
       <div>
         <p class="subtitle">{{ labelConstant.durataContratto }}</p>
         <p class="info">{{ formValue.costi.durataContratto }}</p>
-      </div>
-      <div class="w-32">
-        <p class="subtitle">{{ labelConstant.metodoPagamento }}</p>
-        <p class="info">{{ formValue.costi.metodoPagamento }}</p>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

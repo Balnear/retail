@@ -15,6 +15,7 @@ import {
 } from '../../../constants';
 import { CaseService } from '../../../services/case.service';
 import { GenericStepperModal } from '../../generics';
+import L from 'leaflet';
 
 /** Componente per lo step di riepilogo */
 @Component({
@@ -45,6 +46,10 @@ export class StepRiepilogoComponent {
   iconConstant = ICON_CONSTANT;
   /** Riferimento al valore del form */
   formValue!: any;
+  /** Indirizzo iniziale */
+  primoIndirizzo!: string;
+  /** Citta iniziale */
+  primaCitta!: string;
 
   /**
    * Il costruttore della classe
@@ -62,6 +67,10 @@ export class StepRiepilogoComponent {
 
   /** Lifecyclehook dell'onInit */
   ngOnInit() {
+    this.initMap();
+    this.primoIndirizzo = this.formValue.indirizzo;
+    this.primaCitta = this.formValue.citta;
+    this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
     console.log(this.formValue, 'formvalue');
   }
 
@@ -71,5 +80,60 @@ export class StepRiepilogoComponent {
    */
   changeStep(step: number) {
     this.genericStepperModal.changeStep(step);
+  }
+
+  private map!: L.Map;
+
+  // Definisci la mappa con il layer satellitare
+  private initMap(): void {
+    this.map = L.map('map', {
+      center: [41.9028, 12.4964], // Default: Roma
+      zoom: 13,
+    });
+
+    const satelliteLayer = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+      }
+    );
+
+    satelliteLayer.addTo(this.map);
+  }
+
+  ngOnChanges() {
+    if (
+      this.primoIndirizzo !== this.formValue.indirizzo ||
+      (this.primoIndirizzo === this.formValue.indirizzo &&
+        this.primaCitta !== this.formValue.citta) ||
+      this.primaCitta === this.formValue.citta
+    ) {
+      this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
+    }
+  }
+
+  /**Funzione per cercare e centrare la mappa su un indirizzo */
+  ricercaIndirizzo(indirizzo: string, citta: string): void {
+    const query = `${indirizzo}, ${citta}`; // Combina indirizzo e città
+    const geocodingURL = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      query
+    )}`;
+
+    fetch(geocodingURL)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          const lat = data[0].lat;
+          const lon = data[0].lon;
+          this.map.setView([lat, lon], 15); // Centra la mappa sull'indirizzo
+          L.marker([lat, lon]).addTo(this.map).bindPopup(query).openPopup();
+        } else {
+          console.error('Indirizzo non trovato');
+        }
+      })
+      .catch((error) => {
+        console.error("Errore nella ricerca dell'indirizzo:", error);
+      });
   }
 }

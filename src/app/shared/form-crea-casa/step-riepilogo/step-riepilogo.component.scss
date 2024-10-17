@@ -57,6 +57,10 @@
       .info {
         @include text($font-13, 500, $black, 19px, none);
       }
+      #map {
+        height: 400px;
+        width: 100%;
+      }
     }
     p {
       @include text($font-14, 700, $grey, 17px, none);

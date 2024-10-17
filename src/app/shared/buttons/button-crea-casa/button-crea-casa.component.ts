@@ -56,7 +56,7 @@ export class ButtonCreaCasaComponent {
       codicePostale: [],
       statoAffitto: [],
       statoManutenzione: [],
-      dataDisponibile: [],
+      dataInserimento: [],
       arredamento: [false],
       documentoArredamento: [],
       assegnaCasa: [],
@@ -77,9 +77,10 @@ export class ButtonCreaCasaComponent {
       }),
       costi: this.fb.group({
         importoAffittoMensile: [],
-        dataInizioContratto: [],
-        dataFineContratto: [],
-        durataContratto: [],
+        // dataInizioContratto: [],
+        // dataFineContratto: [],
+        // durataContratto: [],
+        // importoContratto: [],
         metodoPagamento: [],
       }),
     });
@@ -140,7 +141,7 @@ export class ButtonCreaCasaComponent {
                 validators: Validators.required,
               },
               {
-                field: 'dataDisponibile',
+                field: 'dataInserimento',
                 validators: Validators.required,
               },
               {
@@ -193,18 +194,23 @@ export class ButtonCreaCasaComponent {
                 field: 'costi.importoAffittoMensile',
                 validators: Validators.required,
               },
-              {
-                field: 'costi.dataInizioContratto',
-                validators: Validators.required,
-              },
-              {
-                field: 'costi.dataFineContratto',
-                validators: Validators.required,
-              },
-              {
-                field: 'costi.durataContratto',
-                validators: Validators.required,
-              },
+              //TODO: ASSEGNAZIONE INQUILINO
+              // {
+              //   field: 'costi.dataInizioContratto',
+              //   validators: Validators.required,
+              // },
+              // {
+              //   field: 'costi.dataFineContratto',
+              //   validators: Validators.required,
+              // },
+              // {
+              //   field: 'costi.durataContratto',
+              //   validators: Validators.required,
+              // },
+              // {
+              //   field: 'costi.importoContratto',
+              //   validators: Validators.required,
+              // },
               {
                 field: 'costi.metodoPagamento',
                 validators: Validators.required,

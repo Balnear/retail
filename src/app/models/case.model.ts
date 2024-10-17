@@ -14,8 +14,8 @@ export interface Casa {
   statoAffitto: string;
   /**stato di manutenzione (buono-da ristrutturare-nuovo) */
   statoManutenzione: string;
-  /**data disponibile */
-  dataDisponibile: Date;
+  /**data inserimento */
+  dataInserimento: Date;
   /**arredamento casa */
   arredamento: boolean;
   /**documento arredamento */
@@ -64,6 +64,8 @@ export interface CostiCasa {
   dataFineContratto: Date;
   /**durata del contratto (settimana o mese) */
   durataContratto: string;
+  /**importo del contratto */
+  importoContratto: string;
   /**metodo di pagamento (online, contanti) */
   metodoPagamento: string;
 }
