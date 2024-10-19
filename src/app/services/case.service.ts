@@ -7,7 +7,6 @@ import {
   doc,
   Firestore,
   getDoc,
-  getDocs,
   updateDoc,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
@@ -53,5 +52,4 @@ export class CaseService {
     const caseCollectionRef = collection(this.firestore, 'case');
     return collectionData(caseCollectionRef, { idField: 'id' });
   }
-  
 }

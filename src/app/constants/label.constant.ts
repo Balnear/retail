@@ -63,6 +63,15 @@ export const LABEL_CONSTANT = {
   durataContratto: 'Durata del contratto',
   modifica_casa: 'Modifica Casa',
   elimina_casa: 'Elimina Casa',
+  vuoi_eliminare_casa: 'Vuoi eliminare la casa?',
+  tutti_i_dati_casa: 
+  'Tutti i dati relativi alla casa verranno eliminati definitivamente.',
+  casa_eliminata: 'Casa eliminata',
+  conferma_eliminazione_casa: 
+  'Tutti i dati associati al gestore sono stati eliminati',
+  salvataggio_modifiche: 'Salvataggio modifiche',
+  modifiche_salvate_correttamente: 
+  'Le modifiche effettuate sono state salvate correttamente',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',

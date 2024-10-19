@@ -13,4 +13,6 @@ export const BUTTON_CONSTANT = {
   applica: 'APPLICA',
   aggiungi: 'AGGIUNGI',
   aggiungi_casa: 'AGGIUNGI CASA',
+  elimina: 'ELIMINA',
+  modifica_casa: 'MODIFICA CASA',
 };

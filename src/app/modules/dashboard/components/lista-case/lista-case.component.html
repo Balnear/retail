@@ -24,7 +24,7 @@
         <!-- Progress Column -->
         <ng-container matColumnDef="indirizzo">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>INDIRIZZO</th>
-          <td mat-cell *matCellDef="let row">{{ row.indirizzo }}%</td>
+          <td mat-cell *matCellDef="let row">{{ row.indirizzo }}</td>
         </ng-container>
 
         <!-- Name Column -->
@@ -42,9 +42,9 @@
         </ng-container>
 
         <!-- Fruit Column -->
-        <ng-container matColumnDef="assegnaCasa">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>ASSEGNATO A</th>
-          <td mat-cell *matCellDef="let row">{{ row.assegnaCasa }}</td>
+        <ng-container matColumnDef="statoManutenzione">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>STATO DI MANUTENZIONE</th>
+          <td mat-cell *matCellDef="let row">{{ row.statoManutenzione }}</td>
         </ng-container>
 
         <!-- Colonna Azioni -->

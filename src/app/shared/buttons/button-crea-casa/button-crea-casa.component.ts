@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -35,6 +35,8 @@ export class ButtonCreaCasaComponent {
   dialogRef: any;
   /** Contiene il form */
   form!: FormGroup;
+  /** Emetti quando una casa viene aggiunta */
+  @Output() casaAdded = new EventEmitter<any>();
 
   /**
    * Il costruttore della classe ButtonCreaCaseComponent
@@ -192,7 +194,10 @@ export class ButtonCreaCasaComponent {
               /**Costi */
               {
                 field: 'costi.importoAffittoMensile',
-                validators: [Validators.required, Validators.pattern('^[0-9]*$')],
+                validators: [
+                  Validators.required,
+                  Validators.pattern('^[0-9]*$'),
+                ],
               },
               //TODO: ASSEGNAZIONE INQUILINO
               // {
@@ -261,8 +266,7 @@ export class ButtonCreaCasaComponent {
           .open(GenericFeedbackModalComponent, GENERIC_FEEDBACK.crea_casa)
           .afterClosed()
           .subscribe(() => {
-            //TODO
-            // this.caseService.emitUpdateListaCase();
+            this.casaAdded.emit(res);
           });
       },
       error: (err) => {

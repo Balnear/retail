@@ -24,7 +24,7 @@ export const TABLE_INPUT_CONSTANT = {
   indirizzo: 'INDIRIZZO',
   citta: 'CITTA',
   statoAffitto: 'STATO DEL AFFITTO',
-  assegnaCasa: 'ASSEGNATO A',
+  statoManutenzione: 'STATO DI MANUTENZIONE',
 };
 
 /** Costante contenente tutte le colonne delle generic table */
@@ -34,7 +34,7 @@ export const TABLE_COLUMNS = {
     'indirizzo',
     'citta',
     'statoAffitto',
-    'assegnaCasa',
+    'statoManutenzione',
     'action',
   ],
 };
