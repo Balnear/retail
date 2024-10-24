@@ -2,7 +2,16 @@
   <mat-form-field class="font-text w-49" appearance="outline">
     <mat-label>{{ labelConstant.nome }}</mat-label>
     <mat-select formControlName="nome">
-      <mat-option *ngFor="let opt of tipologie" [value]="opt | uppercase">{{
+      <mat-option *ngFor="let opt of nomi" [value]="opt | uppercase">{{
+        opt | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="font-text w-49">
+    <mat-label>{{ labelConstant.tipologiaCasa }}</mat-label>
+    <mat-select formControlName="tipologiaCasa">
+      <mat-option *ngFor="let opt of tipologieCase" [value]="opt">{{
         opt | titlecase
       }}</mat-option>
     </mat-select>
@@ -90,24 +99,31 @@
     (drop)="onFileDropped($event)"
     (dragover)="preventDefault($event)"
   >
-    <div class="drop-area" *ngIf="!file">
+    <div
+      class="drop-area"
+      *ngIf="!this.form.get('documentoArredamento')?.value"
+    >
       <mat-icon>{{ iconConstant.cloud_upload }}</mat-icon>
       <p>{{ labelConstant.trascina_qui }}</p>
     </div>
     <input
+      *ngIf="!this.form.get('documentoArredamento')?.value"
       type="file"
       #fileInput
       style="display: none"
       (change)="onFileSelected($event)"
     />
-    <div class="preview-images" *ngIf="file">
+    <div
+      class="preview-images"
+      *ngIf="this.form.get('documentoArredamento')?.value"
+    >
       <div class="info">
         <img src="../../../../assets/images/bacground_file_p.png" alt="" />
         <div>
           <button mat-icon-button color="warn" (click)="removeFile()">
             <mat-icon>{{ iconConstant.delete }}</mat-icon>
           </button>
-          <span>{{ file.name }}</span>
+          <a [href]="linkFile" target="_blank">Documento Allegato</a>
         </div>
       </div>
     </div>

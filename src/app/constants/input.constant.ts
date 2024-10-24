@@ -1,6 +1,7 @@
 /** Costante per la label degli input */
 export const INPUT_CONSTANT = {
   nome: 'Nome',
+  tipologiaCasa: 'Tipologia',
   indirizzo: 'Indirizzo',
   citta: 'Città',
   codicePostale: 'Codice postale',
@@ -16,11 +17,13 @@ export const INPUT_CONSTANT = {
   seleziona_data: 'Seleziona data',
   importoAffittoMensile: 'Importo mensile',
   durataContratto: 'Durata contratto',
+  nuova_tipologia: 'Nuova tipologia',
 };
 
 /** Costante per le lable delle head cell della tabella */
 export const TABLE_INPUT_CONSTANT = {
   nome: 'NOME',
+  tipologia: 'TIPOLOGIA',
   indirizzo: 'INDIRIZZO',
   citta: 'CITTA',
   statoAffitto: 'STATO DEL AFFITTO',
@@ -31,6 +34,7 @@ export const TABLE_INPUT_CONSTANT = {
 export const TABLE_COLUMNS = {
   case: [
     'nome',
+    'tipologia',
     'indirizzo',
     'citta',
     'statoAffitto',

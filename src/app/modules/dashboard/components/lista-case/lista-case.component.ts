@@ -8,7 +8,10 @@ import {
 } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../../material-module';
-import { LoaderSpinnerService } from '../../../../services';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { CaseService, LoaderSpinnerService } from '../../../../services';
 import {
   RESULT_CONSTANT,
   INPUT_CONSTANT,
@@ -16,12 +19,11 @@ import {
   GENERIC_CONFIRM,
   GENERIC_FEEDBACK,
   BUTTON_CONSTANT,
+  LABEL_CONSTANT,
+  ICON_CONSTANT,
+  TABLE_INPUT_CONSTANT,
 } from '../../../../constants';
 import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { CaseService } from '../../../../services/case.service';
 import {
   GenericConfirmModalComponent,
   GenericFeedbackModalComponent,
@@ -52,6 +54,12 @@ export default class ListaCaseComponent {
   resultConstant = RESULT_CONSTANT;
   /** Constante per l'input della ricera */
   inputConstant = INPUT_CONSTANT;
+  /** Constante per le label */
+  labelConstant = LABEL_CONSTANT;
+  /** Constante per le icone */
+  iconConstant = ICON_CONSTANT;
+  /** Header colonne tabella */
+  headerColumn = TABLE_INPUT_CONSTANT;
   /** Riferimento al matDialog */
   dialogRef: any;
   /** La lista delle colonne da visualizzare*/
@@ -87,7 +95,8 @@ export default class ListaCaseComponent {
    * Il costruttore della classe, si popola la variabile listaCase con la lista delle case instanziata nel resolver
    * @param {CaseService} caseService L'injectable del service CaseService
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
-   * @param {ActivatedRoute} activatedRoute Fornisce accesso alle informazioni sulla rotta associata a questa componente
+   * @param {MatDialog} dialog L'injectable del token
+   * @param {FormBuilder} fb L'injectable del FormBuilder
    */
   constructor(
     private caseService: CaseService,
@@ -96,11 +105,12 @@ export default class ListaCaseComponent {
     private fb: FormBuilder
   ) {}
 
+  /** Lifecycle hook dell'onInit */
   ngOnInit() {
     this.caseService.getAllCase().subscribe({
       next: (caseList) => {
-        this.dataSource.data = caseList; // Assegna i dati alla tabella
-        this.onCasaAdded(caseList);
+        // Assegna i dati alla tabella
+        this.dataSource.data = caseList;
       },
       error: (err) => {
         this.errore = 'Errore nel recupero delle case: ' + err.message;
@@ -114,6 +124,7 @@ export default class ListaCaseComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  /** Lifecycle hook del AfterViewInit */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -150,6 +161,10 @@ export default class ListaCaseComponent {
             form: this.fb.group({
               id: [casa.id],
               nome: [objCasa.nome.stringValue, Validators.required],
+              tipologiaCasa: [
+                objCasa.tipologiaCasa.stringValue,
+                Validators.required,
+              ],
               indirizzo: [objCasa.indirizzo.stringValue, Validators.required],
               citta: [objCasa.citta.stringValue, Validators.required],
               codicePostale: [
@@ -168,12 +183,10 @@ export default class ListaCaseComponent {
                 objCasa.dataInserimento.timestampValue,
                 Validators.required,
               ],
-              arredamento: [
-                objCasa.arredamento.booleanValue,
-                Validators.required,
-              ],
-              docuumentoArredamento: [objCasa.documentoArredamento],
-              assegnaCasa: [objCasa.assegnaCasa],
+              arredamento: [objCasa.arredamento.booleanValue],
+              documentoArredamento: [objCasa.documentoArredamento.stringValue],
+              //TODO: VERIFICARE COME INSERIRE QUESTO
+              // assegnaCasa: [objCasa.assegnaCasa],
               locatore: this.fb.group({
                 id: [objCasa.locatore.id],
                 displayName: [objCasa.locatore.displayName],
@@ -181,32 +194,25 @@ export default class ListaCaseComponent {
               }),
               caratteristiche: this.fb.group({
                 dimensione: [
-                  objCaratteristiche.dimensione.integerValue,
+                  objCaratteristiche.dimensione.stringValue,
                   Validators.required,
                 ],
                 camere: [
-                  objCaratteristiche.camere.integerValue,
+                  objCaratteristiche.camere.stringValue,
                   Validators.required,
                 ],
                 bagni: [
-                  objCaratteristiche.bagni.integerValue,
+                  objCaratteristiche.bagni.stringValue,
                   Validators.required,
                 ],
                 piano: [
                   objCaratteristiche.piano.stringValue,
                   Validators.required,
                 ],
-                giardino: [
-                  objCaratteristiche.giardino.booleanValue,
-                  Validators.required,
-                ],
-                postoAuto: [
-                  objCaratteristiche.postoAuto.booleanValue,
-                  Validators.required,
-                ],
+                giardino: [objCaratteristiche.giardino.booleanValue],
+                postoAuto: [objCaratteristiche.postoAuto.booleanValue],
                 ariaCondizionata: [
                   objCaratteristiche.ariaCondizionata.booleanValue,
-                  Validators.required,
                 ],
                 tipoRiscaldamento: [
                   objCaratteristiche.tipoRiscaldamento.stringValue,
@@ -258,6 +264,9 @@ export default class ListaCaseComponent {
             });
         });
       },
+      error: (err) => {
+        console.log(err, 'error');
+      },
     });
   }
   submitForm(form: any) {
@@ -277,7 +286,8 @@ export default class ListaCaseComponent {
             this.dataSource._updateChangeSubscription();
           });
       },
-      error: () => {
+      error: (err) => {
+        console.log(err, 'errore modifica');
         this.loaderSpinnerService.hide();
       },
     });
@@ -313,9 +323,59 @@ export default class ListaCaseComponent {
       });
   }
 
-  /**Metodo che viene chiamato quando si aggiunge una casa */
-  onCasaAdded(newCasa: any) {
-    // Aggiungi la nuova casa ai dati della tabella
-    this.dataSource.data = [...this.dataSource.data, newCasa];
+  /** Funzione che restituisce la classe CSS in base allo stato */
+  getStatusClass(statoAffitto: string) {
+    switch (statoAffitto) {
+      case 'LIBERO':
+        return 'chip-green';
+      case 'IN SCADENZA':
+        return 'chip-orange';
+      case 'OCCUPATO':
+        return 'chip-red';
+      default:
+        return '';
+    }
+  }
+
+  /**Funzione che restituisce l'icona in base allo stato */
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'LIBERO':
+        return this.iconConstant.done;
+      case 'IN SCADENZA':
+        return this.iconConstant.warning;
+      case 'OCCUPATO':
+        return this.iconConstant.block;
+      default:
+        return '';
+    }
+  }
+
+  /** Funzione che restituisce la classe CSS in base allo stato */
+  getStatusClassManutenzione(statoManutenzione: string) {
+    switch (statoManutenzione) {
+      case 'BUONO':
+        return 'chip-orange';
+      case 'DA RISTRUTTURARE':
+        return 'chip-red';
+      case 'NUOVO':
+        return 'chip-green';
+      default:
+        return '';
+    }
+  }
+
+  /**Funzione che restituisce l'icona in base allo stato */
+  getStatusIconManutenzione(status: string): string {
+    switch (status) {
+      case 'BUONO':
+        return this.iconConstant.emergency_home;
+      case 'DA RISTRUTTURARE':
+        return this.iconConstant.construction;
+      case 'NUOVO':
+        return this.iconConstant.energy_savings_leaf;
+      default:
+        return '';
+    }
   }
 }

@@ -49,4 +49,8 @@ export const ICON_CONSTANT = {
   duplica: 'content_copy',
   add: 'add',
   cloud_upload: 'cloud_upload',
+  block: 'block',
+  construction: 'construction',
+  emergency_home: 'emergency_home',
+  energy_savings_leaf: 'energy_savings_leaf',
 };

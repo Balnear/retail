@@ -13,10 +13,14 @@ import { Observable, from } from 'rxjs';
 
 import { Casa } from '../models';
 
+/** L'injectable del service case service */
 @Injectable({
   providedIn: 'root',
 })
 export class CaseService {
+  /**Tipologia casa */
+  tipologie: string[] = [];
+
   constructor(private firestore: Firestore) {}
 
   /**Funzione per ottenere una casa specifica tramite il suo ID */
@@ -51,5 +55,33 @@ export class CaseService {
   getAllCase(): Observable<any[]> {
     const caseCollectionRef = collection(this.firestore, 'case');
     return collectionData(caseCollectionRef, { idField: 'id' });
+  }
+
+  /**Metodo per aggiungere una tipologia di casa */
+  addTipologia(newElement: string) {
+    if (newElement.trim() !== '' && !this.tipologie.includes(newElement)) {
+      // Aggiunge l'elemento all'array
+      this.tipologie.push(newElement);
+      // Salva gli elementi aggiornati nel local storage
+      localStorage.setItem('tipologie', JSON.stringify(this.tipologie));
+      // Resetta il campo di input
+      newElement = '';
+    }
+  }
+
+  /**Metodo per eliminare una tipologia di casa */
+  deleteTipologia(elementSelected: string) {
+    if (elementSelected) {
+      const index = this.tipologie.indexOf(elementSelected);
+      // Se l'elemento esiste nell'array
+      if (index !== -1) {
+        // Rimuove l'elemento dall'array
+        this.tipologie.splice(index, 1);
+        // Sovrascrive l'array aggiornato nel Local Storage
+        localStorage.setItem('tipologie', JSON.stringify(this.tipologie));
+      }
+      // Resetta l'elemento selezionato
+      elementSelected = '';
+    }
   }
 }

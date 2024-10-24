@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { LocatoriService } from '../../../services';
+import { Component, ElementRef, Sanitizer, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -8,10 +7,11 @@ import {
   FormGroupDirective,
   FormGroup,
 } from '@angular/forms';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
+import { CaseService, LocatoriService } from '../../../services';
 import {
   ERROR_CONSTANT,
   ICON_CONSTANT,
@@ -52,8 +52,10 @@ export class StepInformazioniComponent {
   errorConstant = ERROR_CONSTANT;
   /** Constante per le icone */
   iconConstant = ICON_CONSTANT;
-  /**Tipologia casa */
-  tipologie = ['Casa al mare', 'Casa in citta'];
+  /**Nome della casa */
+  nomi = ['Monolocale', 'Bilocale', 'Trilocale'];
+  /**Tipologia della casa */
+  tipologieCase!: string[];
   /**Stato di affitto */
   affitto = ['Libero', 'Occupato', 'In scadenza'];
   /**Stato di manutenzione */
@@ -62,23 +64,42 @@ export class StepInformazioniComponent {
   locatoriOption: any;
   /**Variabile per la checkbox */
   isChecked: boolean = false;
-  @ViewChild('fileInput') fileInput: any;
+  @ViewChild('fileInput') fileInput!: ElementRef;
   /**Variabile per memorizzare il file caricato */
   file: File | null = null;
+  /**
+   * linkFile è una variabile di tipo SafeResourceUrl che memorizza un URL sicuro
+   * utilizzato per incorporare o visualizzare risorse esterne (ad es. PDF, video, ecc.).
+   * L'URL è sanitizzato per prevenire vulnerabilità di sicurezza come attacchi XSS.
+   * Inizialmente è impostato a null e viene assegnato solo quando viene fornito un link valido.
+   */
+  linkFile: SafeResourceUrl | null = null;
 
   /**
    * Il costruttore della classe
+   * @param {LocatoriService} locatoriService L'injectable del service locatoriService
+   * @param {CaseService} caseService L'injectable del service caseService
    * @param {FormGroupDirecrive} parentF Direttiva di accesso al form contenente nel padre
+   * @param {DomSanitizer} sanitizer DomSanitizer viene utilizzato per sanitizzare i contenuti dinamici come URL, HTML,
+   * stili o script, al fine di prevenire vulnerabilità di sicurezza come attacchi XSS.
+   * Sanitizza le risorse non sicure e rende gli URL sicuri per l'uso in componenti
+   * Angular, come in attributi src, href o nelle risorse esterne visualizzate.
    */
   constructor(
     private locatoriService: LocatoriService,
+    private caseService: CaseService,
     private parentF: FormGroupDirective,
-    private firestore: Firestore
+    private sanitizer: DomSanitizer
   ) {}
+  /** Lifecycle hook dell'onInit, */
   ngOnInit() {
     this.form = this.parentF.form;
+    this.tipologieCase = this.caseService.tipologie;
     console.log(this.form, 'form informazioni');
-
+    this.linkFile = this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.form.get('documentoArredamento')?.value
+    );
+    //TODO: AGGIUNGERLO DOPO LA CRUD LOCATORI
     // this.form.value.arredamento = false;
     // this.locatoriService.getAllLocatori().subscribe((res: any) => {
     // this.locatoriOption = res;
@@ -96,6 +117,7 @@ export class StepInformazioniComponent {
     const arredamentoControl = this.form.get('arredamento');
     if (arredamentoControl?.value === true) {
       this.isChecked = true;
+      this.form.get('documentoArredamento');
       // Se il checkbox è selezionato, possiamo mostrare l'input del file
     } else {
       // Se non è selezionato, puoi rimuovere il documento selezionato
@@ -105,7 +127,9 @@ export class StepInformazioniComponent {
 
   /**Metodo per attivare il file input */
   triggerFileInput(): void {
-    this.fileInput.nativeElement.click();
+    if (this.fileInput) {
+      this.fileInput.nativeElement.click();
+    }
   }
 
   /**Metodo per gestire il drop del file */
@@ -152,11 +176,6 @@ export class StepInformazioniComponent {
         // Ottieni l'URL di download
         const downloadURL = await getDownloadURL(fileRef);
         this.form.get('documentoArredamento')?.setValue(downloadURL);
-
-        // Memorizza l'URL in Firestore
-        await addDoc(collection(this.firestore, 'case'), {
-          documentoArredamento: downloadURL,
-        });
       } catch (error) {}
     } else {
     }
@@ -166,7 +185,6 @@ export class StepInformazioniComponent {
   handleFile(file: File): void {
     this.file = file;
     this.form.get('documentoArredamento')?.setValue(this.file);
-    console.log(this.form.get('documentoArredamento'), 'documento');
   }
 
   /**Metodo per rimuovere il file */

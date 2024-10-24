@@ -4,51 +4,60 @@
       <div class="section-title">
         <p class="section-title">{{ labelConstant.informazioniGenerali }}</p>
       </div>
-      <div class="icon-edit" (click)="changeStep(0)">
+      <div class="icon-edit" (click)="changeStep(0)" matTooltip="Modifica">
         <mat-icon>{{ iconConstant.edit }}</mat-icon>
       </div>
     </div>
     <div class="flex-content">
       <div>
         <p class="subtitle">{{ labelConstant.nome }}</p>
-        <p class="info">{{ formValue.nome }}</p>
+        <p class="info">{{ formValue.nome ? formValue.nome : "-" }}</p>
       </div>
-      <div class="w-23">
+      <div>
+        <p class="subtitle">{{ labelConstant.tipologiaCasa }}</p>
+        <p class="info">
+          {{ formValue.tipologiaCasa ? formValue.tipologiaCasa : "-" }}
+        </p>
+      </div>
+      <div class="w-33">
         <p class="subtitle">{{ labelConstant.indirizzo }}</p>
-        <p class="info">{{ formValue.indirizzo }}</p>
-      </div>
-      <div class="w-30">
-        <p class="subtitle">{{ labelConstant.citta }}</p>
-        <p class="info">{{ formValue.citta }}</p>
+        <p class="info">
+          {{ formValue.indirizzo ? formValue.indirizzo : "-" }}
+        </p>
       </div>
     </div>
     <div class="flex-content">
       <div>
         <p class="subtitle">{{ labelConstant.codice_postale }}</p>
-        <p class="info">{{ formValue.codicePostale }}</p>
+        <p class="info">
+          {{ formValue.codicePostale ? formValue.codicePostale : "-" }}
+        </p>
       </div>
-      <!-- LO STATO DEVE ESSERE VISUALIZZATO SOTTO FORMA DI CHIP -->
-      <div class="w-25">
-        <p class="subtitle">{{ labelConstant.statoAffitto }}</p>
-        <p class="info">{{ formValue.statoAffitto }}</p>
+      <div class="w-21">
+        <p class="subtitle">{{ labelConstant.citta }}</p>
+        <p class="info">{{ formValue.citta ? formValue.citta : "-" }}</p>
       </div>
-      <div class="w-30">
-        <p class="subtitle">{{ labelConstant.statoManutenzione }}</p>
-        <p class="info">{{ formValue.statoManutenzione }}</p>
-      </div>
-    </div>
-    <div class="flex-content">
-      <div>
+      <div class="w-33">
         <p class="subtitle">{{ labelConstant.dataInserimento }}</p>
         <p class="info">
           {{ formValue.dataInserimento | date : "dd/MM/yyyy" }}
         </p>
       </div>
+    </div>
+    <div class="flex-content">
       <div class="w-27">
         <p class="subtitle">{{ labelConstant.locatore }}</p>
-        <p class="info">{{ formValue.locatore }}</p>
+        <p class="info">
+          {{
+            formValue.locatore.displayName
+              ? formValue.locatore.displayName
+              : "-"
+          }}
+        </p>
       </div>
-      <div class="w-30">
+    </div>
+    <div class="flex-content">
+      <div class="w-29">
         <p class="subtitle">{{ labelConstant.arredamento }}</p>
         <p class="info">
           {{
@@ -57,6 +66,32 @@
               : labelConstant.senza_arredamento
           }}
         </p>
+      </div>
+      <div class="w-30">
+        <p class="subtitle">{{ labelConstant.statoAffitto }}</p>
+        <mat-chip-set>
+          <mat-chip [ngClass]="getStatusClass(formValue.statoAffitto)">
+            <mat-icon>{{ getStatusIcon(formValue.statoAffitto) }}</mat-icon>
+            <p>{{ formValue.statoAffitto ? formValue.statoAffitto : "-" }}</p>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+      <div class="w-39">
+        <p class="subtitle">{{ labelConstant.statoManutenzione }}</p>
+        <mat-chip-set>
+          <mat-chip
+            [ngClass]="getStatusClassManutenzione(formValue.statoManutenzione)"
+          >
+            <mat-icon>{{
+              getStatusIconManutenzione(formValue.statoManutenzione)
+            }}</mat-icon>
+            <p>
+              {{
+                formValue.statoManutenzione ? formValue.statoManutenzione : "-"
+              }}
+            </p>
+          </mat-chip>
+        </mat-chip-set>
       </div>
     </div>
     <div class="flex-content">
@@ -69,30 +104,54 @@
       <div class="section-title">
         <p class="section-title">{{ labelConstant.caratteristiche }}</p>
       </div>
-      <div class="icon-edit" (click)="changeStep(1)">
+      <div class="icon-edit" (click)="changeStep(1)" matTooltip="Modifica">
         <mat-icon>{{ iconConstant.edit }}</mat-icon>
       </div>
     </div>
     <div class="flex-content">
       <div>
         <p class="subtitle">{{ labelConstant.dimensione }}</p>
-        <p class="info">{{ formValue.caratteristiche.dimensione + " MQ" }}</p>
+        <p class="info">
+          {{
+            formValue.caratteristiche.dimensione
+              ? formValue.caratteristiche.dimensione + " MQ"
+              : "-"
+          }}
+        </p>
       </div>
       <div class="w-20">
         <p class="subtitle">{{ labelConstant.camere }}</p>
-        <p class="info">{{ formValue.caratteristiche.camere }}</p>
+        <p class="info">
+          {{
+            formValue.caratteristiche.camere
+              ? formValue.caratteristiche.camere
+              : "-"
+          }}
+        </p>
       </div>
-      <div class="w-30">
+      <div class="w-29">
         <p class="subtitle">{{ labelConstant.bagni }}</p>
-        <p class="info">{{ formValue.caratteristiche.bagni }}</p>
+        <p class="info">
+          {{
+            formValue.caratteristiche.bagni
+              ? formValue.caratteristiche.bagni
+              : "-"
+          }}
+        </p>
       </div>
     </div>
     <div class="flex-content">
       <div>
         <p class="subtitle">{{ labelConstant.piano }}</p>
-        <p class="info">{{ formValue.caratteristiche.piano }}</p>
+        <p class="info">
+          {{
+            formValue.caratteristiche.piano
+              ? formValue.caratteristiche.piano
+              : "-"
+          }}
+        </p>
       </div>
-      <div class="w-27">
+      <div class="w-21">
         <p class="subtitle">{{ labelConstant.giardino }}</p>
         <p class="info">
           {{
@@ -102,7 +161,7 @@
           }}
         </p>
       </div>
-      <div class="w-30">
+      <div class="w-29">
         <p class="subtitle">{{ labelConstant.postoAuto }}</p>
         <p class="info">
           {{
@@ -126,7 +185,13 @@
       </div>
       <div>
         <p class="subtitle">{{ labelConstant.tipoRiscaldamento }}</p>
-        <p class="info">{{ formValue.caratteristiche.tipoRiscaldamento }}</p>
+        <p class="info">
+          {{
+            formValue.caratteristiche.tipoRiscaldamento
+              ? formValue.caratteristiche.tipoRiscaldamento
+              : "-"
+          }}
+        </p>
       </div>
     </div>
   </div>
@@ -136,7 +201,7 @@
       <div class="section-title">
         <p class="section-title">{{ labelConstant.costi }}</p>
       </div>
-      <div class="icon-edit" (click)="changeStep(2)">
+      <div class="icon-edit" (click)="changeStep(2)" matTooltip="Modifica">
         <mat-icon>{{ iconConstant.edit }}</mat-icon>
       </div>
     </div>
@@ -144,12 +209,22 @@
       <div>
         <p class="subtitle">{{ labelConstant.importoAffittoMensile }}</p>
         <p class="info">
-          {{ formValue.costi.importoAffittoMensile + " Euro" }}
+          {{
+            formValue.costi.importoAffittoMensile
+              ? formValue.costi.importoAffittoMensile + " Euro"
+              : "-"
+          }}
         </p>
       </div>
       <div class="w-32">
         <p class="subtitle">{{ labelConstant.metodoPagamento }}</p>
-        <p class="info">{{ formValue.costi.metodoPagamento }}</p>
+        <p class="info">
+          {{
+            formValue.costi.metodoPagamento
+              ? formValue.costi.metodoPagamento
+              : "-"
+          }}
+        </p>
       </div>
       <!-- TODO: Gestirlo nel assegnazione del inquilino -->
       <!-- <div>
@@ -166,7 +241,7 @@
       </div> 
       <div>
         <p class="subtitle">{{ labelConstant.durataContratto }}</p>
-        <p class="info">{{ formValue.costi.durataContratto }}</p>
+        <p class="info">{{ formValue.costi.durataContratto ? formValue.costi.durataContratto : "-"}}</p>
       </div>-->
     </div>
   </div>

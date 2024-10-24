@@ -566,15 +566,15 @@ mat-dialog-container {
 // }
 
 .custom-snackbar {
-  .cdk-overlay-pane{
-      height: 100px; 
-      left: 0;
-      right: 0;
-      margin: 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .cdk-overlay-pane {
+    height: 100px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &.snack-warning {
     .mdc-snackbar__surface {
       background-color: $warning-bg-color !important;
@@ -590,10 +590,7 @@ mat-dialog-container {
       background-color: $success-bg-color !important;
     }
   }
-  
 }
-
-
 
 // .leaflet-control-container {
 //   display: none;
@@ -609,8 +606,32 @@ mat-dialog-container {
 //   width: 100%;
 // }
 
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
+  .mdc-evolution-chip__text-label {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      color: white !important;
+}
+
+// .mat-sort-header-container{
+//   display: flex;
+// cursor: pointer;
+// align-items: center;
+// letter-spacing: normal;
+// outline: 0;
+// flex-direction: row;
+// flex-wrap: wrap;
+// align-content: center;
+// justify-content: center
+// }
+
 // .mat-mdc-chip-focus-overlay {
-//   background: none;
+//   background: white;
 // }
 
 // .cdk-overlay-pane:not(.mat-mdc-select-panel-above)
@@ -620,5 +641,3 @@ mat-dialog-container {
 //     margin-left: auto;
 //   }
 // }
-
-

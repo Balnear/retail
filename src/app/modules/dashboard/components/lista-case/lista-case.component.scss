@@ -7,7 +7,7 @@
   padding: 24px;
   background-color: $white;
   border-radius: 8px;
-  overflow: scroll;
+  overflow: hidden;
   .subtitle {
     display: flex;
     justify-content: space-between;
@@ -22,6 +22,9 @@
   .table-container {
     background-color: $white;
     height: 100%;
+    .search {
+      padding: 8px;
+    }
     table {
       background-color: $white;
       width: 100%;
@@ -34,8 +37,36 @@
       height: 80%;
       td,
       th {
-        width: 25px;
+        width: 100px;
         height: 25px;
+      }
+      .column {
+        background: linear-gradient(#020419, whitesmoke);
+        color: $secondary;
+        border-right: 1px solid black;
+      }
+      .paginator {
+        background: linear-gradient(whitesmoke, #020419);
+        color: $secondary;
+        border-top: 1px solid black;
+      }
+      /* Stili delle Chips in base allo stato */
+      .chip-green {
+        background-color: #4caf50;
+        color: white;
+        border: 1px solid green;
+      }
+
+      .chip-orange {
+        background-color: #ff9800;
+        color: white;
+        border: 1px solid orange;
+      }
+
+      .chip-red {
+        background-color: #f44336;
+        color: white;
+        border: 1px solid red;
       }
     }
   }

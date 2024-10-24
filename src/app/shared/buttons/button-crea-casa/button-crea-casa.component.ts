@@ -53,6 +53,7 @@ export class ButtonCreaCasaComponent {
   ) {
     this.form = this.fb.group({
       nome: [],
+      tipologiaCasa: [],
       indirizzo: [],
       citta: [],
       codicePostale: [],
@@ -61,7 +62,8 @@ export class ButtonCreaCasaComponent {
       dataInserimento: [],
       arredamento: [false],
       documentoArredamento: [],
-      assegnaCasa: [],
+      //TODO: VERIFICARE COME INSERIRLO
+      // assegnaCasa: [],
       locatore: this.fb.group({
         id: [],
         displayName: [],
@@ -123,6 +125,10 @@ export class ButtonCreaCasaComponent {
                 validators: Validators.required,
               },
               {
+                field: 'tipologiaCasa',
+                validators: Validators.required,
+              },
+              {
                 field: 'indirizzo',
                 validators: Validators.required,
               },
@@ -146,10 +152,6 @@ export class ButtonCreaCasaComponent {
                 field: 'dataInserimento',
                 validators: Validators.required,
               },
-              {
-                field: 'arredamento',
-                validators: Validators.required,
-              },
             ],
           },
           {
@@ -157,30 +159,18 @@ export class ButtonCreaCasaComponent {
               /**Caratteristiche */
               {
                 field: 'caratteristiche.dimensione',
-                validators: Validators.required,
+                validators: [Validators.required],
               },
               {
                 field: 'caratteristiche.camere',
-                validators: Validators.required,
+                validators: [Validators.required],
               },
               {
                 field: 'caratteristiche.bagni',
-                validators: Validators.required,
+                validators: [Validators.required],
               },
               {
                 field: 'caratteristiche.piano',
-                validators: Validators.required,
-              },
-              {
-                field: 'caratteristiche.giardino',
-                validators: Validators.required,
-              },
-              {
-                field: 'caratteristiche.postoAuto',
-                validators: Validators.required,
-              },
-              {
-                field: 'caratteristiche.ariaCondizionata',
                 validators: Validators.required,
               },
               {
@@ -194,10 +184,7 @@ export class ButtonCreaCasaComponent {
               /**Costi */
               {
                 field: 'costi.importoAffittoMensile',
-                validators: [
-                  Validators.required,
-                  Validators.pattern('^[0-9]*$'),
-                ],
+                validators: [Validators.required],
               },
               //TODO: ASSEGNAZIONE INQUILINO
               // {
@@ -261,7 +248,6 @@ export class ButtonCreaCasaComponent {
       next: (res) => {
         this.loaderSpinnerService.hide();
         this.closeModal();
-        console.log(res, 'casa creata');
         this.dialog
           .open(GenericFeedbackModalComponent, GENERIC_FEEDBACK.crea_casa)
           .afterClosed()
@@ -271,7 +257,6 @@ export class ButtonCreaCasaComponent {
       },
       error: (err) => {
         this.loaderSpinnerService.hide();
-        console.log(err, 'errore');
       },
     });
   }

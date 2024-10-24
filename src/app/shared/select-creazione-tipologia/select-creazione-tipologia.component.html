@@ -1,0 +1,11 @@
+<div class="container-form" [formGroup]="form">
+  <mat-form-field appearance="outline" class="font-text w-100">
+    <mat-label>{{ inputConstant.nuova_tipologia }}</mat-label>
+    <input type="text" matInput formControlName="newElement" noEmoji />
+    <mat-error>{{
+      form.get("newElement")?.hasError("required")
+        ? errorConstant.campo_obbligatorio
+        : errorConstant.campo_non_valido
+    }}</mat-error>
+  </mat-form-field>
+</div>

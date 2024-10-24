@@ -64,14 +64,22 @@ export const LABEL_CONSTANT = {
   modifica_casa: 'Modifica Casa',
   elimina_casa: 'Elimina Casa',
   vuoi_eliminare_casa: 'Vuoi eliminare la casa?',
-  tutti_i_dati_casa: 
-  'Tutti i dati relativi alla casa verranno eliminati definitivamente.',
+  tutti_i_dati_casa:
+    'Tutti i dati relativi alla casa verranno eliminati definitivamente.',
   casa_eliminata: 'Casa eliminata',
-  conferma_eliminazione_casa: 
-  'Tutti i dati associati al gestore sono stati eliminati',
+  conferma_eliminazione_casa:
+    'Tutti i dati associati alla casa sono stati eliminati',
   salvataggio_modifiche: 'Salvataggio modifiche',
-  modifiche_salvate_correttamente: 
-  'Le modifiche effettuate sono state salvate correttamente',
+  modifiche_salvate_correttamente:
+    'Le modifiche effettuate sono state salvate correttamente',
+  aggiungi_tipologia: 'Aggiungi tipologia',
+  elimina_tipologia: 'Elimina tipologia',
+  tipologia_aggiunta: 'Tipologia aggiunta',
+  dati_tipologia_aggiunta: 'Hai aggiunto correttamente la tipologia',
+  elimina_dati: 'Vuoi eliminare la seguente tipologia?',
+  tipologia_eliminata: 'Tipologia eliminata',
+  dati_tipologia_eliminati:
+    'Tutti i dati associati alla tipologia sono stati eliminati',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
@@ -79,7 +87,7 @@ export const LABEL_CONSTANT = {
   mail_personale: 'Mail personale',
   telefono: 'Telefono',
   mail_hint: 'Mail per accesso in piattaforma',
-  tipologia: 'Tipologia',
+  tipologiaCasa: 'Tipologia',
 };
 
 /** Costante per i messaggi di nessun risultato */

@@ -8,17 +8,18 @@ import {
   NavigationError,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
 import { MatDialog } from '@angular/material/dialog';
+import { CaseService, LoaderSpinnerService, LoginService } from '../../../../services';
+import { CustomDialogService } from '../../../../services/dialog.service';
 import {
-  GenericTableService,
-  LoaderSpinnerService,
-  LoginService,
-} from '../../../../services';
-import {
+  BUTTON_CONSTANT,
   DASHBOARD_HEADER,
+  GENERIC_CONFIRM,
+  GENERIC_FEEDBACK,
   ICON_CONSTANT,
   LABEL_CONSTANT,
 } from '../../../../constants';
@@ -27,6 +28,13 @@ import { HeaderComponent } from '../header/header.component';
 import { AppSidebarComponent } from '../sidebar/sidebar.component';
 import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
 import { ButtonCreaCasaComponent } from '../../../../shared/buttons/button-crea-casa/button-crea-casa.component';
+import {
+  GenericConfirmModalComponent,
+  GenericFeedbackModalComponent,
+  GenericFormModalComponent,
+} from '../../../../shared';
+import { SelectCreazioneTipologiaComponent } from '../../../../shared/select-creazione-tipologia/select-creazione-tipologia.component';
+import { SelectEliminaTipologiaComponent } from '../../../../shared/select-elimina-tipologia/select-elimina-tipologia.component';
 
 /**
  * Component utilizzato come layout per le pagine dell'applicazione.
@@ -64,18 +72,14 @@ export class AppLayoutComponent {
    */
   private routerEventsSubscription = new Subscription();
   /** Le actions della dropdown del dettaglio zona*/
-  actions: any[] = [
-    {
-      name: LABEL_CONSTANT.elimina,
-      icon: ICON_CONSTANT.delete,
-      // callback: () => this.eliminaCasa(this.caseService.idCasa),
-    },
-  ];
+  actions: any[] = [];
   /** Le action della dropdown generica */
   action: any[] = [];
+  /**DialogRef riferimento al dialog*/
+  dialogRef: any;
 
   /**
-   * Il costruttore della classes.
+   * Il costruttore della classe.
    * Si inizializza il FormGroup.
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service loaderSpinnerService
    * @param {FormBuilder} fb L'injectable del FormBuilder
@@ -83,11 +87,13 @@ export class AppLayoutComponent {
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
-    private genericTableService: GenericTableService,
     private loaderSpinnerService: LoaderSpinnerService,
     public loginService: LoginService,
+    private caseService: CaseService,
     private router: Router,
-    private dialog: MatDialog
+    private customDialogService: CustomDialogService,
+    private dialog: MatDialog,
+    private fb: FormBuilder
   ) {}
 
   /** Lifecycle hook dell'onInit, si aggiunge il loader spinner al cambio della rotta */
@@ -111,6 +117,10 @@ export class AppLayoutComponent {
         }
       }
     );
+    const savedElements = localStorage.getItem('tipologie');
+    if (savedElements) {
+      this.caseService.tipologie = JSON.parse(savedElements);
+    }
   }
 
   /* Metodo chiamato alla distruzione del componente */
@@ -130,5 +140,119 @@ export class AppLayoutComponent {
     } else {
       this.section = '';
     }
+    if (this.section == 'dashboard') {
+      this.actions = [
+        {
+          name: LABEL_CONSTANT.aggiungi_tipologia,
+          icon: ICON_CONSTANT.add,
+          callback: () => this.aggiungiTipologia(),
+        },
+        {
+          name: LABEL_CONSTANT.elimina_tipologia,
+          icon: ICON_CONSTANT.delete,
+          callback: () => this.eliminaTipologia(),
+        },
+      ];
+    } else {
+      this.actions = [];
+    }
+  }
+
+  /** Metodo per aggiungere una tipologia alla select */
+  aggiungiTipologia() {
+    this.dialogRef = this.dialog.open(GenericFormModalComponent, {
+      width: '824px',
+      height: '290px',
+      disableClose: true,
+      autoFocus: false,
+      data: {
+        form: this.fb.group({
+          newElement: ['', Validators.required],
+        }),
+        submitFormText: BUTTON_CONSTANT.aggiungi,
+        headerLabels: {
+          title: LABEL_CONSTANT.aggiungi_tipologia,
+          subtitle: LABEL_CONSTANT.inserisci_dati,
+        },
+
+        component: SelectCreazioneTipologiaComponent,
+        callback: (form: any) => this.submitFormAggiungi(form),
+      },
+    });
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.dialog
+        .open(GenericConfirmModalComponent, GENERIC_CONFIRM.sicuro_di_uscire)
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.dialogRef.close();
+          }
+        });
+    });
+  }
+
+  /** Chiude la modale */
+  closeModal() {
+    this.dialogRef.close();
+  }
+  /** submitForm creazione tipologia ed aggiornamento select tipologie */
+  submitFormAggiungi(form: any) {
+    this.loaderSpinnerService.show();
+    this.caseService.addTipologia(form.value.newElement);
+    setTimeout(() => {
+      this.loaderSpinnerService.hide();
+      this.closeModal();
+      this.dialog.open(
+        GenericFeedbackModalComponent,
+        GENERIC_FEEDBACK.aggiungi_tipologia
+      );
+    }, 5000);
+  }
+
+  /** Metodo per eliminare una tipologia dalla select */
+  eliminaTipologia() {
+    this.dialogRef = this.dialog.open(GenericFormModalComponent, {
+      width: '824px',
+      height: '290px',
+      disableClose: true,
+      autoFocus: false,
+      data: {
+        form: this.fb.group({
+          elementSelected: ['', Validators.required],
+        }),
+        submitFormText: BUTTON_CONSTANT.elimina,
+        headerLabels: {
+          title: LABEL_CONSTANT.elimina_tipologia,
+          subtitle: LABEL_CONSTANT.elimina_dati,
+        },
+
+        component: SelectEliminaTipologiaComponent,
+        callback: (form: any) => this.submitFormElimina(form),
+      },
+    });
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.dialog
+        .open(GenericConfirmModalComponent, GENERIC_CONFIRM.sicuro_di_uscire)
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.dialogRef.close();
+          }
+        });
+    });
+  }
+
+  /** submitForm elimina tipologia ed aggiornamento select tipologie */
+  submitFormElimina(form: any) {
+    this.loaderSpinnerService.show();
+    this.caseService.deleteTipologia(form.value.elementSelected);
+    setTimeout(() => {
+      this.loaderSpinnerService.hide();
+      this.closeModal();
+      this.dialog.open(
+        GenericFeedbackModalComponent,
+        GENERIC_FEEDBACK.eliminazione_tipologia
+      );
+    }, 5000);
   }
 }

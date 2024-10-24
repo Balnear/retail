@@ -8,12 +8,12 @@ import {
 } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
+import { CaseService } from '../../../services';
 import {
   ICON_CONSTANT,
   INPUT_CONSTANT,
   LABEL_CONSTANT,
 } from '../../../constants';
-import { CaseService } from '../../../services/case.service';
 import { GenericStepperModal } from '../../generics';
 import L from 'leaflet';
 
@@ -101,6 +101,7 @@ export class StepRiepilogoComponent {
     satelliteLayer.addTo(this.map);
   }
 
+  /**ngOnChanges rileva e gestisce i cambiamenti delle proprietà */
   ngOnChanges() {
     if (
       this.primoIndirizzo !== this.formValue.indirizzo ||
@@ -134,5 +135,61 @@ export class StepRiepilogoComponent {
       .catch((error) => {
         console.error("Errore nella ricerca dell'indirizzo:", error);
       });
+  }
+
+  /** Funzione che restituisce la classe CSS in base allo stato */
+  getStatusClass(statoAffitto: string) {
+    switch (statoAffitto) {
+      case 'LIBERO':
+        return 'chip-green';
+      case 'IN SCADENZA':
+        return 'chip-orange';
+      case 'OCCUPATO':
+        return 'chip-red';
+      default:
+        return '';
+    }
+  }
+
+  /**Funzione che restituisce l'icona in base allo stato */
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'LIBERO':
+        return this.iconConstant.done;
+      case 'IN SCADENZA':
+        return this.iconConstant.warning;
+      case 'OCCUPATO':
+        return this.iconConstant.block;
+      default:
+        return '';
+    }
+  }
+
+  /** Funzione che restituisce la classe CSS in base allo stato */
+  getStatusClassManutenzione(statoManutenzione: string) {
+    switch (statoManutenzione) {
+      case 'BUONO':
+        return 'chip-orange';
+      case 'DA RISTRUTTURARE':
+        return 'chip-red';
+      case 'NUOVO':
+        return 'chip-green';
+      default:
+        return '';
+    }
+  }
+
+  /**Funzione che restituisce l'icona in base allo stato */
+  getStatusIconManutenzione(status: string): string {
+    switch (status) {
+      case 'BUONO':
+        return this.iconConstant.emergency_home;
+      case 'DA RISTRUTTURARE':
+        return this.iconConstant.construction;
+      case 'NUOVO':
+        return this.iconConstant.energy_savings_leaf;
+      default:
+        return '';
+    }
   }
 }

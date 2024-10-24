@@ -5,7 +5,7 @@
     class="font-text w-49"
   >
     <mat-label>{{ inputConstant.dimensione }}</mat-label>
-    <input type="number" matInput formControlName="dimensione" noEmoji />
+    <input type="text" matInput formControlName="dimensione" noEmoji />
     <mat-error>{{
       form.get("dimensione")?.hasError("required")
         ? errorConstant.campo_obbligatorio
@@ -18,7 +18,7 @@
     class="font-text w-49"
   >
     <mat-label>{{ inputConstant.camere }}</mat-label>
-    <input type="number" matInput formControlName="camere" noEmoji />
+    <input type="text" matInput formControlName="camere" noEmoji />
     <mat-error>{{
       form.get("camere")?.hasError("required")
         ? errorConstant.campo_obbligatorio
@@ -31,7 +31,7 @@
     class="font-text w-49"
   >
     <mat-label>{{ inputConstant.bagni }}</mat-label>
-    <input type="number" matInput formControlName="bagni" noEmoji />
+    <input type="text" matInput formControlName="bagni" noEmoji />
     <mat-error>{{
       form.get("bagni")?.hasError("required")
         ? errorConstant.campo_obbligatorio

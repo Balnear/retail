@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-/** Service per il loader spinner */
+/** L'injectable del service loader-spinner service*/
 @Injectable({
   providedIn: 'root',
 })
@@ -12,6 +12,7 @@ export class LoaderSpinnerService {
   /** Subject per la visualizzazione dell'animazione Login */
   private showLoggedInSubject = new Subject<boolean>();
 
+  /** Il costruttore della classe.*/
   constructor() {}
 
   /**Visualizza Loader-Spinner */

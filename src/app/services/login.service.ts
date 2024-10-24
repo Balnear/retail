@@ -17,6 +17,7 @@ import { User } from '../models';
 import { MatDialog } from '@angular/material/dialog';
 import { PanelService } from './panel.service';
 
+/**L'injectable del service login service */
 @Injectable({
   providedIn: 'root',
 })
@@ -49,7 +50,7 @@ export class LoginService {
    * Il costruttore del service
    * @param {PanelService} panelService L'injectable del service PanelService
    * @param {MatDialog} dialog - Injectable del service MatDialog per aprire finestre di dialogo.
-   * @param {HttpClient} http L'injectable dell'httpClient
+   * @param {Auth} auth
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(

@@ -12,6 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { environment } from '../environments/environment.development';
 
 import { AngularMaterialModule } from './modules/material-module';
+import { HttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   // providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideFirebaseApp(() => initializeApp({"projectId":"retail-957d3","appId":"1:591224153669:web:927fa08db0fc893573e52c","storageBucket":"retail-957d3.appspot.com","apiKey":"AIzaSyC3-_3GKDhhxY43dKM-893IuoZY1MdQ8Vs","authDomain":"retail-957d3.firebaseapp.com","messagingSenderId":"591224153669"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore())]

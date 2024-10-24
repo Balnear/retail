@@ -2,8 +2,10 @@
 export interface Casa {
   /**id casa */
   id: string;
-  /**nome della casa (casa al mare o casa in citta') */
+  /**nome della casa (monolocale, bilocale ecc') */
   nome: string;
+  /**tipologia della casa (casa al mare, casa in montagna ecc) */
+  tipologiaCasa: string;
   /**indirizzo della casa */
   indirizzo: string;
   /**citta' della casa */
@@ -37,11 +39,11 @@ export interface Casa {
 /**Caratteristiche della casa */
 export interface CaratteristicheCasa {
   /**dimensione della casa */
-  dimensione: number;
+  dimensione: string;
   /**numero delle camere */
-  camere: number;
+  camere: string;
   /**numero bagni */
-  bagni: number;
+  bagni: string;
   /**assegnazione piano (piano terra-primo-secondo-terzo) */
   piano: string;
   /**disponibilita' giardino */
@@ -81,8 +83,8 @@ export interface AssociaCasa {
     email: string;
     phoneNumber: string;
   };
-  /**pagamento effettuato (si o no) 
+  /**pagamento effettuato (si o no)
    * visualizzare tramite una chip (pagato o non pagato)
-  */
+   */
   pagato: boolean;
 }
