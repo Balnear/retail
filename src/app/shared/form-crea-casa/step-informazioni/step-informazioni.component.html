@@ -20,6 +20,7 @@
   <mat-form-field appearance="outline" class="font-text w-49">
     <mat-label>{{ inputConstant.indirizzo }}</mat-label>
     <input type="text" matInput formControlName="indirizzo" noEmoji />
+    <mat-hint>{{ hintConstant.indirizzo_da_inserire }}</mat-hint>
     <mat-error>{{
       form.get("indirizzo")?.hasError("required")
         ? errorConstant.campo_obbligatorio
@@ -38,6 +39,7 @@
   <mat-form-field appearance="outline" class="font-text w-49">
     <mat-label>{{ inputConstant.codicePostale }}</mat-label>
     <input type="text" matInput formControlName="codicePostale" noEmoji />
+    <mat-hint>{{ hintConstant.cap_da_inserire }}</mat-hint>
     <mat-error>{{
       form.get("codicePostale")?.hasError("required")
         ? errorConstant.campo_obbligatorio

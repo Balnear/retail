@@ -20,6 +20,8 @@ import { Casa } from '../models';
 export class CaseService {
   /**Tipologia casa */
   tipologie: string[] = [];
+  /** Oggetto per il dettaglio della casa */
+  dettaglioCasa!: any;
 
   constructor(private firestore: Firestore) {}
 

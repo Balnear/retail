@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -7,156 +7,83 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { AngularMaterialModule } from '../../../material-module';
+import { AngularMaterialModule } from '../../modules/material-module';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CaseService, LoaderSpinnerService } from '../../services';
+import { CustomDialogService } from '../../services/dialog.service';
 import {
-  CaseService,
-  LoaderSpinnerService,
-  PanelService,
-} from '../../../../services';
-import {
-  RESULT_CONSTANT,
-  INPUT_CONSTANT,
-  TABLE_COLUMNS,
+  BUTTON_CONSTANT,
   GENERIC_CONFIRM,
   GENERIC_FEEDBACK,
-  BUTTON_CONSTANT,
-  LABEL_CONSTANT,
   ICON_CONSTANT,
-  TABLE_INPUT_CONSTANT,
-} from '../../../../constants';
-import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
+  LABEL_CONSTANT,
+} from '../../constants';
 import {
-  DettaglioCasaComponent,
   GenericConfirmModalComponent,
   GenericDetailModalComponent,
   GenericFeedbackModalComponent,
   GenericStepperModal,
-} from '../../../../shared';
-import { MatDialog } from '@angular/material/dialog';
-import { StepInformazioniComponent } from '../../../../shared/form-crea-casa/step-informazioni/step-informazioni.component';
-import { StepCaratteristicheComponent } from '../../../../shared/form-crea-casa/step-caratteristiche/step-caratteristiche.component';
-import { StepCostiComponent } from '../../../../shared/form-crea-casa/step-costi/step-costi.component';
-import { StepRiepilogoComponent } from '../../../../shared/form-crea-casa/step-riepilogo/step-riepilogo.component';
-import { HeaderCasaComponent } from '../../../../shared/header-casa/header-casa.component';
-import { CustomValidator } from '../../../../utils';
+} from '../generics';
+import { StepCaratteristicheComponent } from '../form-crea-casa/step-caratteristiche/step-caratteristiche.component';
+import { StepCostiComponent } from '../form-crea-casa/step-costi/step-costi.component';
+import { StepInformazioniComponent } from '../form-crea-casa/step-informazioni/step-informazioni.component';
+import { StepRiepilogoComponent } from '../form-crea-casa/step-riepilogo/step-riepilogo.component';
+import { CustomValidator } from '../../utils';
 
-/** Componente per la lista delle case */
+/**Componente header del dettaglio della casa */
 @Component({
-  selector: 'app-lista-case',
+  selector: 'app-header-casa',
   standalone: true,
-  templateUrl: './lista-case.component.html',
-  styleUrls: ['./lista-case.component.scss'],
+  templateUrl: './header-casa.component.html',
+  styleUrls: ['./header-casa.component.scss'],
   imports: [
     CommonModule,
+    AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularMaterialModule,
-    GenericDropDownMenuComponent,
   ],
 })
-export default class ListaCaseComponent {
-  /** Costante per il risultato vuoto della tabella */
-  resultConstant = RESULT_CONSTANT;
-  /** Constante per l'input della ricera */
-  inputConstant = INPUT_CONSTANT;
-  /** Constante per le label */
-  labelConstant = LABEL_CONSTANT;
-  /** Constante per le icone */
-  iconConstant = ICON_CONSTANT;
-  /** Header colonne tabella */
-  headerColumn = TABLE_INPUT_CONSTANT;
+export class HeaderCasaComponent {
+  /**costanti per la visualizzazione */
+  labelCostant = LABEL_CONSTANT;
+  /**costanti per le icone */
+  iconCostant = ICON_CONSTANT;
+  /** I dati della casa */
+  casa: any;
   /** Riferimento al matDialog */
   dialogRef: any;
-  /** La lista delle colonne da visualizzare*/
-  displayedColumns = TABLE_COLUMNS.case;
   /** DataSource per MatTable */
   dataSource = new MatTableDataSource<any>();
-  /** Gestione del errore */
-  errore: string | null = null;
   /** Indica il paginator della tabella*/
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  /** Indica il filtraggio per colonna*/
-  @ViewChild(MatSort) sort!: MatSort;
-  /** Le actions della dropdown */
-  actions: any[] = [
-    {
-      label: 'Dettaglio',
-      icon: 'visibility',
-      actionFunction: (r: any) => this.dettaglioCasa(r.id),
-    },
-    {
-      label: 'Modifica',
-      icon: 'edit',
-      actionFunction: (r: any) => this.modificaCasa(r.id),
-    },
-    {
-      label: 'Elimina',
-      icon: 'delete',
-      actionFunction: (r: any) => this.eliminaCasa(r.id),
-    },
-  ];
+  /**modifica dello stato */
+  editStatus: boolean = false;
 
   /**
-   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case instanziata nel resolver
-   * @param {CaseService} caseService L'injectable del service CaseService
-   * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
-   * @param {PanelService} panelService L'injectable del service pannello
-   * @param {MatDialog} dialog L'injectable del token
-   * @param {FormBuilder} fb L'injectable del FormBuilder
+   * Il construttore della classe
+   * @param {CaseService} caseService - Injectable del service CaseService per gestire le operazioni sulle case.
+   * @param {CustomDialogService} customDialogService Service customDialogService
+   * @param {LoaderSpinnerService } loaderSpinnerService L'injectable del service LoaderSpinnerService
+   * @param {GenericDetailModalComponent} genericDetailModalComponent La chiamata alla componente modale dettaglio
+   * @param {MatDialog} dialog Injectable del service MatDialog
+   * @param {FormBuilder} fb - Injectable del service FormBuilder per creare form group e form control
    */
   constructor(
     private caseService: CaseService,
+    private customDialogService: CustomDialogService,
     private loaderSpinnerService: LoaderSpinnerService,
-    private panelService: PanelService,
+    private genericDetailModalComponent: GenericDetailModalComponent,
     private dialog: MatDialog,
     private fb: FormBuilder
-  ) {}
-
-  /** Lifecycle hook dell'onInit */
-  ngOnInit() {
-    this.caseService.getAllCase().subscribe({
-      next: (caseList) => {
-        // Assegna i dati alla tabella
-        this.dataSource.data = caseList;
-      },
-      error: (err) => {
-        this.errore = 'Errore nel recupero delle case: ' + err.message;
-      },
-    });
+  ) {
+    this.casa = this.caseService.dettaglioCasa;
   }
 
-  /**Metodo per applicare il filtro alla tabella */
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  /** Lifecycle hook del AfterViewInit */
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  /**Metodo per visualizzare il dettaglio della casa */
-  dettaglioCasa(id: string) {
-    this.loaderSpinnerService.show();
-    this.caseService.getCasa(id).subscribe({
-      next: (res) => {
-        const obj = res._document.data.value.mapValue.fields;
-        this.caseService.dettaglioCasa = obj;
-        this.loaderSpinnerService.hide();
-        this.panelService.open(GenericDetailModalComponent, {
-          backdropClass: 'custom-backdrop',
-          panelClass: 'custom-panel',
-          type: 'panel',
-          headComponent: HeaderCasaComponent,
-          components: [DettaglioCasaComponent],
-        });
-      },
-    });
+  /**Funzione per la chiusura della dialog */
+  closeDialog() {
+    this.genericDetailModalComponent.closeDialog();
   }
 
   /**Metodo per modificare una casa */
@@ -297,6 +224,7 @@ export default class ListaCaseComponent {
     this.caseService.modificaCasa(obj.id, obj).subscribe({
       next: () => {
         this.dialogRef.close();
+
         this.loaderSpinnerService.hide();
         this.dialog
           .open(
@@ -305,6 +233,7 @@ export default class ListaCaseComponent {
           )
           .afterClosed()
           .subscribe(() => {
+            this.closeDialog();
             this.dataSource._updateChangeSubscription();
           });
       },
@@ -331,73 +260,21 @@ export default class ListaCaseComponent {
               );
               this.dataSource.paginator = this.paginator;
               this.loaderSpinnerService.hide();
+              this.closeDialog();
               this.dialog
                 .open(
                   GenericFeedbackModalComponent,
                   GENERIC_FEEDBACK.eliminazione_casa_effettuata
                 )
                 .afterClosed()
-                .subscribe(() => this.dataSource._updateChangeSubscription());
+                .subscribe(() => {
+                  this.closeDialog();
+                  this.dataSource._updateChangeSubscription();
+                });
             },
             error: () => this.loaderSpinnerService.hide(),
           });
         }
       });
-  }
-
-  /** Funzione che restituisce la classe CSS in base allo stato */
-  getStatusClass(statoAffitto: string) {
-    switch (statoAffitto) {
-      case 'LIBERO':
-        return 'chip-green';
-      case 'IN SCADENZA':
-        return 'chip-orange';
-      case 'OCCUPATO':
-        return 'chip-red';
-      default:
-        return '';
-    }
-  }
-
-  /**Funzione che restituisce l'icona in base allo stato */
-  getStatusIcon(status: string): string {
-    switch (status) {
-      case 'LIBERO':
-        return this.iconConstant.done;
-      case 'IN SCADENZA':
-        return this.iconConstant.warning;
-      case 'OCCUPATO':
-        return this.iconConstant.block;
-      default:
-        return '';
-    }
-  }
-
-  /** Funzione che restituisce la classe CSS in base allo stato */
-  getStatusClassManutenzione(statoManutenzione: string) {
-    switch (statoManutenzione) {
-      case 'BUONO':
-        return 'chip-orange';
-      case 'DA RISTRUTTURARE':
-        return 'chip-red';
-      case 'NUOVO':
-        return 'chip-green';
-      default:
-        return '';
-    }
-  }
-
-  /**Funzione che restituisce l'icona in base allo stato */
-  getStatusIconManutenzione(status: string): string {
-    switch (status) {
-      case 'BUONO':
-        return this.iconConstant.emergency_home;
-      case 'DA RISTRUTTURARE':
-        return this.iconConstant.construction;
-      case 'NUOVO':
-        return this.iconConstant.energy_savings_leaf;
-      default:
-        return '';
-    }
   }
 }

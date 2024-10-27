@@ -80,6 +80,11 @@ export const LABEL_CONSTANT = {
   tipologia_eliminata: 'Tipologia eliminata',
   dati_tipologia_eliminati:
     'Tutti i dati associati alla tipologia sono stati eliminati',
+  modifica: 'Modifica',
+  informazioni: 'Informazioni',
+  carateristiche: 'Caratteristiche',
+  affitto: 'Affitto',
+  manutenzione: 'Manutenzione',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Sanitizer, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -14,6 +14,7 @@ import { AngularMaterialModule } from '../../../modules/material-module';
 import { CaseService, LocatoriService } from '../../../services';
 import {
   ERROR_CONSTANT,
+  HINT_CONSTANT,
   ICON_CONSTANT,
   INPUT_CONSTANT,
   LABEL_CONSTANT,
@@ -44,6 +45,8 @@ import { NoEmojiDirective, TrimDirective } from '../../../directives';
 export class StepInformazioniComponent {
   /** Riferimento al form */
   form!: FormGroup;
+  /** Costante per i messaggi di suggerimento */
+  hintConstant = HINT_CONSTANT;
   /** Constante per le label degli input */
   inputConstant = INPUT_CONSTANT;
   /** Constante per le label */

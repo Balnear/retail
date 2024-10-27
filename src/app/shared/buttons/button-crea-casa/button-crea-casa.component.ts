@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { LoaderSpinnerService } from '../../../services';
+import { CaseService, LoaderSpinnerService } from '../../../services';
 import {
   BUTTON_CONSTANT,
   GENERIC_CONFIRM,
@@ -14,11 +14,11 @@ import {
   GenericFeedbackModalComponent,
   GenericStepperModal,
 } from '../../generics';
-import { CaseService } from '../../../services/case.service';
 import { StepCaratteristicheComponent } from '../../form-crea-casa/step-caratteristiche/step-caratteristiche.component';
 import { StepCostiComponent } from '../../form-crea-casa/step-costi/step-costi.component';
 import { StepInformazioniComponent } from '../../form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepRiepilogoComponent } from '../../form-crea-casa/step-riepilogo/step-riepilogo.component';
+import { CustomValidator } from '../../../utils';
 
 /**Componente ButtonCreaCasa */
 @Component({
@@ -130,7 +130,10 @@ export class ButtonCreaCasaComponent {
               },
               {
                 field: 'indirizzo',
-                validators: Validators.required,
+                validators: [
+                  Validators.required,
+                  CustomValidator.commaNumberValidator(),
+                ],
               },
               {
                 field: 'citta',
@@ -138,7 +141,10 @@ export class ButtonCreaCasaComponent {
               },
               {
                 field: 'codicePostale',
-                validators: Validators.required,
+                validators: [
+                  Validators.required,
+                  CustomValidator.fiveDigitsValidator(),
+                ],
               },
               {
                 field: 'statoAffitto',
