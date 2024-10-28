@@ -1,0 +1,10 @@
+@import "../../../../assets/scss/variables.scss";
+
+button {
+  background-color: $primary;
+  border-radius: 4px;
+  padding: 12.5px 22px;
+  margin-right: 8px;
+  @include flex(flex, column, center, center, unset, unset);
+  @include text($font-14, 700, $secondary, 16.8px, none);
+}

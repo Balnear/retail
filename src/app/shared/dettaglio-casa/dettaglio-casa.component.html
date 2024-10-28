@@ -1,0 +1,242 @@
+<div class="container">
+  <div class="informazioni">
+    <div class="locatore">
+      <h5>{{ labelConstant.locatore }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{ iconConstant.badge }}</span>
+        <h6>
+          {{
+            locatore.displayName.stringValue
+              ? locatore.displayName.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+      <div class="content">
+        <span class="material-symbols-outlined">{{ iconConstant.call }}</span>
+        <h6>
+          {{
+            locatore.phoneNumber.stringValue
+              ? locatore.phoneNumber.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.arredamento }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.responsive_layout
+        }}</span>
+        <h6>
+          {{ data.arredamento.booleanValue ? "Arredata" : "Non arredata" }}
+          <ng-container *ngIf="data.arredamento?.booleanValue">
+            -
+            <a [href]="data.documentoArredamento.stringValue" target="_blank">
+              Documento Allegato
+            </a>
+          </ng-container>
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.affitto }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.location_away
+        }}</span>
+        <mat-chip-set>
+          <mat-chip [ngClass]="getStatusClass(data.statoAffitto.stringValue)">
+            <span class="material-symbols-outlined stato">{{
+              getStatusIcon(data.statoAffitto.stringValue)
+            }}</span>
+            <h6 class="value">
+              {{
+                data.statoAffitto.stringValue
+                  ? data.statoAffitto.stringValue
+                  : "-"
+              }}
+            </h6>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.manutenzione }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{ iconConstant.build }}</span>
+        <mat-chip-set>
+          <mat-chip
+            [ngClass]="
+              getStatusClassManutenzione(data.statoManutenzione.stringValue)
+            "
+          >
+            <span class="material-symbols-outlined stato">{{
+              getStatusIconManutenzione(data.statoManutenzione.stringValue)
+            }}</span>
+            <h6 class="value">
+              {{
+                data.statoManutenzione.stringValue
+                  ? data.statoManutenzione.stringValue
+                  : "-"
+              }}
+            </h6>
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </div>
+  <div class="caratteristiche">
+    <h4>{{ labelConstant.carateristiche }}</h4>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.dimensione }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.aspect_ratio
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.dimensione.stringValue + " Mq"
+              ? caratteristiche.dimensione.stringValue + " Mq"
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.camere }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.picture_in_picture
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.camere.stringValue
+              ? caratteristiche.camere.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.bagni }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.bathtub
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.bagni.stringValue
+              ? caratteristiche.bagni.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.piano }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.stairs_2
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.piano.stringValue
+              ? caratteristiche.piano.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.giardino }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.psychiatry
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.giardino.booleanValue
+              ? "Con giardino"
+              : "Senza giardino"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.postoAuto }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{ iconConstant.garage }}</span>
+        <h6>
+          {{
+            caratteristiche.postoAuto.booleanValue
+              ? "Con posto auto"
+              : "Senza posto auto"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.ariaCondizionata }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{ iconConstant.air }}</span>
+        <h6>
+          {{
+            caratteristiche.ariaCondizionata.booleanValue
+              ? "Con aria condizionata"
+              : "Senza aria condizionata"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_caratteristiche">
+      <h5>{{ labelConstant.tipoRiscaldamento }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.mode_heat_cool
+        }}</span>
+        <h6>
+          {{
+            caratteristiche.tipoRiscaldamento.stringValue
+              ? caratteristiche.tipoRiscaldamento.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div class="costi">
+    <h4>{{ labelConstant.costi }}</h4>
+    <div class="content_costi">
+      <h5>{{ labelConstant.importoAffittoMensile }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.attach_money
+        }}</span>
+        <h6>
+          {{
+            costi.importoAffittoMensile.stringValue + " Euro"
+              ? costi.importoAffittoMensile.stringValue + " Euro"
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_costi">
+      <h5>{{ labelConstant.metodoPagamento }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined">{{
+          iconConstant.payments
+        }}</span>
+        <h6>
+          {{
+            costi.metodoPagamento.stringValue
+              ? costi.metodoPagamento.stringValue
+              : "-"
+          }}
+        </h6>
+      </div>
+    </div>
+  </div>
+</div>

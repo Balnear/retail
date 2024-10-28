@@ -8,8 +8,25 @@
         <div class="title-container mb-24">
           <p>{{ title | setTextByUrl : dashboardHeader : "title" }}</p>
           <div class="cta-container">
+            <app-button-crea-casa
+              *ngIf="section == 'dashboard'"
+            ></app-button-crea-casa>
+            <app-button-crea-locatore
+              *ngIf="section == 'locatori'"
+            ></app-button-crea-locatore>
+            <app-button-crea-inquilino
+              *ngIf="section == 'inquilini'"
+            ></app-button-crea-inquilino>
+            <app-button-assegna-casa
+              *ngIf="section == 'assegna-casa'"
+            ></app-button-assegna-casa>
             <app-generic-drop-down-menu
-              *ngIf="section != 'dashboard'"
+              *ngIf="
+                section != 'dashboard' &&
+                section != 'locatori' &&
+                section != 'inquilini' &&
+                section != 'assegna-casa'
+              "
               [action]="action"
             ></app-generic-drop-down-menu>
             <app-generic-drop-down-menu

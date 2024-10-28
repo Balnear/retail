@@ -6,6 +6,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { INJECT_DATA_COMPONENT } from '../constants';
 import { Panel } from '../models';
 
+/**L'injectable del service panel service */
 @Injectable({ providedIn: 'root' })
 export class PanelService {
   /** Booleana per il controllo se il subpanel del dettaglio sesione è aperto */

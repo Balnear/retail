@@ -8,3 +8,4 @@ export * from './dialog.constant';
 export * from './button.constant';
 export * from './injector.constant';
 export * from './accessibility.constant';
+export * from './hint.constant';

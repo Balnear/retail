@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 /**
- * Component per la gestione dei lidi balneari
+ * Component per la gestione degli immobili
  */
 @Component({
   selector: 'app-dashboard',

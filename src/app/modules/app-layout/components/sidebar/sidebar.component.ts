@@ -114,15 +114,15 @@ export class AppSidebarComponent {
   /** Setta le pagine da visualizzare in base alle authorities dell'utente */
   setPages() {
     let pages = PAGE_CONSTANT;
-    let pageZona = {
-      name: 'Dettaglio Zona',
-      icon: ICON_CONSTANT.zone,
-      showChild: false,
-      deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
-      childPaths: [],
-      child: [],
-    };
+    // let pageZona = {
+    //   name: 'Dettaglio Zona',
+    //   icon: ICON_CONSTANT.zone,
+    //   showChild: false,
+    //   deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
+    //   childPaths: [],
+    //   child: [],
+    // };
 
-    this.pages = [pages.dashboard, pages.utenti];
+    this.pages = [pages.dashboard, pages.utenti, pages.case];
   }
 }

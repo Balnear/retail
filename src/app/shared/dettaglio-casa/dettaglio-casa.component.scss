@@ -1,0 +1,146 @@
+@import "../../../assets/scss/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  height: auto;
+  border: 1px solid rgba(37, 18, 0, 0.1);
+  border-radius: 8px;
+  overflow: auto;
+  .informazioni {
+    background-color: $sand;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 24px;
+    height: auto;
+    width: 100%;
+    .locatore {
+      @include text($font-16, 700, $lite-brown, 19px, none);
+      width: 100%;
+      border-bottom: 1px solid grey;
+      .content {
+        @include text($font-16, 400, $brown-opacity-80, 19px, none);
+        display: flex;
+        gap: 5px;
+        border-bottom: 1px solid grey;
+        /* Stili delle Chips in base allo stato */
+      }
+    }
+    .content_informazioni {
+      @include text($font-16, 700, $lite-brown, 19px, none);
+      width: 100%;
+      border-bottom: 1px solid grey;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+      gap: 16px;
+      .content {
+        @include text($font-16, 400, $brown-opacity-80, 19px, none);
+        display: flex;
+        gap: 8px;
+        .chip-green {
+          background-color: #4caf50;
+          color: white;
+          border: 1px solid green;
+          .value {
+            margin-top: 6px;
+            @include text($font-16, 500, none, 19px, none);
+          }
+        }
+        .chip-orange {
+          background-color: #ff9800;
+          color: white;
+          border: 1px solid orange;
+          .value {
+            margin-top: 6px;
+            @include text($font-16, 500, none, 19px, none);
+          }
+        }
+        .chip-red {
+          background-color: #f44336;
+          color: white;
+          border: 1px solid red;
+          .value {
+            margin-top: 6px;
+            @include text($font-16, 500, none, 19px, none);
+          }
+        }
+        .stato {
+          margin-bottom: 4px;
+        }
+        .material-symbols-outlined {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+  .caratteristiche {
+    background-color: $white;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 24px;
+    height: auto;
+    width: 100%;
+    .content_caratteristiche {
+      @include text($font-16, 700, $lite-brown, 19px, none);
+      width: 100%;
+      border-bottom: 1px solid grey;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+      gap: 16px;
+      .content {
+        @include text($font-16, 400, $brown-opacity-80, 19px, none);
+        display: flex;
+        gap: 8px;
+        .material-symbols-outlined {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+  .costi {
+    background-color: $sand;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 24px;
+    height: auto;
+    width: 100%;
+    .content_costi {
+      @include text($font-16, 700, $lite-brown, 19px, none);
+      width: 100%;
+      border-bottom: 1px solid grey;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+      gap: 16px;
+      .content {
+        @include text($font-16, 400, $brown-opacity-80, 19px, none);
+        display: flex;
+        gap: 8px;
+        .material-symbols-outlined {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}

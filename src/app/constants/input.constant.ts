@@ -1,24 +1,44 @@
 /** Costante per la label degli input */
 export const INPUT_CONSTANT = {
-  tipologia: 'Tipologia',
   nome: 'Nome',
+  tipologiaCasa: 'Tipologia',
+  indirizzo: 'Indirizzo',
+  citta: 'Città',
+  codicePostale: 'Codice postale',
+  dataInserimento: 'Data inserimento',
+  arredamento: 'Arredamento',
+  locatore: 'Locatore',
+  dimensione: 'Dimensione',
+  camere: 'Camere',
+  bagni: 'Bagni',
   id: 'Id',
   azioni_di_gruppo: '+ Azioni',
+  tipologia: 'Tipologia',
+  seleziona_data: 'Seleziona data',
+  importoAffittoMensile: 'Importo mensile',
+  durataContratto: 'Durata contratto',
+  nuova_tipologia: 'Nuova tipologia',
 };
 
 /** Costante per le lable delle head cell della tabella */
 export const TABLE_INPUT_CONSTANT = {
   nome: 'NOME',
+  tipologia: 'TIPOLOGIA',
+  indirizzo: 'INDIRIZZO',
+  citta: 'CITTA',
+  statoAffitto: 'STATO DEL AFFITTO',
+  statoManutenzione: 'STATO DI MANUTENZIONE',
 };
 
 /** Costante contenente tutte le colonne delle generic table */
 export const TABLE_COLUMNS = {
-  gestori: [
+  case: [
     'nome',
-    'telefono',
-    'mail',
-    'ruolo',
-    'ultima_connessione',
+    'tipologia',
+    'indirizzo',
+    'citta',
+    'statoAffitto',
+    'statoManutenzione',
     'action',
   ],
 };

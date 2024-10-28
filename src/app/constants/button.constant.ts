@@ -11,4 +11,11 @@ export const BUTTON_CONSTANT = {
   salva_modifiche: 'SALVA MODIFICHE',
   salva: 'SALVA',
   applica: 'APPLICA',
+  aggiungi: 'AGGIUNGI',
+  aggiungi_casa: 'AGGIUNGI CASA',
+  elimina: 'ELIMINA',
+  modifica_casa: 'MODIFICA CASA',
+  assegna_casa: 'ASSEGNA CASA',
+  aggiungi_locatore: 'AGGIUNGI LOCATORE',
+  aggiungi_inquilino: 'AGGIUNGI INQUILINO',
 };

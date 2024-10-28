@@ -51,6 +51,7 @@ export class GenericFormModalComponent {
   modalConfirmOpened: boolean = false;
   formDirty = false;
 
+
   /**
    * Il costruttore della classe GenericFormModalComponent
    * @param { CustomDialogService } customDialogService L'injectable del service CustomDialogService

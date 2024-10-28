@@ -1,6 +1,6 @@
 <div class="modal-container">
   <form [formGroup]="form" class="modal-content">
-    <mat-icon class="close-icon" (click)="customDialogService.closeDialog()">close</mat-icon>
+    <mat-icon class="close-icon" (click)="customDialogService.closeDialog()" matTooltip="Chiudi">close</mat-icon>
     <app-header
       [headerLabels]="headerLabels"
       [stepsList]="stepsList"

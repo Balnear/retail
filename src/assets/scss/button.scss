@@ -36,12 +36,12 @@ button {
   }
 
   &.button-outline-primary {
-    border-color: $primary !important;
+    border-color: $secondary !important;
     font-weight: 700;
   }
 
   &.button-outline-accent {
-    border-color: $secondary !important;
+    border-color: $primary !important;
     font-weight: 700;
   }
 
@@ -98,5 +98,6 @@ button {
   min-width: 120px;
   font-size: $font-15;
   font-weight: 700;
-  color: white;
+  color: $secondary;
+  background-color: $primary;
 }

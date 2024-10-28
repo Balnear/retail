@@ -24,11 +24,16 @@ export const routes: Routes = [
         loadChildren: () =>
           import('../locatori/locatori-routing').then((m) => m.routes),
       },
-      // {
-      //   path: 'inquilini',
-      //   loadChildren: () =>
-      //     import('../coltivatori/coltivatori-routing').then((m) => m.routes),
-      // },
+      {
+        path: 'inquilini',
+        loadChildren: () =>
+          import('../inquilini/inquilini-routing').then((m) => m.routes),
+      },
+      {
+        path: 'assegna-casa',
+        loadChildren: () =>
+          import('../assegna-casa/assegna-casa-routing').then((m) => m.routes),
+      },
     ],
   },
 ];

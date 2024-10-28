@@ -5,7 +5,7 @@
         <h2 class="title">{{ data.headerLabels.title }}</h2>
         <h3 class="subtitle">{{ data.headerLabels.subtitle }}</h3>
       </div>
-      <mat-icon class="close-icon" (click)="customDialogService.closeDialog()"
+      <mat-icon class="close-icon" (click)="customDialogService.closeDialog()" matTooltip="Chiudi"
         >close</mat-icon
       >
       <mat-divider></mat-divider>
@@ -23,6 +23,7 @@
           class="button-outline-accent h-42"
           color="accent"
           (click)="customDialogService.closeDialog()"
+          matTooltip="Chiudi"
         >
           {{ buttonConstant.annulla }}
         </button>

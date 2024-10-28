@@ -1,0 +1,139 @@
+@import "../../../../assets/scss/variables.scss";
+
+.container {
+  .child-container {
+    &.informazioni {
+      height: auto;
+      overflow: hidden;
+    }
+    &.caratteristiche {
+      height: auto;
+      margin-top: 24px;
+    }
+    &.costi {
+      height: auto;
+      margin-top: 24px;
+    }
+    .flex {
+      display: flex;
+      justify-content: space-between;
+      .section-title {
+        @include text($font-16, 700, $brown, 19px, none);
+      }
+      .icon-edit {
+        color: $black;
+        cursor: pointer;
+      }
+    }
+    .flex-content {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      align-items: center;
+      padding: 8px;
+      .w-20 {
+        width: 20%;
+      }
+      .w-21 {
+        width: 21%;
+      }
+      .w-23 {
+        width: 23%;
+      }
+      .w-25 {
+        width: 25%;
+        /* Stili delle Chips in base allo stato */
+        .chip-green {
+          background-color: #4caf50;
+          color: white;
+          border: 1px solid green;
+        }
+
+        .chip-orange {
+          background-color: #ff9800;
+          color: white;
+          border: 1px solid orange;
+        }
+
+        .chip-red {
+          background-color: #f44336;
+          color: white;
+          border: 1px solid red;
+        }
+      }
+      .w-27 {
+        width: 27%;
+      }
+      .w-29 {
+        width: 29%;
+      }
+      .w-30 {
+        width: 30%;
+        /* Stili delle Chips in base allo stato */
+        .chip-green {
+          background-color: #4caf50;
+          color: white;
+          border: 1px solid green;
+        }
+
+        .chip-orange {
+          background-color: #ff9800;
+          color: white;
+          border: 1px solid orange;
+        }
+
+        .chip-red {
+          background-color: #f44336;
+          color: white;
+          border: 1px solid red;
+        }
+      }
+      .w-32 {
+        width: 32%;
+      }
+      .w-33 {
+        width: 33%;
+      }
+      .w-39 {
+        width: 39%;
+        /* Stili delle Chips in base allo stato */
+        .chip-green {
+          background-color: #4caf50;
+          color: white;
+          border: 1px solid green;
+        }
+
+        .chip-orange {
+          background-color: #ff9800;
+          color: white;
+          border: 1px solid orange;
+        }
+
+        .chip-red {
+          background-color: #f44336;
+          color: white;
+          border: 1px solid red;
+        }
+      }
+      .subtitle {
+        @include text($font-15, 700, $brown, 19px, none);
+      }
+      .info {
+        @include text($font-13, 500, $black, 19px, none);
+      }
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    }
+    p {
+      @include text($font-14, 700, $secondary, 17px, none);
+      margin-bottom: 0;
+    }
+    span {
+      @include text($font-16, 400, $secondary, 20px, none);
+    }
+  }
+}

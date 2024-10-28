@@ -6,19 +6,6 @@ import { LABEL_CONSTANT } from './label.constant';
 
 /** Config per la GenericConfirmModal */
 export const GENERIC_CONFIRM = {
-  // elimina_coltura: {
-  //   width: '548px',
-  //   height: '280px',
-  //   autoFocus: false,
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     title: LABEL_CONSTANT.sicuro_di_eliminare_coltura,
-  //     subtitle: LABEL_CONSTANT.dati_colture,
-  //     buttonText: BUTTON_CONSTANT.elimina,
-  //     buttonType: 'warn',
-  //     dimension: 'sm',
-  //   },
-  // },
   sicuro_di_uscire: {
     width: '548px',
     height: '280px',
@@ -45,19 +32,19 @@ export const GENERIC_CONFIRM = {
       dimension: 'sm',
     },
   },
-  // elimina_gestore: {
-  //   width: '548px',
-  //   height: '280px',
-  //   autoFocus: false,
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     title: LABEL_CONSTANT.vuoi_eliminare_gestore,
-  //     subtitle: LABEL_CONSTANT.tutti_i_dati_coltivatore,
-  //     buttonText: BUTTON_CONSTANT.elimina,
-  //     buttonType: 'warn',
-  //     dimension: 'sm',
-  //   },
-  // },
+  elimina_casa: {
+    width: '548px',
+    height: '280px',
+    autoFocus: false,
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      title: LABEL_CONSTANT.vuoi_eliminare_casa,
+      subtitle: LABEL_CONSTANT.tutti_i_dati_casa,
+      buttonText: BUTTON_CONSTANT.elimina,
+      buttonType: 'warn',
+      dimension: 'sm',
+    },
+  },
   // elimina_coltivatore: {
   //   width: '548px',
   //   height: '280px',
@@ -114,34 +101,48 @@ export const GENERIC_CONFIRM = {
 
 /** Config per la GenericFeedbackModal */
 export const GENERIC_FEEDBACK = {
-  // crea_coltura: {
-  //   width: '548px',
-  //   height: '280px',
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     titolo: LABEL_CONSTANT.coltura_creata,
-  //     subtitle: LABEL_CONSTANT.dati_coltura_creata,
-  //     icona: ICON_CONSTANT.done,
-  //     tipo: 'circle',
-  //     status: 'success',
-  //     dimensione: 'sm',
-  //     autoCloseTime: 3000,
-  //   },
-  // },
-  // eliminazione_coltura: {
-  //   width: '548px',
-  //   height: '280px',
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     titolo: LABEL_CONSTANT.coltura_eliminata,
-  //     subtitle: LABEL_CONSTANT.dati_coltura_eliminati,
-  //     icona: 'delete',
-  //     tipo: 'circle',
-  //     status: 'error',
-  //     dimensione: 'sm',
-  //     autoCloseTime: 3000,
-  //   },
-  // },
+  crea_casa: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.casa_creata,
+      subtitle: LABEL_CONSTANT.dati_casa_creata,
+      icona: ICON_CONSTANT.done,
+      tipo: 'circle',
+      status: 'success',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
+  aggiungi_tipologia: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.tipologia_aggiunta,
+      subtitle: LABEL_CONSTANT.dati_tipologia_aggiunta,
+      icona: ICON_CONSTANT.done,
+      tipo: 'circle',
+      status: 'success',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
+  eliminazione_tipologia: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.tipologia_eliminata,
+      subtitle: LABEL_CONSTANT.dati_tipologia_eliminati,
+      icona: 'delete',
+      tipo: 'circle',
+      status: 'error',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
   // crea_gestore: {
   //   width: '548px',
   //   height: '280px',
@@ -175,8 +176,8 @@ export const GENERIC_FEEDBACK = {
     height: '280px',
     scrollStrategy: new NoopScrollStrategy(),
     data: {
-      // titolo: LABEL_CONSTANT.salvataggio_modifiche,
-      // subtitle: LABEL_CONSTANT.modifiche_salvate_correttamente,
+      titolo: LABEL_CONSTANT.salvataggio_modifiche,
+      subtitle: LABEL_CONSTANT.modifiche_salvate_correttamente,
       icona: ICON_CONSTANT.done,
       tipo: 'circle',
       status: 'success',
@@ -226,20 +227,20 @@ export const GENERIC_FEEDBACK = {
   //     autoCloseTime: 3000,
   //   },
   // },
-  // eliminazione_gestore_effettuata: {
-  //   width: '548px',
-  //   height: '280px',
-  //   scrollStrategy: new NoopScrollStrategy(),
-  //   data: {
-  //     titolo: LABEL_CONSTANT.gestore_eliminato,
-  //     subtitle: LABEL_CONSTANT.conferma_eliminazione_gestore,
-  //     icona: 'delete',
-  //     tipo: 'circle',
-  //     status: 'error',
-  //     dimensione: 'sm',
-  //     autoCloseTime: 3000,
-  //   },
-  // },
+  eliminazione_casa_effettuata: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.casa_eliminata,
+      subtitle: LABEL_CONSTANT.conferma_eliminazione_casa,
+      icona: 'delete',
+      tipo: 'circle',
+      status: 'error',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
   // eliminazione_coltivatore_effettuata: {
   //   width: '548px',
   //   height: '280px',
