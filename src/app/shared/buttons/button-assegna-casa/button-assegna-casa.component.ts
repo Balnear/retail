@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
@@ -44,13 +44,23 @@ export class ButtonAssegnaCasaComponent {
     private caseService: CaseService,
     private dialog: MatDialog,
     private fb: FormBuilder
-  ) {
-    this.data = caseService.dettaglioCasa;
+  ) {}
+
+  /** Lifecycle hook dell'onInit */
+  ngOnInit() {
+    if (this.caseService.idAssegnato) {
+      this.data = this.caseService.dettaglioCasa;
+    } else {
+      this.data = null;
+    }
   }
 
   /**Apertura del panel per assegnare la casa ad uno o più inquilini tramite la casa della dashboard */
   openDialogId(id: string) {
-    console.log(id, 'assegna casa');
+    console.log('con id');
+
+    this.data = null;
+    this.caseService.idAssegnato = false;
   }
 
   /**Apertura del panel per assegnare la casa in modo generico */

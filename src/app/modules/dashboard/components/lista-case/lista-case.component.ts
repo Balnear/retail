@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -158,6 +158,7 @@ export default class ListaCaseComponent {
         console.log(obj, 'obj');
 
         this.caseService.dettaglioCasa = obj;
+        this.caseService.idAssegnato = true;
 
         this.router.navigateByUrl('/bo/assegna-casa');
       },
