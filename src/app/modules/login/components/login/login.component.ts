@@ -97,12 +97,24 @@ export default class LoginComponent {
     const password = this.form.value.password;
     this.loginService.login(email, password).subscribe({
       next: (res) => {
-        this.router.navigate(['/bo/dashboard']);
-        console.log(res, 'credenziali');
         this.loaderSpinnerService.hide();
-        this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+        if (res) {
+          if (res.userType === 'Locatore') {
+            console.log('sono un locatore');
+            console.log(res, 'credenziali');
+            this.router.navigate(['/bo/dashboard']);
+            this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+          } else if (res.userType === 'Inquilino') {
+            console.log('sono un inquilino');
+            console.log(res, 'credenziali');
+            this.router.navigate(['/bo/dashboard']);
+            this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+          }
+        }
       },
       error: (error) => {
+        console.log(error, 'errore');
+
         this.loaderSpinnerService.hide();
         this.firebaseError(error.code);
       },

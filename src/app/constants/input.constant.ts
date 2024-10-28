@@ -18,6 +18,12 @@ export const INPUT_CONSTANT = {
   importoAffittoMensile: 'Importo mensile',
   durataContratto: 'Durata contratto',
   nuova_tipologia: 'Nuova tipologia',
+  email: 'Email',
+  password: 'Password',
+  repetPassword: 'Ripeti password',
+  cognome: 'Cognome',
+  telefono: 'Telefono',
+  userType: 'Tipologia utente',
 };
 
 /** Costante per le lable delle head cell della tabella */

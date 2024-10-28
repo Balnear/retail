@@ -94,7 +94,7 @@ export class HeaderComponent {
   ngOnInit() {
     this.currentUser = this.loginService.getCurrentUser();
     // Se desideri anche recuperare dal localStorage:
-    this.data = this.loginService.getUserFromLocalStorage();
+    this.data = this.loginService.getCurrentUserFromLocalStorage();
     console.log('utente dal localStorage:', this.data);
   }
 

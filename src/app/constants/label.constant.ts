@@ -85,6 +85,10 @@ export const LABEL_CONSTANT = {
   carateristiche: 'Caratteristiche',
   affitto: 'Affitto',
   manutenzione: 'Manutenzione',
+  aggiungi_locatore: 'Aggiungi locatore',
+  inserisci_dati_locatore: 'Inserisci i dati del locatore',
+  locatore_creato: 'Locatore creato correttamente',
+  dati_locatore_creato: 'Hai creato correttamente il locatore!',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',

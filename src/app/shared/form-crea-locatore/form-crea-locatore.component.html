@@ -1,0 +1,114 @@
+<div class="container-form">
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.email }}</mat-label>
+      <input
+        type="email"
+        matInput
+        formControlName="email"
+        autocomplete="email"
+        noEmoji
+      />
+      <mat-error>{{
+        this.form.get("email")?.hasError("required") &&
+        !this.form.get("email")?.hasError("emailExists")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.email_usata
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="email" appearance="outline">
+      <mat-label> {{ inputConstant.password }} </mat-label>
+      <div class="input-password">
+        <input
+          matInput
+          [type]="passwordHide ? 'password' : 'text'"
+          formControlName="password"
+          noEmoji
+        />
+        <mat-icon mat-suffix (click)="passwordHide = !passwordHide">{{
+          passwordHide ? iconConstant.visibility_off : iconConstant.visibility
+        }}</mat-icon>
+      </div>
+      <mat-error>
+        {{
+          this.form.get("password")?.hasError("required")
+            ? errorConstant.campo_obbligatorio
+            : errorConstant.campo_non_valido
+        }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="email" appearance="outline">
+      <mat-label> {{ inputConstant.repetPassword }} </mat-label>
+      <div class="input-password">
+        <input
+          matInput
+          [type]="repeatPasswordHide ? 'password' : 'text'"
+          formControlName="repeatPassword"
+          noEmoji
+        />
+        <mat-icon
+          mat-suffix
+          (click)="repeatPasswordHide = !repeatPasswordHide"
+          >{{
+            repeatPasswordHide
+              ? iconConstant.visibility_off
+              : iconConstant.visibility
+          }}</mat-icon
+        >
+      </div>
+      <mat-error>
+        {{
+          this.form.get("repeatPassword")?.hasError("required")
+            ? errorConstant.campo_obbligatorio
+            : errorConstant.password_non_corrispondono
+        }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.nome }}</mat-label>
+      <input type="text" matInput formControlName="nome" noEmoji />
+      <mat-error>{{
+        form.get("nome")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.cognome }}</mat-label>
+      <input type="text" matInput formControlName="cognome" noEmoji />
+      <mat-error>{{
+        form.get("cognome")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.telefono }}</mat-label>
+      <input type="text" matInput formControlName="numberPhone" noEmoji />
+      <mat-error>{{
+        form.get("numberPhone")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.userType }}</mat-label>
+      <mat-select formControlName="userType">
+        <mat-option *ngFor="let opt of tipologieUser" [value]="opt">{{
+          opt
+        }}</mat-option>
+      </mat-select>
+      <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.telefono }}</mat-label>
+      <input type="text" matInput formControlName="photoURL" noEmoji />
+      <!-- <mat-error>{{
+          form.get("photoURL")?.hasError("required")
+            ? errorConstant.campo_obbligatorio
+            : errorConstant.campo_non_valido
+        }}</mat-error> -->
+    </mat-form-field>
+  </form>
+</div>
