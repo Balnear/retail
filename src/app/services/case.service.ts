@@ -20,8 +20,10 @@ import { Casa } from '../models';
 export class CaseService {
   /**Tipologia casa */
   tipologie: string[] = [];
-  /** Oggetto per il dettaglio della casa */
+  /**Oggetto per il dettaglio della casa */
   dettaglioCasa!: any;
+  /**Variabile di appoggio per la gestione di assegna-case tramite id */
+  idAssegnato!: boolean;
 
   constructor(private firestore: Firestore) {}
 
