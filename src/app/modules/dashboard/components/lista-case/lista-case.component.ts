@@ -6,11 +6,13 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AngularMaterialModule } from '../../../material-module';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import {
   CaseService,
   LoaderSpinnerService,
@@ -35,7 +37,6 @@ import {
   GenericFeedbackModalComponent,
   GenericStepperModal,
 } from '../../../../shared';
-import { MatDialog } from '@angular/material/dialog';
 import { StepInformazioniComponent } from '../../../../shared/form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepCaratteristicheComponent } from '../../../../shared/form-crea-casa/step-caratteristiche/step-caratteristiche.component';
 import { StepCostiComponent } from '../../../../shared/form-crea-casa/step-costi/step-costi.component';
@@ -83,6 +84,11 @@ export default class ListaCaseComponent {
   /** Le actions della dropdown */
   actions: any[] = [
     {
+      label: 'Assegna casa',
+      icon: 'login',
+      actionFunction: (r: any) => this.assegnaCasa(r.id),
+    },
+    {
       label: 'Dettaglio',
       icon: 'visibility',
       actionFunction: (r: any) => this.dettaglioCasa(r.id),
@@ -106,13 +112,15 @@ export default class ListaCaseComponent {
    * @param {PanelService} panelService L'injectable del service pannello
    * @param {MatDialog} dialog L'injectable del token
    * @param {FormBuilder} fb L'injectable del FormBuilder
+   * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private caseService: CaseService,
     private loaderSpinnerService: LoaderSpinnerService,
     private panelService: PanelService,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {}
 
   /** Lifecycle hook dell'onInit */
@@ -138,6 +146,22 @@ export default class ListaCaseComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  /**Metodo per associare una casa ad uno o più inquilini */
+  assegnaCasa(id: string) {
+    this.loaderSpinnerService.show();
+    this.caseService.getCasa(id).subscribe({
+      next: (res) => {
+        this.loaderSpinnerService.hide();
+        const obj = res._document.data.value.mapValue.fields;
+        console.log(obj, 'obj');
+
+        this.caseService.dettaglioCasa = obj;
+
+        this.router.navigateByUrl('/bo/assegna-casa');
+      },
+    });
   }
 
   /**Metodo per visualizzare il dettaglio della casa */

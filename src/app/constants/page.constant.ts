@@ -25,6 +25,20 @@ export const PAGE_CONSTANT = {
       },
     ],
   },
+  case: {
+    name: 'Case',
+    icon: 'apartment',
+    childPaths: ['bo/assegna-casa'],
+    showChild: false,
+    deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
+    child: [
+      {
+        name: 'Assegna casa',
+        path: 'bo/assegna-casa',
+      },
+    ],
+  },
+
   // colture: {
   //   name: 'Colture',
   //   icon: ICON_CONSTANT.colture,
@@ -71,6 +85,9 @@ export const DASHBOARD_HEADER = {
   '/bo/inquilini': {
     title: 'Inquilini',
   },
+  '/bo/assegna-casa': {
+    title: 'Assegna casa',
+  },
 };
 
 export const BREADCRUBS_HEADER = {
@@ -84,5 +101,9 @@ export const BREADCRUBS_HEADER = {
   '/bo/inquilini': {
     title: 'bo >',
     subTitle: '  Inquilini',
+  },
+  '/bo/assegna-casa': {
+    title: 'bo >',
+    subTitle: '  Assegna casa',
   },
 };

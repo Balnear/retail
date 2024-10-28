@@ -11,17 +11,21 @@
             <app-button-crea-casa
               *ngIf="section == 'dashboard'"
             ></app-button-crea-casa>
-            <!-- <app-button-crea-locatore
+            <app-button-crea-locatore
               *ngIf="section == 'locatori'"
-            ></app-button-crea-locatore> -->
-            <!-- <app-button-crea-inquilino
+            ></app-button-crea-locatore>
+            <app-button-crea-inquilino
               *ngIf="section == 'inquilini'"
-            ></app-button-crea-inquilino> -->
+            ></app-button-crea-inquilino>
+            <app-button-assegna-casa
+              *ngIf="section == 'assegna-casa'"
+            ></app-button-assegna-casa>
             <app-generic-drop-down-menu
               *ngIf="
                 section != 'dashboard' &&
                 section != 'locatori' &&
-                section != 'inquilini'
+                section != 'inquilini' &&
+                section != 'assegna-casa'
               "
               [action]="action"
             ></app-generic-drop-down-menu>

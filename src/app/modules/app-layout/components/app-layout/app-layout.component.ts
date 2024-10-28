@@ -13,7 +13,11 @@ import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
 import { MatDialog } from '@angular/material/dialog';
-import { CaseService, LoaderSpinnerService, LoginService } from '../../../../services';
+import {
+  CaseService,
+  LoaderSpinnerService,
+  LoginService,
+} from '../../../../services';
 import { CustomDialogService } from '../../../../services/dialog.service';
 import {
   BUTTON_CONSTANT,
@@ -35,6 +39,9 @@ import {
 } from '../../../../shared';
 import { SelectCreazioneTipologiaComponent } from '../../../../shared/select-creazione-tipologia/select-creazione-tipologia.component';
 import { SelectEliminaTipologiaComponent } from '../../../../shared/select-elimina-tipologia/select-elimina-tipologia.component';
+import { ButtonCreaLocatoreComponent } from '../../../../shared/buttons/button-crea-locatore/button-crea-locatore.component';
+import { ButtonCreaInquilinoComponent } from '../../../../shared/buttons/button-crea-inquilino/button-crea-inquilino.component';
+import { ButtonAssegnaCasaComponent } from '../../../../shared/buttons/button-assegna-casa/button-assegna-casa.component';
 
 /**
  * Component utilizzato come layout per le pagine dell'applicazione.
@@ -53,6 +60,9 @@ import { SelectEliminaTipologiaComponent } from '../../../../shared/select-elimi
     SetTextByUrlPipe,
     GenericDropDownMenuComponent,
     ButtonCreaCasaComponent,
+    ButtonCreaLocatoreComponent,
+    ButtonCreaInquilinoComponent,
+    ButtonAssegnaCasaComponent,
   ],
 })
 export class AppLayoutComponent {
@@ -66,7 +76,7 @@ export class AppLayoutComponent {
   iconConstant = ICON_CONSTANT;
   /** Le actions della dropdown */
   /**Variabile section */
-  section!: '' | 'dashboard' | 'locatori' | 'inquilini';
+  section!: '' | 'dashboard' | 'locatori' | 'inquilini' | 'assegna-casa';
   /**
    * Sottoscrizione all'evento di navigazione della Router
    */
@@ -137,6 +147,8 @@ export class AppLayoutComponent {
       this.section = 'locatori';
     } else if (this.router.url.includes('/bo/inquilini')) {
       this.section = 'inquilini';
+    } else if (this.router.url.includes('/bo/assegna-casa')) {
+      this.section = 'assegna-casa';
     } else {
       this.section = '';
     }

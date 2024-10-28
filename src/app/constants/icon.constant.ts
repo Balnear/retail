@@ -69,4 +69,5 @@ export const ICON_CONSTANT = {
   mode_heat_cool: 'mode_heat_cool',
   payments: 'payments',
   attach_money: 'attach_money',
+  login: 'login',
 };

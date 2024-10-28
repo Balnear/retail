@@ -90,7 +90,7 @@ export class ButtonCreaCasaComponent {
     });
   }
 
-  /**Apertura del panel per la creazione gestore */
+  /**Apertura del panel per la creazione della casa */
   openDialog() {
     this.dialogRef = this.dialog.open(GenericStepperModal, {
       width: '824px',

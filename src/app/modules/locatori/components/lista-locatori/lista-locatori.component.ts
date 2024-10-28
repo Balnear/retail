@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
-import { AngularMaterialModule } from '../../../material-module';
-
-/** Componente per la lista dei locatori */
+/** Componente per la gestione dei locatori */
 @Component({
   selector: 'app-lista-locatori',
   standalone: true,
-  imports: [CommonModule, AngularMaterialModule],
+  imports: [RouterModule],
   templateUrl: './lista-locatori.component.html',
-  styleUrl: './lista-locatori.component.scss',
+  styleUrls: ['./lista-locatori.component.scss'],
 })
 export default class ListaLocatoriComponent {}

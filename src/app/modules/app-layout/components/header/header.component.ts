@@ -79,6 +79,7 @@ export class HeaderComponent {
    * @param {LoginService} loginService Injectable del service Login
    * @param {LoaderSpinnerService} loadSpinnerService Injecatble del service loadSpinner
    * @param {MatDialog} dialog Injectable del service MatDialog
+   * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private loginService: LoginService,

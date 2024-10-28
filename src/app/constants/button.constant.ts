@@ -15,4 +15,7 @@ export const BUTTON_CONSTANT = {
   aggiungi_casa: 'AGGIUNGI CASA',
   elimina: 'ELIMINA',
   modifica_casa: 'MODIFICA CASA',
+  assegna_casa: 'ASSEGNA CASA',
+  aggiungi_locatore: 'AGGIUNGI LOCATORE',
+  aggiungi_inquilino: 'AGGIUNGI INQUILINO',
 };

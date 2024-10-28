@@ -123,6 +123,6 @@ export class AppSidebarComponent {
     //   child: [],
     // };
 
-    this.pages = [pages.dashboard, pages.utenti];
+    this.pages = [pages.dashboard, pages.utenti, pages.case];
   }
 }
