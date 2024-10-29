@@ -35,4 +35,14 @@ export class CustomValidator {
       return isValid ? null : { invalidEmail: true };
     };
   }
+
+  /**Validatore personalizzato per caratteri speciali */
+  static specialCharacterValidator(): (
+    control: AbstractControl
+  ) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(control.value);
+      return hasSpecialChar ? null : { missingSpecialChar: true };
+    };
+  }
 }

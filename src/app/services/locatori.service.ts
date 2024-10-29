@@ -24,6 +24,8 @@ export class LocatoriService {
   imageURL!: string;
   /** Booleana per la verifica dell'email */
   verification!: boolean;
+  /** Contiene L'url dell'immagine selezionata */
+  imageUrls!: string;
 
   /** Il costruttore della classe.*/
   constructor(private auth: Auth, private firestore: Firestore) {}

@@ -1,25 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  LoaderSpinnerService,
-  LocatoriService,
-  NotificationService,
-} from '../../../services';
+import { LoaderSpinnerService, LocatoriService } from '../../../services';
 import { CustomDialogService } from '../../../services/dialog.service';
 import {
   BUTTON_CONSTANT,
+  GENERIC_CONFIRM,
   GENERIC_FEEDBACK,
   LABEL_CONSTANT,
 } from '../../../constants';
 import {
   GenericFormModalComponent,
   GenericFeedbackModalComponent,
+  GenericConfirmModalComponent,
 } from '../../generics';
 import { FormCreaLocatoreComponent } from '../../form-crea-locatore/form-crea-locatore.component';
+import { CustomValidator } from '../../../utils';
 
 /**Componente ButtonCreaLocatore */
 @Component({
@@ -42,7 +41,8 @@ export class ButtonCreaLocatoreComponent {
   // @Output() locatoreAdded = new EventEmitter<any>();
 
   /**
-   * Il costruttore della classe ButtonCreaCaseComponent
+   * Il costruttore della classe ButtonCreaLocatoreComponent
+   * @param {CustomDialogService} customDialogService  Service customDialogService
    * @param {LoaderSpinnerService} loaderSpinnerService  Service loaderSpinnerService
    * @param {LocatoriService} locatoriService  Service locatoriService
    * @param {MatDialog} dialog - Injectable del service MatDialog per aprire finestre di dialogo
@@ -52,7 +52,6 @@ export class ButtonCreaLocatoreComponent {
     private customDialogService: CustomDialogService,
     private loaderSpinnerService: LoaderSpinnerService,
     private locatoriService: LocatoriService,
-    private notifica: NotificationService,
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {}
@@ -78,7 +77,9 @@ export class ButtonCreaLocatoreComponent {
               [
                 Validators.required,
                 Validators.minLength(8),
-                Validators.maxLength(64),
+                Validators.pattern(/[A-Z]/), // Almeno una lettera maiuscola
+                Validators.pattern(/[0-9]/), // Almeno un numero
+                CustomValidator.specialCharacterValidator(), // Validatore personalizzato per caratteri speciali
               ],
             ],
             repeatPassword: [
@@ -99,7 +100,15 @@ export class ButtonCreaLocatoreComponent {
             ],
             photoURL: [''],
             userType: ['', [Validators.required]],
-            numberPhone: [''],
+            numberPhone: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(10),
+                Validators.maxLength(15),
+                Validators.pattern('[0-9 +]*'),
+              ],
+            ],
           },
           { validator: this.passwordMatchValidator }
         ),
@@ -115,7 +124,14 @@ export class ButtonCreaLocatoreComponent {
       },
     });
     this.dialogRef.backdropClick().subscribe(() => {
-      this.customDialogService.closeDialog();
+      this.dialog
+        .open(GenericConfirmModalComponent, GENERIC_CONFIRM.sicuro_di_uscire)
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.dialogRef.close();
+          }
+        });
     });
   }
 
@@ -144,7 +160,7 @@ export class ButtonCreaLocatoreComponent {
         '../../../../../assets/images/img-profile.png';
       this.image = this.locatoriService.imageURL;
     } else {
-      this.image = form.value.photoURL;
+      this.image = this.locatoriService.imageUrls;
     }
     const userType = form.value.userType;
     const phoneNumber = form.value.numberPhone;

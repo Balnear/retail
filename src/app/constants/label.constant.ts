@@ -89,6 +89,7 @@ export const LABEL_CONSTANT = {
   inserisci_dati_locatore: 'Inserisci i dati del locatore',
   locatore_creato: 'Locatore creato correttamente',
   dati_locatore_creato: 'Hai creato correttamente il locatore!',
+  mia_immagine: 'Immagine',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
