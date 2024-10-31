@@ -11,7 +11,7 @@ export interface LocatoreProfile {
   /**Data di creazione del locatore */
   createdAt: Date;
   /**Numero di telefono del locatore */
-  phoneNumber?: string;
+  phoneNumber: string;
   /**Immagine del profilo del locatore */
   photoURL?: string;
 }

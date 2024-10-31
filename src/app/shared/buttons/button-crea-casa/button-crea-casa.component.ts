@@ -3,7 +3,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { CaseService, LoaderSpinnerService } from '../../../services';
+import {
+  CaseService,
+  LoaderSpinnerService,
+  LocatoriService,
+} from '../../../services';
 import {
   BUTTON_CONSTANT,
   GENERIC_CONFIRM,
@@ -19,6 +23,7 @@ import { StepCostiComponent } from '../../form-crea-casa/step-costi/step-costi.c
 import { StepInformazioniComponent } from '../../form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepRiepilogoComponent } from '../../form-crea-casa/step-riepilogo/step-riepilogo.component';
 import { CustomValidator } from '../../../utils';
+import { User } from '../../../models';
 
 /**Componente ButtonCreaCasa */
 @Component({
@@ -47,6 +52,7 @@ export class ButtonCreaCasaComponent {
    */
   constructor(
     private loaderSpinnerService: LoaderSpinnerService,
+    private locatoriService: LocatoriService,
     private caseService: CaseService,
     private dialog: MatDialog,
     private fb: FormBuilder
@@ -100,23 +106,6 @@ export class ButtonCreaCasaComponent {
       data: {
         form: this.form,
         formValidators: [
-          // {
-          //   validators: [
-          //     {
-          //       field: 'locatore.id',
-          //       validators: Validators.required,
-          //     },
-          //     {
-          //       field: 'locatore.displayName',
-          //       validators: Validators.required,
-          //     },
-          //     {
-          //       field: 'locatore.phoneNumber',
-          //       validators: Validators.required,
-          //     },
-          //   ],
-          // },
-
           {
             validators: [
               /**Informazioni generali */
@@ -250,6 +239,7 @@ export class ButtonCreaCasaComponent {
   /** submitForm creazione case ed aggiornamento lista case */
   submitForm(form: any) {
     this.loaderSpinnerService.show();
+    console.log(form.value, 'formValue');
     this.caseService.creaCasa(form.value).subscribe({
       next: (res) => {
         this.loaderSpinnerService.hide();

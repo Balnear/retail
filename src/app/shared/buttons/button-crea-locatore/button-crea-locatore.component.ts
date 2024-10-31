@@ -100,7 +100,7 @@ export class ButtonCreaLocatoreComponent {
             ],
             photoURL: [''],
             userType: ['', [Validators.required]],
-            numberPhone: [
+            phoneNumber: [
               '',
               [
                 Validators.required,
@@ -163,7 +163,7 @@ export class ButtonCreaLocatoreComponent {
       this.image = this.locatoriService.imageUrls;
     }
     const userType = form.value.userType;
-    const phoneNumber = form.value.numberPhone;
+    const phoneNumber = form.value.phoneNumber;
     const photoURL = this.image;
     const displayName = form.value.nome + ' ' + form.value.cognome;
     this.locatoriService

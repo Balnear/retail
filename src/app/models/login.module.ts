@@ -13,7 +13,7 @@ export interface User {
   /**Tipologia di utente */
   userType: 'Locatore' | 'Inquilino';
   /**Numero di telefono */
-  numberPhone: string;
+  phoneNumber: string;
 }
 
 /** Modello per nominativoUser */
@@ -29,5 +29,5 @@ export interface profiloUser {
   /**Tipologia di utente */
   userType: 'Locatore' | 'Inquilino';
   /**Numero di telefono */
-  numberPhone: string;
+  phoneNumber: string;
 }

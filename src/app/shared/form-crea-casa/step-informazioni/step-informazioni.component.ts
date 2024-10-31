@@ -20,6 +20,7 @@ import {
   LABEL_CONSTANT,
 } from '../../../constants';
 import { NoEmojiDirective, TrimDirective } from '../../../directives';
+import { User } from '../../../models';
 
 /** Componente per lo step delle informazioni */
 @Component({
@@ -70,6 +71,7 @@ export class StepInformazioniComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
   /**Variabile per memorizzare il file caricato */
   file: File | null = null;
+
   /**
    * linkFile è una variabile di tipo SafeResourceUrl che memorizza un URL sicuro
    * utilizzato per incorporare o visualizzare risorse esterne (ad es. PDF, video, ecc.).
@@ -97,16 +99,16 @@ export class StepInformazioniComponent {
   /** Lifecycle hook dell'onInit, */
   ngOnInit() {
     this.form = this.parentF.form;
+    this.locatoriService.getAllLocatori().subscribe({
+      next: (users: any) => (this.locatoriOption = users),
+      error: (err) =>
+        console.error('Errore nel recupero degli utenti Locatore:', err),
+    });
     this.tipologieCase = this.caseService.tipologie;
     console.log(this.form, 'form informazioni');
     this.linkFile = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.form.get('documentoArredamento')?.value
     );
-    //TODO: AGGIUNGERLO DOPO LA CRUD LOCATORI
-    // this.form.value.arredamento = false;
-    // this.locatoriService.getAllLocatori().subscribe((res: any) => {
-    // this.locatoriOption = res;
-    // });
   }
 
   /**Metodo per disabilitare i giorni precedenti alla data corrente */

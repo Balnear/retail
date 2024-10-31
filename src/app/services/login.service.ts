@@ -127,7 +127,7 @@ export class LoginService {
             photoURL: data?.['photoURL'] || '',
             emailVerified: data?.['emailVerified'] || false,
             userType: data?.['userType'] || 'Inquilino',
-            numberPhone: data?.['numberPhone'] || '',
+            phoneNumber: data?.['phoneNumber'] || '',
           } as profiloUser;
         } else {
           return null;
@@ -183,7 +183,7 @@ export class LoginService {
       photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
       emailVerified: firebaseUser.emailVerified,
       userType: profileData?.userType || 'Inquilino',
-      numberPhone: profileData?.numberPhone || firebaseUser.phoneNumber || '',
+      phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
     };
   }
 

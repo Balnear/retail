@@ -6,4 +6,13 @@
   padding: 12px;
   background-color: $white;
   border-radius: 8px;
+  .card-container {
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }

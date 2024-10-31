@@ -1,0 +1,83 @@
+@import "../../../../assets/scss/variables.scss";
+
+.container-content {
+  width: 260px;
+  height: 300px;
+  border-radius: 8px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $grey-card;
+  border: 2px solid $grey-border-card;
+  .image-profile {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 160px;
+    .logo {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+  .flex {
+    display: flex;
+    width: 100%;
+
+    &.sp-between {
+      justify-content: space-between;
+      align-items: center;
+    }
+    &.flex-end {
+      padding: 16px;
+      justify-content: end;
+      align-items: end;
+    }
+    button {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 500;
+      color: $brown;
+      text-shadow: none;
+      background: transparent;
+      cursor: pointer;
+      box-shadow: transparent;
+      border: 1px solid $black;
+      transition: 0.5s ease;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: center;
+    }
+    #btn:hover,
+    :focus {
+      color: #ffffff;
+      background: #008cff;
+      border: 1px solid #008cff;
+      text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+      box-shadow: 0 0 5px #008cff, 0 0 20px #008cff, 0 0 50px #008cff,
+        0 0 100px #008cff;
+    }
+  }
+  .container-title {
+    text-align: center;
+    max-width: 80%;
+    height: 114px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .title {
+      @include text($font-20, 700, $brown, 38px, none);
+    }
+  }
+}

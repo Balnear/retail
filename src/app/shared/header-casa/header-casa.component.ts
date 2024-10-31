@@ -93,6 +93,7 @@ export class HeaderCasaComponent {
       next: (casa) => {
         this.loaderSpinnerService.hide();
         const objCasa = casa._document.data.value.mapValue.fields;
+        const objLocatore = objCasa.locatore.mapValue.fields;
         const objCaratteristiche =
           casa._document.data.value.mapValue.fields.caratteristiche.mapValue
             .fields;
@@ -137,9 +138,9 @@ export class HeaderCasaComponent {
               //TODO: VERIFICARE COME INSERIRE QUESTO
               // assegnaCasa: [objCasa.assegnaCasa],
               locatore: this.fb.group({
-                id: [objCasa.locatore.id],
-                displayName: [objCasa.locatore.displayName],
-                phoneNumber: [objCasa.locatore.phoneNumber],
+                id: [objLocatore.id.stringValue],
+                displayName: [objLocatore.displayName.stringValue],
+                phoneNumber: [objLocatore.phoneNumber.stringValue],
               }),
               caratteristiche: this.fb.group({
                 dimensione: [

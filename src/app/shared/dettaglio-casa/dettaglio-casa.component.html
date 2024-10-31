@@ -7,7 +7,7 @@
         <h6>
           {{
             locatore.displayName.stringValue
-              ? locatore.displayName.stringValue
+              ? (locatore.displayName.stringValue | titlecase)
               : "-"
           }}
         </h6>

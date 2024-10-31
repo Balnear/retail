@@ -32,6 +32,8 @@ export class DettaglioCasaComponent {
    */
   constructor(private caseService: CaseService) {
     this.data = this.caseService.dettaglioCasa;
+    console.log(this.data, 'data');
+
     this.locatore = this.data.locatore.mapValue.fields;
     this.caratteristiche = this.data.caratteristiche.mapValue.fields;
     this.costi = this.data.costi.mapValue.fields;

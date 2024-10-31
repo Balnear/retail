@@ -27,8 +27,6 @@ export interface Casa {
   /**locatore della casa */
   locatore: {
     id: string;
-    displayName: string;
-    phoneNumber: string;
   };
   /**caratteristiche */
   caratteristiche: CaratteristicheCasa;

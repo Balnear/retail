@@ -18,10 +18,10 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="font-text w-49">
       <mat-label>{{ inputConstant.telefono }}</mat-label>
-      <input type="text" matInput formControlName="numberPhone" noEmoji />
-      <mat-hint>{{hintConstant.requisiti_telefono}}</mat-hint>
+      <input type="text" matInput formControlName="phoneNumber" noEmoji />
+      <mat-hint>{{ hintConstant.requisiti_telefono }}</mat-hint>
       <mat-error>{{
-        form.get("numberPhone")?.hasError("required")
+        form.get("phoneNumber")?.hasError("required")
           ? errorConstant.campo_obbligatorio
           : errorConstant.campo_non_valido
       }}</mat-error>

@@ -1,0 +1,21 @@
+<div class="container-content">
+  <div class="image-profile">
+    <img class="logo" [src]="data?.photoURL" alt="image-profile" />
+  </div>
+  <div class="container-title">
+    <h2 class="title">{{ data?.displayName | titlecase }}</h2>
+  </div>
+  <div class="flex flex-end">
+    <button
+      id="btn"
+      *ngFor="let action of actions"
+      mat-icon-button
+      color="primary"
+      matTooltip="{{ action.label }}"
+      (click)="action.callback()"
+    >
+      <mat-icon>{{ action.icon }}</mat-icon
+      >{{ action.label }}
+    </button>
+  </div>
+</div>
