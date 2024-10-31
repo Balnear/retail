@@ -19,4 +19,16 @@ export class GenericCardComponent {
   @Input() data!: any;
   /**Accetta un array di azioni */
   @Input() actions: any[] = [];
+
+  /** Funzione che restituisce la classe CSS in base all'attività del locatore */
+  getStatusClass(activity: string) {
+    switch (activity) {
+      case 'Online':
+        return 'on-green';
+      case 'Offline':
+        return 'of-red';
+      default:
+        return '';
+    }
+  }
 }

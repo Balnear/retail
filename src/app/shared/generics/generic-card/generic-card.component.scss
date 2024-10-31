@@ -22,10 +22,49 @@
     height: 160px;
     .logo {
       width: 100%;
-      height: 100%;
+      height: 160px;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
+    }
+    .status {
+      position: absolute;
+      top: 27%;
+      width: 19%;
+      height: 7%;
+      background-color: $info-color;
+      opacity: 0.8;
+      border: 2px solid $grey-border-card;
+      border-radius: 8px;
+      .status_content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        @include text($font-20, 700, $secondary, none, none);
+      }
+      .on-green {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        border: 2px solid $black;
+        border-radius: 8px;
+        background-color: greenyellow;
+      }
+      .of-red {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        border: 2px solid $black;
+        border-radius: 8px;
+        background-color: red;
+      }
     }
   }
   .flex {

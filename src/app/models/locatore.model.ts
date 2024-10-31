@@ -14,4 +14,6 @@ export interface LocatoreProfile {
   phoneNumber: string;
   /**Immagine del profilo del locatore */
   photoURL?: string;
+  /**Stato di attività */
+  status: 'Online' | 'Offline';
 }

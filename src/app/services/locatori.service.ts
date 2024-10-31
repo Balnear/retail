@@ -39,6 +39,7 @@ export class LocatoriService {
     displayName: string,
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
+    status: 'Online' | 'Offline',
     photoURL?: string
   ): Observable<LocatoreProfile | null> {
     const user = this.auth.currentUser; // Ottieni l'utente corrente
@@ -61,6 +62,7 @@ export class LocatoriService {
             displayName,
             userType,
             phoneNumber,
+            status,
             photoURL
           );
         } else {
@@ -81,6 +83,7 @@ export class LocatoriService {
     displayName: string,
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
+    status: 'Online' | 'Offline',
     photoURL?: string
   ): Observable<LocatoreProfile> {
     const firestore = getFirestore();
@@ -90,6 +93,7 @@ export class LocatoriService {
       displayName,
       userType,
       phoneNumber,
+      status,
       photoURL,
       createdAt: new Date(),
     };
@@ -133,7 +137,6 @@ export class LocatoriService {
   getLocatore(userId: string): Observable<User | null> {
     // Riferimento al documento utente
     const userDocRef = doc(this.firestore, `locatori/${userId}`);
-
     return from(getDoc(userDocRef)).pipe(
       map((docSnap) => {
         if (docSnap.exists()) {

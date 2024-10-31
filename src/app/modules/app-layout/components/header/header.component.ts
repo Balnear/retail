@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
@@ -14,15 +13,9 @@ import {
   ICON_CONSTANT,
   BREADCRUBS_HEADER,
   GENERIC_CONFIRM,
-  BUTTON_CONSTANT,
-  GENERIC_FEEDBACK,
 } from '../../../../constants';
 import { BreadcrumbsPipe } from '../../../../pipes';
-import {
-  GenericConfirmModalComponent,
-  GenericFormModalComponent,
-  GenericFeedbackModalComponent,
-} from '../../../../shared';
+import { GenericConfirmModalComponent } from '../../../../shared';
 
 /**Component utilizzato come header per le pagine dell'applicazione.*/
 @Component({
@@ -106,6 +99,7 @@ export class HeaderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
+            this.loginService.updateUserStatus(this.data.uid, 'Offline');
             this.loginService.logout();
             this.loginService.goToLogin();
             this.loginService.clearStorage();
@@ -115,103 +109,6 @@ export class HeaderComponent {
       });
   }
 
-  /**Modifica i dati del profilo utente */
-  editOrChangeProfile() {
-    const nome = this.data.displayName.split(' ')[0].trim();
-    const cognome = this.data.displayName.split(' ').pop().trim();
-    // Data saved successfully!
-    this.dialogRef = this.dialog.open(GenericFormModalComponent, {
-      width: '824px',
-      height: '864px',
-      scrollStrategy: new NoopScrollStrategy(),
-      disableClose: true,
-      data: {
-        form: this.fb.group({
-          uid: this.data.uid,
-          nome: [{ value: nome, disabled: true }],
-          cognome: [{ value: cognome, disabled: true }],
-          telphoneNumber: [
-            this.data.telphoneNumber,
-            [
-              Validators.required,
-              Validators.minLength(10),
-              Validators.maxLength(15),
-              Validators.pattern('[0-9 +]*'),
-            ],
-          ],
-          email: [
-            this.data.email,
-            [
-              Validators.required,
-              Validators.pattern(
-                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-              ),
-            ],
-          ],
-          profile_picture: [this.data.profile_picture],
-        }),
-        headerLabels: {
-          // title: LABEL_CONSTANT.modifica_utente,
-          // subtitle: LABEL_CONSTANT.modifica_dati_utente,
-        },
-        submitFormText: BUTTON_CONSTANT.salva,
-        showTipologia: true,
-        // component: FormAggiornaUtenteComponent,
-        // callback: (form: any) => this.submitForm(form),
-      },
-    });
-    this.dialogRef.backdropClick().subscribe(() => {
-      this.dialog
-        .open(GenericConfirmModalComponent, GENERIC_CONFIRM.sicuro_di_uscire)
-        .afterClosed()
-        .subscribe((res) => {
-          if (res) {
-            this.dialogRef.close();
-          }
-          this.loaderSpinner.show();
-          setTimeout(() => {
-            this.loaderSpinner.hide();
-          }, 2000); // Nascondi lo spinner dopo la chiusura del modal
-        });
-    });
-  }
-
-  /**Aggiornamento numero di telefono USER */
-  // onUpdatePhoneNumber(userId: string, newPhoneNumber: string) {
-  //   this.userService
-  //     .updatePhoneNumber(userId, newPhoneNumber)
-  //     .subscribe(() => {
-  //       this.data.telphoneNumber = newPhoneNumber;
-  //       localStorage.setItem(`user_${userId}_telphoneNumber`, newPhoneNumber);
-  //     });
-  // }
-
-  /** submitForm aggiornamento profilo utente */
-  // submitForm(form: any) {
-  //   const obj = form.value;
-  //   this.userService
-  //     .editProfile(obj.uid, obj.email, obj.profile_picture)
-  //     .then(() => {
-  //       this.onUpdatePhoneNumber(obj.uid, obj.phoneNumber);
-  //       this.data.telphoneNumber = obj.phoneNumber;
-  //       this.data.profile_picture = obj.profile_picture;
-  //       this.dialogRef.close();
-  //       this.dialog
-  //         .open(
-  //           GenericFeedbackModalComponent,
-  //           GENERIC_FEEDBACK.modifiche_salvate
-  //         )
-  //         .afterClosed()
-  //         .subscribe(() => {
-  //           this.loaderSpinner.show();
-  //           setTimeout(() => {
-  //             this.loaderSpinner.hide();
-  //           }, 2000); // Nascondi lo spinner dopo la chiusura del modal
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       this.loaderSpinner.hide();
-  //       this.userService.firebaseError(error.code);
-  //     });
-  // }
+  /**Modifica i dati del profilo del locatore */
+  editOrChangeProfile() {}
 }

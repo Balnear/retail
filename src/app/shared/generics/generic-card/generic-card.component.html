@@ -1,6 +1,10 @@
 <div class="container-content">
   <div class="image-profile">
     <img class="logo" [src]="data?.photoURL" alt="image-profile" />
+    <div class="status">
+      <div [ngClass]="getStatusClass(data?.status)"></div>
+      <h2 class="status_content">{{ data?.status | titlecase }}</h2>
+    </div>
   </div>
   <div class="container-title">
     <h2 class="title">{{ data?.displayName | titlecase }}</h2>

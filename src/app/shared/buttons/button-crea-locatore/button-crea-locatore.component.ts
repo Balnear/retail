@@ -153,6 +153,7 @@ export class ButtonCreaLocatoreComponent {
   submitForm(form: any) {
     this.loaderSpinnerService.show();
     console.log(form.value, 'form');
+    form.value.status = 'Offline';
     const email = form.value.email;
     const password = form.value.password;
     if (form.value.photoURL === '') {
@@ -166,6 +167,7 @@ export class ButtonCreaLocatoreComponent {
     const phoneNumber = form.value.phoneNumber;
     const photoURL = this.image;
     const displayName = form.value.nome + ' ' + form.value.cognome;
+    const status = form.value.status;
     this.locatoriService
       .creaLocatore(
         email,
@@ -173,6 +175,7 @@ export class ButtonCreaLocatoreComponent {
         displayName,
         userType,
         phoneNumber,
+        status,
         photoURL
       )
       .subscribe({

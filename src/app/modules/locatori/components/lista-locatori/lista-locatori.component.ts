@@ -49,8 +49,6 @@ export default class ListaLocatoriComponent {
   ngOnInit() {
     this.locatoriService.getAllLocatori().subscribe({
       next: (users: any) => (this.locatori = users),
-      error: (err) =>
-        console.error('Errore nel recupero degli utenti Locatore:', err),
     });
   }
   /**Metodo per visualizzare il dettaglio del locatore */

@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   User as FirebaseUser,
@@ -63,6 +63,18 @@ export class LoginService {
     private dialog: MatDialog
   ) {
     this.initCurrentUser();
+    /**
+     * Se desideri che lo stato cambi anche quando l'utente
+     * chiude la finestra o si disconnette dalla rete, puoi
+     * aggiungere un gestore beforeunload o ascoltare eventi
+     * online/offline.
+     */
+    window.addEventListener('beforeunload', () => {
+      const currentUser = this.auth.currentUser;
+      if (currentUser) {
+        this.updateUserStatus(currentUser.uid, 'Offline');
+      }
+    });
   }
 
   /**Inizializza l'utente corrente all'avvio del servizio */
@@ -71,6 +83,19 @@ export class LoginService {
     onAuthStateChanged(this.auth, (user) => {
       // Mappa l'utente Firebase al modello User e aggiorna il subject
       this.currentUserSubject.next(this.mapFirebaseUserToUser(user));
+    });
+  }
+
+  /**
+   * Aggiorna lo stato dell'utente nel documento Firestore.
+   */
+  updateUserStatus(
+    userId: string,
+    status: 'Online' | 'Offline'
+  ): Promise<void> {
+    const userDocRef = doc(this.firestore, `locatori/${userId}`);
+    return updateDoc(userDocRef, {
+      status,
     });
   }
 
@@ -84,7 +109,12 @@ export class LoginService {
       switchMap(() =>
         from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
           switchMap((userCredential) => {
-            return this.getUserProfile(userCredential.user.uid).pipe(
+            const user = userCredential.user;
+            if (user) {
+              // Imposta lo stato dell'utente a "online" su Firestore
+              this.updateUserStatus(user.uid, 'Online');
+            }
+            return this.getUserProfile(user.uid).pipe(
               map((profileData) => {
                 const user = this.mapFirebaseUserToUser(
                   userCredential.user,
@@ -127,6 +157,7 @@ export class LoginService {
             photoURL: data?.['photoURL'] || '',
             emailVerified: data?.['emailVerified'] || false,
             userType: data?.['userType'] || 'Inquilino',
+            status: data?.['status'] || 'Offline',
             phoneNumber: data?.['phoneNumber'] || '',
           } as profiloUser;
         } else {
@@ -183,6 +214,7 @@ export class LoginService {
       photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
       emailVerified: firebaseUser.emailVerified,
       userType: profileData?.userType || 'Inquilino',
+      status: profileData?.status || 'Offline',
       phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
     };
   }

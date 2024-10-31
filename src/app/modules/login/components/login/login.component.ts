@@ -100,12 +100,10 @@ export default class LoginComponent {
         this.loaderSpinnerService.hide();
         if (res) {
           if (res.userType === 'Locatore') {
-            console.log('sono un locatore');
             console.log(res, 'credenziali');
             this.router.navigate(['/bo/dashboard']);
             this.notifica.show('Accesso eseguito correttamente', -1, 'success');
           } else if (res.userType === 'Inquilino') {
-            console.log('sono un inquilino');
             console.log(res, 'credenziali');
             this.router.navigate(['/bo/dashboard']);
             this.notifica.show('Accesso eseguito correttamente', -1, 'success');
@@ -114,7 +112,6 @@ export default class LoginComponent {
       },
       error: (error) => {
         console.log(error, 'errore');
-
         this.loaderSpinnerService.hide();
         this.firebaseError(error.code);
       },

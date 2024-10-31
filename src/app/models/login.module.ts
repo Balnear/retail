@@ -14,6 +14,8 @@ export interface User {
   userType: 'Locatore' | 'Inquilino';
   /**Numero di telefono */
   phoneNumber: string;
+  /**Stato di attività */
+  status: 'Online' | 'Offline';
 }
 
 /** Modello per nominativoUser */
@@ -30,4 +32,6 @@ export interface profiloUser {
   userType: 'Locatore' | 'Inquilino';
   /**Numero di telefono */
   phoneNumber: string;
+  /**Stato di attività */
+  status: 'Online' | 'Offline';
 }
