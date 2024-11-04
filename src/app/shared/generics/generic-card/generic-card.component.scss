@@ -30,8 +30,8 @@
     .status {
       position: absolute;
       top: 27%;
-      width: 19%;
-      height: 7%;
+      width: 12vw;
+      height: 6vh;
       background-color: $info-color;
       opacity: 0.8;
       border: 2px solid $grey-border-card;
@@ -64,6 +64,55 @@
         border: 2px solid $black;
         border-radius: 8px;
         background-color: red;
+      }
+      /* Media Queries per risoluzioni diverse */
+      @media (max-width: 1700px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 25%;
+        }
+      }
+      @media (max-width: 1400px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 22%;
+        }
+      }
+      @media (max-width: 1200px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 19%;
+        }
+      }
+      @media (max-width: 1024px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 12%;
+        }
+      }
+      @media (max-width: 940px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 9%;
+        }
+      }
+      @media (max-width: 840px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 6%;
+        }
       }
     }
   }
