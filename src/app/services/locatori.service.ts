@@ -121,7 +121,7 @@ export class LocatoriService {
 
   /** Ottiene tutti gli utenti con userType = 'Locatore' */
   getAllLocatori(): Observable<User[]> {
-    const usersRef = collection(this.firestore, 'locatori'); // Specifica la tua collezione (es. 'users')
+    const usersRef = collection(this.firestore, 'locatori');
     const locatoriQuery = query(usersRef, where('userType', '==', 'Locatore'));
 
     // Usa collectionData per ottenere un Observable di documenti
@@ -134,15 +134,15 @@ export class LocatoriService {
    * Recupera i dati di un singolo utente da Firestore
    * @param userId - L'ID del locatore da recuperare
    */
-  getLocatore(userId: string): Observable<User | null> {
+  getLocatore(uid: string): Observable<User | null> {
     // Riferimento al documento utente
-    const userDocRef = doc(this.firestore, `locatori/${userId}`);
+    const userDocRef = doc(this.firestore, `locatori/${uid}`);
     return from(getDoc(userDocRef)).pipe(
       map((docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data() as User;
           return {
-            id: userId,
+            id: uid,
             ...data,
           };
         } else {

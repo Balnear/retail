@@ -19,4 +19,5 @@ export const BUTTON_CONSTANT = {
   aggiungi_locatore: 'AGGIUNGI LOCATORE',
   aggiungi_inquilino: 'AGGIUNGI INQUILINO',
   crea_locatore: 'CREA LOCATORE',
+  dettaglio: 'DETTAGLIO',
 };

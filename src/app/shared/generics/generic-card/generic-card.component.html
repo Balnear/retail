@@ -14,16 +14,9 @@
     </h2>
   </div>
   <div class="flex flex-end">
-    <button
-      id="btn"
-      *ngFor="let action of actions"
-      mat-icon-button
-      color="primary"
-      matTooltip="{{ action.label }}"
-      (click)="action.callback()"
-    >
-      <mat-icon>{{ action.icon }}</mat-icon
-      >{{ action.label }}
+    <button id="btn" mat-icon-button color="primary" (click)="onActionClick()">
+      <mat-icon>{{ iconConstant.arrow_forward }}</mat-icon
+      >{{ buttonConstant.dettaglio }}
     </button>
   </div>
 </div>

@@ -37,8 +37,6 @@ export class ButtonCreaLocatoreComponent {
   form!: FormGroup;
   /** URL del imagine del profilo */
   image!: string;
-  /** Emetti quando viene aggiunto un locatore TODO: da gestire */
-  // @Output() locatoreAdded = new EventEmitter<any>();
 
   /**
    * Il costruttore della classe ButtonCreaLocatoreComponent
@@ -185,9 +183,7 @@ export class ButtonCreaLocatoreComponent {
           this.dialog
             .open(GenericFeedbackModalComponent, GENERIC_FEEDBACK.crea_locatore)
             .afterClosed()
-            .subscribe(() => {
-              // this.locatoreAdded.emit(res);
-            });
+            .subscribe(() => {});
         },
         error: (err) => {
           this.loaderSpinnerService.hide();

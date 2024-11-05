@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -36,12 +36,12 @@ import {
   GenericDetailModalComponent,
   GenericFeedbackModalComponent,
   GenericStepperModal,
+  HeaderCasaComponent,
 } from '../../../../shared';
 import { StepInformazioniComponent } from '../../../../shared/form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepCaratteristicheComponent } from '../../../../shared/form-crea-casa/step-caratteristiche/step-caratteristiche.component';
 import { StepCostiComponent } from '../../../../shared/form-crea-casa/step-costi/step-costi.component';
 import { StepRiepilogoComponent } from '../../../../shared/form-crea-casa/step-riepilogo/step-riepilogo.component';
-import { HeaderCasaComponent } from '../../../../shared/header-casa/header-casa.component';
 import { CustomValidator } from '../../../../utils';
 
 /** Componente per la lista delle case */
@@ -106,7 +106,7 @@ export default class ListaCaseComponent {
   ];
 
   /**
-   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case instanziata nel resolver
+   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case
    * @param {CaseService} caseService L'injectable del service CaseService
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
    * @param {PanelService} panelService L'injectable del service pannello
