@@ -1,1 +1,78 @@
-<p>dettaglio-locatore works!</p>
+<div class="container">
+  <div class="informazioni">
+    <h4>{{ labelConstant.informazioni }}</h4>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.nome }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined mt-4">{{
+          iconConstant.badge
+        }}</span>
+        <h6>
+          {{ data.displayName ? data.displayName : "-" }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.email }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined mt-4">{{
+          iconConstant.mail
+        }}</span>
+        <h6>
+          {{ data.email ? data.email : "-" }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.telefono }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined mt-4">{{
+          iconConstant.call
+        }}</span>
+        <h6>
+          {{ data.phoneNumber ? data.phoneNumber : "-" }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.tipologia_user }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined mt-4">{{
+          iconConstant.supervisor_account
+        }}</span>
+        <h6>
+          {{ data.userType ? data.userType : "-" }}
+        </h6>
+      </div>
+    </div>
+    <div class="content_informazioni">
+      <h5>{{ labelConstant.stato_di_attivita }}</h5>
+      <div class="content">
+        <span class="material-symbols-outlined mt-4">{{
+          getStatusIcon(data.status)
+        }}</span>
+        <h6>
+          {{ data.status ? data.status : "-" }}
+        </h6>
+      </div>
+    </div>
+  </div>
+  <!-- LISTA DELLA CASE ASSEGNATE AL LOCATORE -->
+  <div class="container-case">
+    <h4>{{ labelConstant.case_associate }}</h4>
+    <div class="card-container" *ngIf="caseLocatore.length > 0; else noCase">
+      <app-generic-card
+        *ngFor="let casa of caseLocatore"
+        [data]="casa"
+        [actionCallback]="dettaglioCasaLocatore"
+        [locatore]="false"
+        [caseLocatore]="true"
+      ></app-generic-card>
+    </div>
+    <ng-template #noCase>
+      <div class="container-case">
+        <span>{{ resultConstant.nessuna_casa_associata }}</span>
+      </div>
+    </ng-template>
+  </div>
+</div>

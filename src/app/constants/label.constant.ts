@@ -90,6 +90,10 @@ export const LABEL_CONSTANT = {
   locatore_creato: 'Locatore creato correttamente',
   dati_locatore_creato: 'Hai creato correttamente il locatore!',
   mia_immagine: 'Immagine',
+  tipologia_user: 'Tipologia',
+  stato_di_attivita: 'Stato',
+  case_associate: 'Case associate',
+  localita: 'Locatità',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
@@ -104,4 +108,5 @@ export const LABEL_CONSTANT = {
 export const RESULT_CONSTANT = {
   nessun_risultato: 'Nessun risultato trovato.',
   nessuna_casa: 'Nessuna casa trovata.',
+  nessuna_casa_associata: 'Nessuna casa associata',
 };

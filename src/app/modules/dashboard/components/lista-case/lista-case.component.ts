@@ -29,7 +29,6 @@ import {
   ICON_CONSTANT,
   TABLE_INPUT_CONSTANT,
 } from '../../../../constants';
-import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
 import {
   DettaglioCasaComponent,
   GenericConfirmModalComponent,
@@ -55,7 +54,6 @@ import { CustomValidator } from '../../../../utils';
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    GenericDropDownMenuComponent,
   ],
 })
 export default class ListaCaseComponent {
@@ -170,8 +168,7 @@ export default class ListaCaseComponent {
     this.loaderSpinnerService.show();
     this.caseService.getCasa(id).subscribe({
       next: (res) => {
-        const obj = res._document.data.value.mapValue.fields;
-        this.caseService.dettaglioCasa = obj;
+        this.caseService.dettaglioCasa = res;
         this.loaderSpinnerService.hide();
         this.panelService.open(GenericDetailModalComponent, {
           backdropClass: 'custom-backdrop',

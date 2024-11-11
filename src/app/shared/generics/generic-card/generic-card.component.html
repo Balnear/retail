@@ -1,4 +1,5 @@
-<div class="container-content">
+<!-- LISTA LOCATORI -->
+<div class="container-content" *ngIf="locatore">
   <div class="image-profile">
     <img class="logo" [src]="data?.photoURL" alt="image-profile" />
     <div class="status">
@@ -17,6 +18,31 @@
     <button id="btn" mat-icon-button color="primary" (click)="onActionClick()">
       <mat-icon>{{ iconConstant.arrow_forward }}</mat-icon
       >{{ buttonConstant.dettaglio }}
+    </button>
+  </div>
+</div>
+
+<!-- LISTA CASE DEI LOCATORI -->
+<div class="container-content" *ngIf="caseLocatore">
+  <div class="image-profile">
+    <img class="logo" [src]="randomImageUrl" alt="image-house" />
+  </div>
+  <div class="container-title">
+    <h2 class="title">
+      {{ data?.nome ? (data?.nome | titlecase) : "-" }}
+    </h2>
+  </div>
+  <div class="flex flex-end">
+    <button
+      class="btn"
+      mat-icon-button
+      color="primary"
+      (click)="onActionClick()"
+    >
+      <i class="animation"></i>
+      <mat-icon>{{ iconConstant.arrow_back }}</mat-icon
+      >{{ buttonConstant.dettaglio }}
+      <i class="animation"></i>
     </button>
   </div>
 </div>

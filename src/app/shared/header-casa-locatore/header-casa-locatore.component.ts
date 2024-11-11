@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormsModule,
@@ -9,57 +9,51 @@ import {
 
 import { AngularMaterialModule } from '../../modules/material-module';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { CaseService, LoaderSpinnerService } from '../../services';
 import { CustomDialogService } from '../../services/dialog.service';
 import {
+  LABEL_CONSTANT,
+  ICON_CONSTANT,
   BUTTON_CONSTANT,
   GENERIC_CONFIRM,
   GENERIC_FEEDBACK,
-  ICON_CONSTANT,
-  LABEL_CONSTANT,
 } from '../../constants';
-import {
-  GenericConfirmModalComponent,
-  GenericDetailModalComponent,
-  GenericFeedbackModalComponent,
-  GenericStepperModal,
-} from '../generics';
+import { CustomValidator } from '../../utils';
 import { StepCaratteristicheComponent } from '../form-crea-casa/step-caratteristiche/step-caratteristiche.component';
 import { StepCostiComponent } from '../form-crea-casa/step-costi/step-costi.component';
 import { StepInformazioniComponent } from '../form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepRiepilogoComponent } from '../form-crea-casa/step-riepilogo/step-riepilogo.component';
-import { CustomValidator } from '../../utils';
+import {
+  GenericDetailModalComponent,
+  GenericStepperModal,
+  GenericConfirmModalComponent,
+  GenericFeedbackModalComponent,
+} from '../generics';
 
-/**Componente header del dettaglio della casa */
+/**Componente header per il dettaglio della casa associata al locatore */
 @Component({
-  selector: 'app-header-casa',
+  selector: 'app-header-casa-locatore',
   standalone: true,
-  templateUrl: './header-casa.component.html',
-  styleUrls: ['./header-casa.component.scss'],
   imports: [
     CommonModule,
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule,
   ],
+  templateUrl: './header-casa-locatore.component.html',
+  styleUrls: ['./header-casa-locatore.component.scss'],
 })
-export class HeaderCasaComponent {
+export class HeaderCasaLocatoreComponent {
   /**costanti per la visualizzazione */
   labelCostant = LABEL_CONSTANT;
   /**costanti per le icone */
   iconCostant = ICON_CONSTANT;
   /** I dati della casa */
   data!: any;
-  /** Variabile d'appoggio */
+  /** Variabile d'appoggio della casa */
   casa!: any;
   /** Riferimento al matDialog */
   dialogRef: any;
-  /** DataSource per MatTable */
-  dataSource = new MatTableDataSource<any>();
-  /** Indica il paginator della tabella*/
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   /**modifica dello stato */
   editStatus: boolean = false;
 
@@ -80,7 +74,7 @@ export class HeaderCasaComponent {
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {
-    this.data = caseService.dettaglioCasa;
+    this.data = this.caseService.dettaglioCasa;
     this.casa = this.data._document.data.value.mapValue.fields;
   }
 
@@ -238,7 +232,6 @@ export class HeaderCasaComponent {
           .afterClosed()
           .subscribe(() => {
             this.closeDialog();
-            this.dataSource._updateChangeSubscription();
           });
       },
       error: (err) => {
@@ -258,11 +251,6 @@ export class HeaderCasaComponent {
           this.loaderSpinnerService.show();
           this.caseService.eliminaCasa(id).subscribe({
             next: () => {
-              // Aggiorna i dati nel dataSource
-              this.dataSource.data = this.dataSource.data.filter(
-                (casa) => casa.id !== id
-              );
-              this.dataSource.paginator = this.paginator;
               this.loaderSpinnerService.hide();
               this.closeDialog();
               this.dialog
@@ -273,7 +261,6 @@ export class HeaderCasaComponent {
                 .afterClosed()
                 .subscribe(() => {
                   this.closeDialog();
-                  this.dataSource._updateChangeSubscription();
                 });
             },
             error: () => this.loaderSpinnerService.hide(),

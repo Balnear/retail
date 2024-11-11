@@ -1,96 +1,59 @@
-import { CommonModule, KeyValuePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  ControlContainer,
-  FormGroupDirective,
-} from '@angular/forms';
 
-import { AngularMaterialModule } from '../../../modules/material-module';
-import { CaseService, LocatoriService } from '../../../services';
-import {
-  ICON_CONSTANT,
-  INPUT_CONSTANT,
-  LABEL_CONSTANT,
-} from '../../../constants';
-import { GenericStepperModal } from '../../generics';
+import { AngularMaterialModule } from '../../modules/material-module';
+import { CaseService } from '../../services';
+import { LABEL_CONSTANT, ICON_CONSTANT } from '../../constants';
 import L from 'leaflet';
 
-/** Componente per lo step di riepilogo */
+/**Componente per il dettaglio della casa associata al locatore */
 @Component({
-  selector: 'app-step-riepilogo',
+  selector: 'app-dettaglio-casa-locatore',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularMaterialModule,
-  ],
-  templateUrl: './step-riepilogo.component.html',
-  styleUrls: ['./step-riepilogo.component.scss'],
-  providers: [
-    KeyValuePipe,
-    {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
+  imports: [CommonModule, AngularMaterialModule],
+  templateUrl: './dettaglio-casa-locatore.component.html',
+  styleUrl: './dettaglio-casa-locatore.component.scss',
 })
-export class StepRiepilogoComponent {
-  /** Constante per le label degli input */
-  inputConstant = INPUT_CONSTANT;
-  /** Costante per le label generiche */
+export class DettaglioCasaLocatoreComponent {
+  /** Richiamo le costanti da labelCostant */
   labelConstant = LABEL_CONSTANT;
-  /** Costante per le label delle icone */
+  /** Richiamo la ICON_CONSTANT */
   iconConstant = ICON_CONSTANT;
-  /** Riferimento al valore del form */
-  formValue!: any;
-  /** Indirizzo iniziale */
-  primoIndirizzo!: string;
-  /** Citta iniziale */
-  primaCitta!: string;
+  /** I dati della casa */
+  data!: any;
+  /** I dati del locatore */
+  locatore!: any;
+  /** Le informazioni generali della casa */
+  informazioni!: any;
+  /** I dati delle caratteristiche */
+  caratteristiche!: any;
+  /** I dati dei costi */
+  costi!: any;
   /** Mappa */
   private map!: L.Map;
 
   /**
-   * Il costruttore della classe
-   * @param {CaseService} caseService L'injectable del service caseService
-   * @param {GenericStepperModal} genericStepperModal Accesso alla componente dello stepper
-   * @param {FormGroupDirecrive} parentF Direttiva di accesso al form contenente nel padre
+   * Il costruttore della classe.
+   * @param {CaseService} caseService - Injectable del service CaseService per gestire le operazioni sulle case.
    */
-  constructor(
-    public caseService: CaseService,
-    private locatoriService: LocatoriService,
-    private genericStepperModal: GenericStepperModal,
-    private parentF: FormGroupDirective
-  ) {
-    this.formValue = parentF.form.value;
+  constructor(private caseService: CaseService) {
+    this.data = this.caseService.dettaglioCasa;
+    this.informazioni = this.data._document.data.value.mapValue.fields;
+    this.locatore =
+      this.data._document.data.value.mapValue.fields.locatore.mapValue.fields;
+    this.caratteristiche =
+      this.data._document.data.value.mapValue.fields.caratteristiche.mapValue.fields;
+    this.costi =
+      this.data._document.data.value.mapValue.fields.costi.mapValue.fields;
   }
 
   /** Lifecyclehook dell'onInit */
   ngOnInit() {
     this.initMap();
-    this.primoIndirizzo = this.formValue.indirizzo;
-    this.primaCitta = this.formValue.citta;
-    this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
-    this.locatoriService.getLocatore(this.formValue.locatore.id).subscribe({
-      next: (user) => {
-        this.formValue.locatore.displayName = user?.displayName;
-        this.formValue.locatore.phoneNumber = user?.phoneNumber;
-      },
-      error: (err) => {
-        console.error("Errore nel recupero dell'utente:", err);
-      },
-    });
-  }
-
-  /**
-   * Cambio di step per la modifica delle informazioni
-   * @param {number} step lo step a cui rimandare
-   */
-  changeStep(step: number) {
-    this.genericStepperModal.changeStep(step);
+    this.ricercaIndirizzo(
+      this.informazioni.indirizzo.stringValue,
+      this.informazioni.citta.stringValue
+    );
   }
 
   // Definisci la mappa con il layer satellitare
@@ -109,18 +72,6 @@ export class StepRiepilogoComponent {
     );
 
     satelliteLayer.addTo(this.map);
-  }
-
-  /**ngOnChanges rileva e gestisce i cambiamenti delle proprietà */
-  ngOnChanges() {
-    if (
-      this.primoIndirizzo !== this.formValue.indirizzo ||
-      (this.primoIndirizzo === this.formValue.indirizzo &&
-        this.primaCitta !== this.formValue.citta) ||
-      this.primaCitta === this.formValue.citta
-    ) {
-      this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
-    }
   }
 
   /**Funzione per cercare e centrare la mappa su un indirizzo */
@@ -162,8 +113,8 @@ export class StepRiepilogoComponent {
   }
 
   /**Funzione che restituisce l'icona in base allo stato */
-  getStatusIcon(status: string): string {
-    switch (status) {
+  getStatusIcon(statoAffitto: string): string {
+    switch (statoAffitto) {
       case 'LIBERO':
         return this.iconConstant.done;
       case 'IN SCADENZA':

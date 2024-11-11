@@ -7,7 +7,9 @@ import {
   doc,
   Firestore,
   getDoc,
+  query,
   updateDoc,
+  where,
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
 
@@ -55,10 +57,19 @@ export class CaseService {
     return from(deleteDoc(casaDocRef));
   }
 
-  /**Metodo per ottenere tutti i documenti della collezione "case" */
-  getAllCase(): Observable<any[]> {
+  /** Metodo per ottenere tutti i documenti della collezione "case", con filtro opzionale per displayName */
+  getAllCase(locatoreName?: string): Observable<any[]> {
     const caseCollectionRef = collection(this.firestore, 'case');
-    return collectionData(caseCollectionRef, { idField: 'id' });
+
+    // Se locatoreName è definito, crea una query con il filtro
+    const caseQuery = locatoreName
+      ? query(
+          caseCollectionRef,
+          where('locatore.displayName', '==', locatoreName)
+        )
+      : caseCollectionRef;
+
+    return collectionData(caseQuery, { idField: 'id' });
   }
 
   /**Metodo per aggiungere una tipologia di casa */
