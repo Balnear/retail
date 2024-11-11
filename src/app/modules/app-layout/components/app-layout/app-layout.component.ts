@@ -168,6 +168,23 @@ export class AppLayoutComponent {
     } else {
       this.actions = [];
     }
+
+    if (this.section == 'locatori') {
+      this.actions = [
+        {
+          name: LABEL_CONSTANT.modifica_locatore,
+          icon: ICON_CONSTANT.edit,
+          callback: () => this.modificaLocatore(),
+        },
+        {
+          name: LABEL_CONSTANT.elimina_locatore,
+          icon: ICON_CONSTANT.delete,
+          callback: () => this.eliminaLocatore(),
+        },
+      ];
+    } else {
+      this.actions = [];
+    }
   }
 
   /** Metodo per aggiungere una tipologia alla select */
@@ -267,4 +284,10 @@ export class AppLayoutComponent {
       );
     }, 5000);
   }
+
+  /**Metodo per modificare il profilo del locatore */
+  modificaLocatore() {}
+
+  /**Metodo per eliminare un locatore */
+  eliminaLocatore() {}
 }

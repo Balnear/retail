@@ -94,6 +94,8 @@ export const LABEL_CONSTANT = {
   stato_di_attivita: 'Stato',
   case_associate: 'Case associate',
   localita: 'Locatità',
+  modifica_locatore: 'Modifica locatore',
+  elimina_locatore: 'Elimina locatore',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
