@@ -109,6 +109,8 @@ export class LoginService {
       switchMap(() =>
         from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
           switchMap((userCredential) => {
+            console.log(userCredential, 'usercredntial');
+
             const user = userCredential.user;
             if (user) {
               // Imposta lo stato dell'utente a "online" su Firestore

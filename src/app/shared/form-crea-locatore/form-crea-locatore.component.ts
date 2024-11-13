@@ -66,7 +66,6 @@ export class FormCreaLocatoreComponent {
   selectedImage: any;
   /** Contiene L'url dell'immagine selezionata */
   imageUrl!: string;
-
   /**Proprietà per le condizioni della password */
   isMinLengthValid = false;
   hasUppercase = false;
@@ -90,7 +89,7 @@ export class FormCreaLocatoreComponent {
     this.form = this.parentF.form;
   }
 
-  // Metodo per validare i requisiti della password
+  /**Metodo per validare i requisiti della password */
   validatePassword() {
     const passwordControl = this.form.get('password');
     const password = passwordControl?.value || '';

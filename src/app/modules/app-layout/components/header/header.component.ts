@@ -1,21 +1,33 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LoginService, LoaderSpinnerService } from '../../../../services';
+import {
+  LoginService,
+  LoaderSpinnerService,
+  LocatoriService,
+} from '../../../../services';
 import {
   LABEL_CONSTANT,
   ICON_CONSTANT,
   BREADCRUBS_HEADER,
   GENERIC_CONFIRM,
+  BUTTON_CONSTANT,
+  GENERIC_FEEDBACK,
 } from '../../../../constants';
 import { BreadcrumbsPipe } from '../../../../pipes';
-import { GenericConfirmModalComponent } from '../../../../shared';
+import {
+  GenericConfirmModalComponent,
+  GenericFeedbackModalComponent,
+  GenericFormModalComponent,
+} from '../../../../shared';
+import { FormCreaLocatoreComponent } from '../../../../shared/form-crea-locatore/form-crea-locatore.component';
+import { CustomValidator } from '../../../../utils';
 
 /**Component utilizzato come header per le pagine dell'applicazione.*/
 @Component({
@@ -54,7 +66,7 @@ export class HeaderComponent {
     {
       icon: this.iconConstant.person,
       label: this.labelConstant.profilo,
-      callback: () => this.editOrChangeProfile(),
+      callback: () => this.modificaProfilo(),
     },
     {
       icon: this.iconConstant.logout,
@@ -66,16 +78,22 @@ export class HeaderComponent {
   matDialog: any;
   /**DialogRef riferimento al dialog*/
   dialogRef: any;
+  /** Contiene il form */
+  form!: FormGroup;
+  /** URL del imagine del profilo */
+  image!: string;
 
   /**
    * Il costruttore della classe
    * @param {LoginService} loginService Injectable del service Login
-   * @param {LoaderSpinnerService} loadSpinnerService Injecatble del service loadSpinner
+   * @param {LocatoriService} locatoriService Injectable del service Locatori
+   * @param {LoaderSpinnerService} loadSpinner Injecatble del service loadSpinner
    * @param {MatDialog} dialog Injectable del service MatDialog
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private loginService: LoginService,
+    private locatoriService: LocatoriService,
     private loaderSpinner: LoaderSpinnerService,
     private dialog: MatDialog,
     private router: Router,
@@ -110,5 +128,115 @@ export class HeaderComponent {
   }
 
   /**Modifica i dati del profilo del locatore */
-  editOrChangeProfile() {}
+  modificaProfilo() {
+    const nome = this.data.displayName.split(' ')[0].trim();
+    const cognome = this.data.displayName.split(' ').pop().trim();
+    this.dialogRef = this.dialog.open(GenericFormModalComponent, {
+      width: '824px',
+      height: '864px',
+      disableClose: true,
+      autoFocus: false,
+      data: {
+        form: this.fb.group({
+          uid: this.data.uid,
+          nome: [
+            nome,
+            [Validators.required, Validators.pattern(/^[a-zA-Z]{1,40}$/)],
+          ],
+          cognome: [
+            cognome,
+            [Validators.required, Validators.pattern(/^[a-zA-Z]{1,40}$/)],
+          ],
+          email: [
+            this.data.email,
+            [
+              Validators.required,
+              CustomValidator.conditionalEmailValidator(
+                this.data.email,
+                this.locatoriService.emailExistsValidator()
+              ),
+            ],
+          ],
+          password: [{ value: '', disabled: true }],
+          repeatPassword: [{ value: '', disabled: true }],
+          photoURL: [{ value: '', disabled: true }],
+          userType: [{ value: this.data.userType, disabled: true }],
+          phoneNumber: [
+            this.data.phoneNumber,
+            [
+              Validators.required,
+              Validators.minLength(10),
+              Validators.maxLength(15),
+              Validators.pattern('[0-9 +]*'),
+            ],
+          ],
+        }),
+
+        submitFormText: BUTTON_CONSTANT.modifica_profilo,
+        headerLabels: {
+          title: LABEL_CONSTANT.modifica_profilo,
+          subtitle: LABEL_CONSTANT.aggiorna_dati_profilo,
+        },
+
+        component: FormCreaLocatoreComponent,
+        callback: (form: any) => this.submitForm(form),
+      },
+    });
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.dialog
+        .open(GenericConfirmModalComponent, GENERIC_CONFIRM.sicuro_di_uscire)
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.dialogRef.close();
+          }
+        });
+    });
+  }
+
+  /** Chiude la modale */
+  closeModal() {
+    this.dialogRef.close();
+  }
+
+  /** submitForm creazione locatore ed aggiornamento lista locatori */
+  submitForm(form: any) {
+    this.loaderSpinner.show();
+    const uid = this.data.uid;
+    const email = form.value.email;
+    const displayName = form.value.nome + ' ' + form.value.cognome;
+    const phoneNumber = form.value.phoneNumber;
+
+    console.log(form.value, 'form');
+    // //Aggiorna l'email
+    if (this.data.email != form.value.email) {
+      this.locatoriService.aggiornaEmailLocatore(form.value.email);
+    }
+    this.locatoriService
+      .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber)
+      .subscribe({
+        next: (res) => {
+          this.data = this.loginService.getCurrentUserFromLocalStorage();
+          this.loaderSpinner.hide();
+          this.closeModal();
+          this.dialog
+            .open(
+              GenericFeedbackModalComponent,
+              GENERIC_FEEDBACK.modifiche_salvate
+            )
+            .afterClosed()
+            .subscribe(() => {});
+        },
+        error: (err) => {
+          this.loaderSpinner.hide();
+        },
+      });
+  }
+
+  /**Rimuove il validatore */
+  removeValidationError(...control: string[]) {
+    control.map((c) => {
+      this.form.get(c)?.setErrors(null);
+    });
+  }
 }

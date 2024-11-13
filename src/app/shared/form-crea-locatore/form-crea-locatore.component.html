@@ -132,10 +132,8 @@
       </mat-select>
       <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
     </mat-form-field>
-
     <h5>{{ labelConstant.mia_immagine }}</h5>
     <div class="image-profile">
-      <!-- TODO: MODIFICARE VISUALIZZAZIONE IMMAGINE SELEZIONATA DURANTE IL RICARICAMENTO DEL FORM MODIFICA PROFILO -->
       <img
         src="../../../../../assets/images/img-profile.png"
         *ngIf="!selectedImage"

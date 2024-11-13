@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, updateEmail, updatePassword } from '@angular/fire/auth';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { collectionData, Firestore, getDoc } from '@angular/fire/firestore';
+import {
+  collectionData,
+  Firestore,
+  getDoc,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import {
   collection,
@@ -12,7 +17,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import { Observable, from, switchMap, of, catchError, map } from 'rxjs';
+import { Observable, from, switchMap, of, catchError, map, tap } from 'rxjs';
 import { LocatoreProfile, User } from '../models';
 
 /** L'injectable del service locatori service*/
@@ -150,5 +155,58 @@ export class LocatoriService {
         }
       })
     );
+  }
+
+  /**
+   * Aggiorna l'email del locatore
+   * @param newEmail La nuova email del locatore
+   */
+  aggiornaEmailLocatore(newEmail: string): Observable<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      return from(updateEmail(user, newEmail));
+    } else {
+      throw new Error('Utente non autenticato');
+    }
+  }
+
+  /**
+   * Aggiorna il profilo del locatore in Firestore senza modificare il campo userType
+   * @param email La nuova email
+   * @param displayName Il nuovo nome visualizzato
+   * @param photoURL Il nuovo URL della foto
+   * @param phoneNumber Il nuovo numero di telefono
+   */
+  aggiornaProfiloLocatore(
+    uid: string,
+    email: string,
+    displayName: string,
+    phoneNumber: string
+  ): Observable<void> {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      const userDocRef = doc(this.firestore, `locatori/${uid}`);
+
+      // Definisci i dati da aggiornare
+      const updateData = { email, displayName, phoneNumber };
+
+      return from(updateDoc(userDocRef, updateData)).pipe(
+        tap(() => {
+          // Aggiorna il localStorage con i nuovi dati
+          const storedUser = JSON.parse(
+            localStorage.getItem('landlordUser') || '{}'
+          );
+
+          // Merge dei dati nuovi con quelli già esistenti
+          const updatedUser = { ...storedUser, ...updateData };
+
+          // Salva l'oggetto aggiornato nel localStorage
+          localStorage.setItem('landlordUser', JSON.stringify(updatedUser));
+        })
+      );
+    } else {
+      throw new Error('Utente non autenticato');
+    }
   }
 }

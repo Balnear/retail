@@ -150,7 +150,6 @@ export class ButtonCreaLocatoreComponent {
   /** submitForm creazione locatore ed aggiornamento lista locatori */
   submitForm(form: any) {
     this.loaderSpinnerService.show();
-    console.log(form.value, 'form');
     form.value.status = 'Offline';
     const email = form.value.email;
     const password = form.value.password;
