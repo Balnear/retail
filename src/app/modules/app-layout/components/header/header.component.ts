@@ -159,7 +159,7 @@ export class HeaderComponent {
           ],
           password: [{ value: '', disabled: true }],
           repeatPassword: [{ value: '', disabled: true }],
-          photoURL: [{ value: '', disabled: true }],
+          photoURL: [''],
           userType: [{ value: this.data.userType, disabled: true }],
           phoneNumber: [
             this.data.phoneNumber,
@@ -206,14 +206,19 @@ export class HeaderComponent {
     const email = form.value.email;
     const displayName = form.value.nome + ' ' + form.value.cognome;
     const phoneNumber = form.value.phoneNumber;
-
-    console.log(form.value, 'form');
+    if (form.value.photoURL === '') {
+      this.locatoriService.imageURL = this.data.photoURL;
+      this.image = this.locatoriService.imageURL;
+    } else {
+      this.image = this.locatoriService.imageUrls;
+    }
+    const photoURL = this.image;
     // //Aggiorna l'email
     if (this.data.email != form.value.email) {
       this.locatoriService.aggiornaEmailLocatore(form.value.email);
     }
     this.locatoriService
-      .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber)
+      .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber, photoURL)
       .subscribe({
         next: (res) => {
           this.data = this.loginService.getCurrentUserFromLocalStorage();

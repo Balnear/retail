@@ -181,7 +181,8 @@ export class LocatoriService {
     uid: string,
     email: string,
     displayName: string,
-    phoneNumber: string
+    phoneNumber: string,
+    photoURL: string
   ): Observable<void> {
     const user = this.auth.currentUser;
 
@@ -189,7 +190,7 @@ export class LocatoriService {
       const userDocRef = doc(this.firestore, `locatori/${uid}`);
 
       // Definisci i dati da aggiornare
-      const updateData = { email, displayName, phoneNumber };
+      const updateData = { email, displayName, phoneNumber, photoURL };
 
       return from(updateDoc(userDocRef, updateData)).pipe(
         tap(() => {
