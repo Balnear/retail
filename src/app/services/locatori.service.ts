@@ -267,7 +267,7 @@ export class LocatoriService {
     }
   }
 
-  /**Metodo per eliminare il profilo dell'utente autenticato */
+  /**Metodo per eliminare il profilo dell'utente autenticato o di un qualsiasi locatore*/
   deleteUserProfile(uid: string): Observable<void> {
     const firestore = getFirestore();
     const userProfileDocRef = doc(firestore, `locatori/${uid}`);

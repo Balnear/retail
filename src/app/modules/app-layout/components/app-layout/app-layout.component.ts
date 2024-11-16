@@ -166,24 +166,22 @@ export class AppLayoutComponent {
         },
       ];
     } else {
-      this.actions = [];
-    }
-
-    if (this.section == 'locatori') {
-      this.actions = [
-        {
-          name: LABEL_CONSTANT.modifica_locatore,
-          icon: ICON_CONSTANT.edit,
-          callback: () => this.modificaLocatore(),
-        },
-        {
-          name: LABEL_CONSTANT.elimina_locatore,
-          icon: ICON_CONSTANT.delete,
-          callback: () => this.eliminaLocatore(),
-        },
-      ];
-    } else {
-      this.actions = [];
+      if (this.section == 'locatori') {
+        this.actions = [
+          {
+            name: LABEL_CONSTANT.modifica_locatore,
+            icon: ICON_CONSTANT.edit,
+            callback: () => this.modificaProfiloLocatore(),
+          },
+          {
+            name: LABEL_CONSTANT.elimina_locatore,
+            icon: ICON_CONSTANT.delete,
+            callback: () => this.eliminaProfiloLocatore(),
+          },
+        ];
+      } else {
+        this.actions = [];
+      }
     }
   }
 
@@ -286,8 +284,8 @@ export class AppLayoutComponent {
   }
 
   /**Metodo per modificare il profilo del locatore */
-  modificaLocatore() {}
+  modificaProfiloLocatore() {}
 
   /**Metodo per eliminare un locatore */
-  eliminaLocatore() {}
+  eliminaProfiloLocatore() {}
 }
