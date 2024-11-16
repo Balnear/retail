@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Auth, updateEmail, updatePassword } from '@angular/fire/auth';
+import {
+  Auth,
+  deleteUser,
+  sendEmailVerification,
+  updateEmail,
+  verifyBeforeUpdateEmail,
+} from '@angular/fire/auth';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import {
   collectionData,
+  deleteDoc,
   Firestore,
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  UserCredential,
+} from 'firebase/auth';
 import {
   collection,
   doc,
@@ -17,7 +29,18 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
-import { Observable, from, switchMap, of, catchError, map, tap } from 'rxjs';
+import {
+  Observable,
+  from,
+  switchMap,
+  of,
+  catchError,
+  map,
+  tap,
+  interval,
+  takeWhile,
+  throwError,
+} from 'rxjs';
 import { LocatoreProfile, User } from '../models';
 
 /** L'injectable del service locatori service*/
@@ -33,6 +56,8 @@ export class LocatoriService {
   imageUrls!: string;
   /**Oggetto per il dettaglio del locatore */
   dettaglioLocatore!: any;
+  /** Contiene l'email del locatore*/
+  email!: string;
 
   /** Il costruttore della classe.*/
   constructor(private auth: Auth, private firestore: Firestore) {}
@@ -116,6 +141,9 @@ export class LocatoriService {
   /** Verifica se l'email esiste già nel database */
   emailExistsValidator(): AsyncValidatorFn {
     return (control: AbstractControl) => {
+      if (control.value === this.email) {
+        return of(null);
+      }
       const usersRef = collection(this.firestore, 'locatori');
       const emailQuery = query(usersRef, where('email', '==', control.value));
       return getDocs(emailQuery).then((querySnapshot) => {
@@ -157,21 +185,29 @@ export class LocatoriService {
     );
   }
 
-  /**
-   * Aggiorna l'email del locatore
-   * @param newEmail La nuova email del locatore
-   */
-  aggiornaEmailLocatore(newEmail: string): Observable<void> {
-    const user = this.auth.currentUser;
-    if (user) {
-      return from(updateEmail(user, newEmail));
-    } else {
-      throw new Error('Utente non autenticato');
-    }
+  /**Aggiornamento email Locatore */
+  updateEmail(
+    email: string,
+    password: string,
+    displayName: string,
+    userType: 'Locatore' | 'Inquilino',
+    phoneNumber: string,
+    status: 'Online' | 'Offline',
+    photoURL?: string
+  ): Observable<LocatoreProfile | null> {
+    return this.creaLocatore(
+      email,
+      password,
+      displayName,
+      userType,
+      phoneNumber,
+      status,
+      photoURL
+    );
   }
 
   /**
-   * Aggiorna il profilo del locatore in Firestore senza modificare il campo userType
+   * Aggiorna il profilo del locatore in Firestore senza modificare il campo userType e la password
    * @param email La nuova email
    * @param displayName Il nuovo nome visualizzato
    * @param photoURL Il nuovo URL della foto
@@ -209,5 +245,40 @@ export class LocatoriService {
     } else {
       throw new Error('Utente non autenticato');
     }
+  }
+
+  /**Metodo per eliminare l'utente autenticato */
+  deleteCurrentUser(): Observable<string> {
+    const user = this.auth.currentUser;
+
+    if (user) {
+      const userUid = user.uid; // Salva l'UID per il metodo successivo
+      return from(deleteUser(user)).pipe(
+        map(() => userUid), // Restituisci l'UID per il metodo successivo
+        catchError((error) => {
+          console.error("Errore durante l'eliminazione dell'utente:", error);
+          return throwError(
+            () => new Error("Errore durante l'eliminazione dell'utente")
+          );
+        })
+      );
+    } else {
+      return throwError(() => new Error('User not authenticated'));
+    }
+  }
+
+  /**Metodo per eliminare il profilo dell'utente autenticato */
+  deleteUserProfile(uid: string): Observable<void> {
+    const firestore = getFirestore();
+    const userProfileDocRef = doc(firestore, `locatori/${uid}`);
+
+    return from(deleteDoc(userProfileDocRef)).pipe(
+      catchError((error) => {
+        console.error("Errore durante l'eliminazione del profilo:", error);
+        return throwError(
+          () => new Error("Errore durante l'eliminazione del profilo")
+        );
+      })
+    );
   }
 }

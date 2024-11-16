@@ -45,24 +45,4 @@ export class CustomValidator {
       return hasSpecialChar ? null : { missingSpecialChar: true };
     };
   }
-
-  /**Validatore personalizzato per la condiziozione di email */
-  static conditionalEmailValidator(
-    initialEmail: string,
-    emailExistsValidator: ValidatorFn
-  ): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) {
-        return null; // Se non c'è un valore, ignora la validazione
-      }
-
-      // Verifica se l'email è cambiata rispetto a `initialEmail`
-      if (control.value !== initialEmail) {
-        // Applica il validatore `emailExistsValidator` se l'email è diversa
-        return emailExistsValidator(control);
-      }
-
-      return null; // Se l'email non è cambiata, nessun errore
-    };
-  }
 }

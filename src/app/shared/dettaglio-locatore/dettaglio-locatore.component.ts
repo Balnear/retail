@@ -57,12 +57,12 @@ export class DettaglioLocatoreComponent implements OnInit {
 
   /**LifeCycle onInit si popolano le case del locatore */
   ngOnInit() {
-    this.visualizzaCaseLocatore(this.data.displayName);
+    this.visualizzaCaseLocatore(this.data.id);
   }
 
   /**Mostra le case associate al locatore */
-  visualizzaCaseLocatore(nome: any) {
-    this.caseService.getAllCase(nome).subscribe({
+  visualizzaCaseLocatore(id: string) {
+    this.caseService.getAllCase(id).subscribe({
       next: (res) => {
         this.caseLocatore = res;
         console.log(this.caseLocatore);
