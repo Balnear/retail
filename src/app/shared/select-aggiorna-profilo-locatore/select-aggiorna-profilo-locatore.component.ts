@@ -9,16 +9,16 @@ import {
 } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../modules/material-module';
-import { CaseService } from '../../services/case.service';
+import { LocatoriService } from '../../services';
 import {
   LABEL_CONSTANT,
   ERROR_CONSTANT,
   INPUT_CONSTANT,
 } from '../../constants';
 
-/**Componente per l'eliminazione di una tipologia */
+/**Componente per la select dei locatori */
 @Component({
-  selector: 'app-select-elimina-tipologia',
+  selector: 'app-select-aggiorna-profilo-locatore',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,8 +26,8 @@ import {
     FormsModule,
     AngularMaterialModule,
   ],
-  templateUrl: './select-elimina-tipologia.component.html',
-  styleUrls: ['./select-elimina-tipologia.component.scss'],
+  templateUrl: './select-aggiorna-profilo-locatore.component.html',
+  styleUrls: ['./select-aggiorna-profilo-locatore.component.scss'],
   viewProviders: [
     {
       provide: ControlContainer,
@@ -35,30 +35,30 @@ import {
     },
   ],
 })
-export class SelectEliminaTipologiaComponent {
-  /**Form elimina tipologia */
+export class SelectAggiornaProfiloLocatoreComponent {
+  /**Form aggiorna profilo locatore */
   form!: FormGroup;
-  /**Costanti tipologia */
+  /**Costanti gestore */
   labelConstant = LABEL_CONSTANT;
   /** Label per gli errori */
   errorConstant = ERROR_CONSTANT;
   /** Constante per gli input */
   inputConstant = INPUT_CONSTANT;
   /** Tipologia delle case */
-  tipologieCase!: string[];
+  listaLocatori!: any;
 
   /**
    * Il costruttore della classe FormEliminaTipologiaComponent
-   * @param {CaseService} caseService L'injectable del service caseService
+   * @param {LocatoriService} locatoriService L'injectable del service locatoriService
    * @param {FormGroupDirective} parentF richiamo del form padre
    */
   constructor(
-    private caseService: CaseService,
+    private locatoriService: LocatoriService,
     private parentF: FormGroupDirective
   ) {}
   /**LifeCycle onInit si popola il form */
   ngOnInit() {
     this.form = this.parentF.form;
-    this.tipologieCase = this.caseService.tipologie;
+    this.listaLocatori = this.locatoriService.locatori;
   }
 }

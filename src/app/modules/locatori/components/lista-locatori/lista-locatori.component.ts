@@ -37,9 +37,6 @@ export default class ListaLocatoriComponent {
    * @param {LocatoriService} locatoriService L'injectable del service LocatoriService
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
    * @param {PanelService} panelService L'injectable del service pannello
-   * @param {MatDialog} dialog L'injectable del token
-   * @param {FormBuilder} fb L'injectable del FormBuilder
-   * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private locatoriService: LocatoriService,
@@ -52,6 +49,7 @@ export default class ListaLocatoriComponent {
     this.locatoriService.getAllLocatori().subscribe({
       next: (users: any) => {
         this.locatori = users;
+        this.locatoriService.locatori = users;
       },
     });
   }

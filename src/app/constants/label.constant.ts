@@ -77,6 +77,7 @@ export const LABEL_CONSTANT = {
   tipologia_aggiunta: 'Tipologia aggiunta',
   dati_tipologia_aggiunta: 'Hai aggiunto correttamente la tipologia',
   elimina_dati: 'Vuoi eliminare la seguente tipologia?',
+  elimina_dati_locatore: 'Vuoi eliminare questo locatore?',
   tipologia_eliminata: 'Tipologia eliminata',
   dati_tipologia_eliminati:
     'Tutti i dati associati alla tipologia sono stati eliminati',
@@ -98,6 +99,8 @@ export const LABEL_CONSTANT = {
   elimina_locatore: 'Elimina locatore',
   modifica_profilo: 'Modifica profilo',
   aggiorna_dati_profilo: 'Aggiorna i dati del tuo profilo',
+  elimina_profilo_locatore: 'Elimina profilo locatore',
+  aggiorna_dati_locatore: 'Aggiorna i dati del seguente locatore',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',

@@ -157,6 +157,20 @@ export const GENERIC_FEEDBACK = {
       autoCloseTime: 3000,
     },
   },
+  eliminazione_profilo_locatore: {
+    width: '548px',
+    height: '280px',
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      titolo: LABEL_CONSTANT.tipologia_eliminata,
+      subtitle: LABEL_CONSTANT.dati_tipologia_eliminati,
+      icona: 'delete',
+      tipo: 'circle',
+      status: 'error',
+      dimensione: 'sm',
+      autoCloseTime: 3000,
+    },
+  },
   // crea_coltivatore: {
   //   width: '548px',
   //   height: '280px',

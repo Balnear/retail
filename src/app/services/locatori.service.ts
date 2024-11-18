@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Auth,
-  deleteUser,
-  sendEmailVerification,
-  updateEmail,
-  verifyBeforeUpdateEmail,
-} from '@angular/fire/auth';
+import { Auth, deleteUser } from '@angular/fire/auth';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import {
   collectionData,
@@ -14,12 +8,7 @@ import {
   getDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import {
-  createUserWithEmailAndPassword,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  UserCredential,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, UserCredential } from 'firebase/auth';
 import {
   collection,
   doc,
@@ -37,8 +26,6 @@ import {
   catchError,
   map,
   tap,
-  interval,
-  takeWhile,
   throwError,
 } from 'rxjs';
 import { LocatoreProfile, User } from '../models';
@@ -58,6 +45,8 @@ export class LocatoriService {
   dettaglioLocatore!: any;
   /** Contiene l'email del locatore*/
   email!: string;
+  /**Contiene i locatori */
+  locatori!: any;
 
   /** Il costruttore della classe.*/
   constructor(private auth: Auth, private firestore: Firestore) {}
