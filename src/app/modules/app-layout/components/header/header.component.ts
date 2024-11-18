@@ -84,7 +84,6 @@ export class HeaderComponent {
   form!: FormGroup;
   /** URL del imagine del profilo */
   image!: string;
-  userEmailVerified: boolean = false;
 
   /**
    * Il costruttore della classe

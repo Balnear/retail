@@ -101,6 +101,9 @@ export const LABEL_CONSTANT = {
   aggiorna_dati_profilo: 'Aggiorna i dati del tuo profilo',
   elimina_profilo_locatore: 'Elimina profilo locatore',
   aggiorna_dati_locatore: 'Aggiorna i dati del seguente locatore',
+  profilo_eliminato: 'Profilo eliminato',
+  dati_profilo_eliminati:
+    'Tutti i dati associati al locatore sono stati eliminati',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',

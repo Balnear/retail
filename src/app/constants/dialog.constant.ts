@@ -162,8 +162,8 @@ export const GENERIC_FEEDBACK = {
     height: '280px',
     scrollStrategy: new NoopScrollStrategy(),
     data: {
-      titolo: LABEL_CONSTANT.tipologia_eliminata,
-      subtitle: LABEL_CONSTANT.dati_tipologia_eliminati,
+      titolo: LABEL_CONSTANT.profilo_eliminato,
+      subtitle: LABEL_CONSTANT.dati_profilo_eliminati,
       icona: 'delete',
       tipo: 'circle',
       status: 'error',

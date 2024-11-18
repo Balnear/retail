@@ -99,6 +99,8 @@ export class AppLayoutComponent {
   form!: FormGroup;
   /** URL del imagine del profilo */
   image!: string;
+  /** Dati utente corrente */
+  currentUser!: any;
 
   /**
    * Il costruttore della classe.
@@ -149,6 +151,7 @@ export class AppLayoutComponent {
     if (savedElements) {
       this.caseService.tipologie = JSON.parse(savedElements);
     }
+    this.currentUser = this.loginService.getCurrentUserFromLocalStorage();
   }
 
   /* Metodo chiamato alla distruzione del componente */
@@ -504,23 +507,13 @@ export class AppLayoutComponent {
     // //Aggiorna l'email
     if (this.data.email != email) {
       //Se cambia l'email elimina lo user e ne crea un'altro
-      this.locatoriService.deleteCurrentUser().subscribe({
-        next: (userUid) => {
-          this.locatoriService.deleteUserProfile(userUid).subscribe({
-            next: () => {
-              console.log('Utente e profilo eliminati con successo');
-            },
-            error: (err) => {
-              console.error(
-                "Errore durante l'eliminazione del profilo:",
-                err.message || err
-              );
-            },
-          });
+      this.locatoriService.deleteUserProfile(uid).subscribe({
+        next: () => {
+          console.log('Utente e profilo eliminati con successo');
         },
         error: (err) => {
           console.error(
-            "Errore durante l'eliminazione dell'utente:",
+            "Errore durante l'eliminazione del profilo:",
             err.message || err
           );
         },
@@ -551,22 +544,32 @@ export class AppLayoutComponent {
               },
             });
             this.closeModal();
-            this.dialog
-              .open(
-                GenericFeedbackModalComponent,
-                GENERIC_FEEDBACK.modifiche_salvate
-              )
-              .afterClosed()
-              .subscribe(() => {
-                this.loginService.logout();
-                this.loginService.goToLogin();
-                this.loginService.clearStorage();
-                this.notifica.show(
-                  'Devi riautenticarti per aggiornare le credenziali',
-                  -1,
-                  'success'
-                );
-              });
+            if (uid != this.currentUser.uid) {
+              this.dialog
+                .open(
+                  GenericFeedbackModalComponent,
+                  GENERIC_FEEDBACK.modifiche_salvate
+                )
+                .afterClosed()
+                .subscribe(() => {});
+            } else {
+              this.dialog
+                .open(
+                  GenericFeedbackModalComponent,
+                  GENERIC_FEEDBACK.modifiche_salvate
+                )
+                .afterClosed()
+                .subscribe(() => {
+                  this.loginService.logout();
+                  this.loginService.goToLogin();
+                  this.loginService.clearStorage();
+                  this.notifica.show(
+                    'Devi riautenticarti per aggiornare le credenziali',
+                    -1,
+                    'success'
+                  );
+                });
+            }
           },
           error: (err) => {
             this.loaderSpinnerService.hide();
