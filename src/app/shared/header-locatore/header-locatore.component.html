@@ -19,7 +19,7 @@
       <div class="menu" *ngIf="editStatus">
         <p
           class="menu__item"
-          (click)="modificaLocatore(locatore.uid.stringValue)"
+          (click)="modificaLocatore(locatore.uid)"
         >
           <span class="material-symbols-outlined menu__icon">{{
             iconCostant.edit
@@ -28,7 +28,7 @@
         </p>
         <p
           class="menu__item"
-          (click)="eliminaLocatore(locatore.uid.stringValue)"
+          (click)="eliminaLocatore(locatore.uid)"
         >
           <span class="material-symbols-outlined menu__icon">{{
             iconCostant.delete

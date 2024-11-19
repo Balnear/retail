@@ -459,6 +459,25 @@ export class AppLayoutComponent {
     });
   }
 
+  /**Elimina tutte le case associate al locatore */
+  eliminaCaseLocatore(idLocatore: string) {
+    this.caseService.getAllCase(idLocatore).subscribe({
+      next: (res) => {
+        if (res) {
+          const deleteRequests = res.map((casa) =>
+            this.caseService.eliminaCasa(casa.id)
+          );
+        }
+      },
+      error: (err) => {
+        console.error(
+          "Errore durante l'eliminazione delle case:",
+          err.message || err
+        );
+      },
+    });
+  }
+
   /** submitForm creazione tipologia ed aggiornamento select tipologie */
   submitFormAggiungi(form: any) {
     this.loaderSpinnerService.show();
@@ -487,7 +506,7 @@ export class AppLayoutComponent {
     }, 5000);
   }
 
-  /** submitForm creazione locatore ed aggiornamento lista locatori */
+  /** submitForm modifica locatore ed aggiornamento lista locatori */
   submitFormModificaLocatore(form: any) {
     this.loaderSpinnerService.show();
     const uid = this.data.uid;
@@ -600,23 +619,36 @@ export class AppLayoutComponent {
   /** submitForm elimina il profilo del locatore selezionato */
   submitFormEliminaProfiloLocatore(form: any) {
     this.loaderSpinnerService.show();
-    this.locatoriService
-      .deleteUserProfile(form.value.elementSelected)
-      .subscribe({
-        next: () => {
-          this.loaderSpinnerService.hide();
-          this.closeModal();
-          this.dialog.open(
-            GenericFeedbackModalComponent,
-            GENERIC_FEEDBACK.eliminazione_profilo_locatore
-          );
-        },
-        error: (err) => {
-          console.error(
-            "Errore durante l'eliminazione del profilo:",
-            err.message || err
-          );
-        },
-      });
+    if (form.value.elementSelected != this.currentUser.uid) {
+      //Elimina le case associate
+      this.eliminaCaseLocatore(form.value.elementSelected);
+      this.locatoriService
+        .deleteUserProfile(form.value.elementSelected)
+        .subscribe({
+          next: () => {
+            this.loaderSpinnerService.hide();
+            this.closeModal();
+            this.dialog.open(
+              GenericFeedbackModalComponent,
+              GENERIC_FEEDBACK.eliminazione_profilo_locatore
+            );
+          },
+          error: (err) => {
+            this.loaderSpinnerService.hide();
+            console.error(
+              "Errore durante l'eliminazione del profilo:",
+              err.message || err
+            );
+          },
+        });
+    } else {
+      this.loaderSpinnerService.hide();
+      this.closeModal();
+      this.notifica.show(
+        "Per eliminare la tua utenza contatta l'amministratore",
+        5000,
+        'error'
+      );
+    }
   }
 }

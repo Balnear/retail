@@ -65,7 +65,6 @@ export class DettaglioLocatoreComponent implements OnInit {
     this.caseService.getAllCase(id).subscribe({
       next: (res) => {
         this.caseLocatore = res;
-        console.log(this.caseLocatore);
       },
       error: (err) => {
         err.message;

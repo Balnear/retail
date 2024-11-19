@@ -45,6 +45,19 @@ export const GENERIC_CONFIRM = {
       dimension: 'sm',
     },
   },
+  elimina_locatore: {
+    width: '548px',
+    height: '280px',
+    autoFocus: false,
+    scrollStrategy: new NoopScrollStrategy(),
+    data: {
+      title: LABEL_CONSTANT.vuoi_eliminare_locatore,
+      subtitle: LABEL_CONSTANT.tutti_i_dati_locatore,
+      buttonText: BUTTON_CONSTANT.elimina,
+      buttonType: 'warn',
+      dimension: 'sm',
+    },
+  },
   // elimina_coltivatore: {
   //   width: '548px',
   //   height: '280px',
