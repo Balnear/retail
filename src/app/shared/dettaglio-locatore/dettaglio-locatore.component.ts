@@ -12,22 +12,31 @@ import {
   LABEL_CONSTANT,
   ICON_CONSTANT,
   RESULT_CONSTANT,
+  INPUT_CONSTANT,
 } from '../../constants';
 import { GenericCardComponent, GenericDetailModalComponent } from '../generics';
 import {
   DettaglioCasaLocatoreComponent,
   HeaderCasaLocatoreComponent,
 } from '..';
+import { FormsModule } from '@angular/forms';
 
 /**Componente per il dettaglio del locatore */
 @Component({
   selector: 'app-dettaglio-locatore',
   standalone: true,
-  imports: [CommonModule, AngularMaterialModule, GenericCardComponent],
+  imports: [
+    CommonModule,
+    AngularMaterialModule,
+    GenericCardComponent,
+    FormsModule,
+  ],
   templateUrl: './dettaglio-locatore.component.html',
   styleUrl: './dettaglio-locatore.component.scss',
 })
 export class DettaglioLocatoreComponent implements OnInit {
+  /** Constante per l'input della ricera */
+  inputConstant = INPUT_CONSTANT;
   /** Richiamo le costanti da labelCostant */
   labelConstant = LABEL_CONSTANT;
   /** Richiamo la ICON_CONSTANT */
@@ -38,6 +47,10 @@ export class DettaglioLocatoreComponent implements OnInit {
   data!: any;
   /** Le case assegnate al locatore */
   caseLocatore: any[] = [];
+  /**Lista filtrata delle case associate */
+  filteredCaseLocatori: any[] = [];
+  /**Testo di ricerca */
+  searchTerm: string = '';
 
   /**
    * Il costruttore della classe.
@@ -65,11 +78,33 @@ export class DettaglioLocatoreComponent implements OnInit {
     this.caseService.getAllCase(id).subscribe({
       next: (res) => {
         this.caseLocatore = res;
+        this.filteredCaseLocatori = [...this.caseLocatore];
       },
       error: (err) => {
         err.message;
       },
     });
+  }
+
+  /**Metodo per aggiornare la lista filtrata */
+  ngOnChanges(): void {
+    this.filterCaseLocatori();
+  }
+
+  /**Metodo per il filtraggio della lista */
+  filterCaseLocatori(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    if (term === '') {
+      // Se il campo di ricerca è vuoto, mostra l'intera lista
+      this.filteredCaseLocatori = [...this.caseLocatore];
+    } else {
+      // Filtra la lista basandosi sul valore di ricerca
+      this.filteredCaseLocatori = this.caseLocatore.filter(
+        (locatore: { nome: string }) =>
+          locatore.nome.toLowerCase().includes(term)
+      );
+    }
   }
 
   /**Funzione che restituisce l'icona in base allo stato */

@@ -103,7 +103,6 @@ export default class LoginComponent {
     this.locatoriService.verificaEmailLocatore(email).pipe(take(1)).subscribe((exists) => {
       if (exists) {
         this.loaderSpinnerService.hide();
-        console.log('Email già registrata.');
         this.loginService.login(email, password).pipe(take(1)).subscribe({
           next: (res) => {
             this.loaderSpinnerService.hide();
@@ -120,7 +119,6 @@ export default class LoginComponent {
             }
           },
           error: (error) => {
-            console.log(error, 'errore');
             this.loaderSpinnerService.hide();
             this.firebaseError(error.code);
           },
@@ -128,7 +126,6 @@ export default class LoginComponent {
       } else {
         this.loaderSpinnerService.hide();
         this.notifica.show('Le credenziali non sono valide', -1, 'error');
-        console.log('Email non presente.');
       }
     });  
   }

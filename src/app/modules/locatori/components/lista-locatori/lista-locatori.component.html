@@ -10,7 +10,10 @@
       />
     </mat-form-field>
   </div>
-  <div class="card-container">
+  <div
+    class="card-container"
+    *ngIf="filteredLocatori.length > 0; else noLocatori"
+  >
     <app-generic-card
       *ngFor="let user of filteredLocatori"
       [data]="user"
@@ -18,4 +21,9 @@
       [locatore]="true"
     ></app-generic-card>
   </div>
+  <ng-template #noLocatori>
+    <div class="container-case">
+      <span>{{ resultConstant.nessun_locatore_trovato }}</span>
+    </div>
+  </ng-template>
 </div>

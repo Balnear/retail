@@ -60,9 +60,23 @@
   <!-- LISTA DELLA CASE ASSEGNATE AL LOCATORE -->
   <div class="container-case">
     <h4>{{ labelConstant.case_associate }}</h4>
-    <div class="card-container" *ngIf="caseLocatore.length > 0; else noCase">
+    <div class="search-bar">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ inputConstant.nome }}</mat-label>
+        <input
+          matInput
+          placeholder="Cerca per nome..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterCaseLocatori()"
+        />
+      </mat-form-field>
+    </div>
+    <div
+      class="card-container"
+      *ngIf="filteredCaseLocatori.length > 0; else noCase"
+    >
       <app-generic-card
-        *ngFor="let casa of caseLocatore"
+        *ngFor="let casa of filteredCaseLocatori"
         [data]="casa"
         [actionCallback]="dettaglioCasaLocatore"
         [locatore]="false"

@@ -8,7 +8,7 @@ import {
   LoaderSpinnerService,
   PanelService,
 } from '../../../../services';
-import { INPUT_CONSTANT } from '../../../../constants';
+import { INPUT_CONSTANT, RESULT_CONSTANT } from '../../../../constants';
 import {
   DettaglioLocatoreComponent,
   GenericCardComponent,
@@ -30,6 +30,8 @@ import {
   styleUrls: ['./lista-locatori.component.scss'],
 })
 export default class ListaLocatoriComponent {
+  /** Costante per il risultato vuoto della tabella */
+  resultConstant = RESULT_CONSTANT;
   /** Constante per l'input della ricera */
   inputConstant = INPUT_CONSTANT;
   /**Lista dei locatori */

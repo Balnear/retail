@@ -122,4 +122,5 @@ export const RESULT_CONSTANT = {
   nessun_risultato: 'Nessun risultato trovato.',
   nessuna_casa: 'Nessuna casa trovata.',
   nessuna_casa_associata: 'Nessuna casa associata',
+  nessun_locatore_trovato: 'Nessun locatore trovato',
 };
