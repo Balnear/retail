@@ -56,5 +56,13 @@
       justify-content: flex-start;
       align-items: center;
     }
+    .container-ricerca-case {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
