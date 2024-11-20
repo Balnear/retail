@@ -42,6 +42,8 @@ export class LoginService {
   numberPhone!: string;
   /**dati utente */
   datiUser: any;
+  /** Booleana per verificare la presenza dell'email*/
+  emailPresent: boolean | null = null;
   /**Subject per tenere traccia dell'utente corrente */
   private currentUserSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);

@@ -270,4 +270,15 @@ export class LocatoriService {
       })
     );
   }
+
+  /** Verifica se un'email è presente tra i locatori */
+  verificaEmailLocatore(email: string): Observable<boolean> {
+    const usersRef = collection(this.firestore, 'locatori');
+    const emailQuery = query(usersRef, where('email', '==', email));
+
+    // Specifica il tipo esplicito con <LocatoreProfile[]>
+    return collectionData<LocatoreProfile>(emailQuery, { idField: 'uid' }).pipe(
+      map((locatori: any) => locatori.length > 0) // Ritorna true se ci sono locatori con quell'email
+    );
+  }
 }

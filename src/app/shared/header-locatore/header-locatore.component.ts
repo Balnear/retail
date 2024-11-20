@@ -228,7 +228,6 @@ export class HeaderLocatoreComponent {
             this.locatoriService.deleteUserProfile(id).subscribe({
               next: () => {
                 this.loaderSpinnerService.hide();
-                this.closeModal();
                 this.dialog.open(
                   GenericFeedbackModalComponent,
                   GENERIC_FEEDBACK.eliminazione_profilo_locatore
@@ -244,7 +243,6 @@ export class HeaderLocatoreComponent {
             });
           } else {
             this.loaderSpinnerService.hide();
-            this.closeModal();
             this.notifica.show(
               "Per eliminare la tua utenza contatta l'amministratore",
               5000,
