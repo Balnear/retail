@@ -8,6 +8,7 @@ import {
   LoaderSpinnerService,
   PanelService,
 } from '../../../../services';
+import { INPUT_CONSTANT } from '../../../../constants';
 import {
   DettaglioLocatoreComponent,
   GenericCardComponent,
@@ -29,8 +30,14 @@ import {
   styleUrls: ['./lista-locatori.component.scss'],
 })
 export default class ListaLocatoriComponent {
+  /** Constante per l'input della ricera */
+  inputConstant = INPUT_CONSTANT;
   /**Lista dei locatori */
   locatori: any;
+  /**Lista filtrata dei locatori */
+  filteredLocatori: any[] = [];
+  /**Testo di ricerca */
+  searchTerm: string = '';
 
   /**
    * Il costruttore della classe, si popola la variabile listaLocatori con la lista dei locatori
@@ -49,9 +56,31 @@ export default class ListaLocatoriComponent {
     this.locatoriService.getAllLocatori().subscribe({
       next: (users: any) => {
         this.locatori = users;
+        this.filteredLocatori = [...this.locatori];
         this.locatoriService.locatori = users;
       },
     });
+  }
+
+  /**Metodo per aggiornare la lista filtrata */
+  ngOnChanges(): void {
+    this.filterLocatori();
+  }
+
+  /**Metodo per il filtraggio della lista */
+  filterLocatori(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    if (term === '') {
+      // Se il campo di ricerca è vuoto, mostra l'intera lista
+      this.filteredLocatori = [...this.locatori];
+    } else {
+      // Filtra la lista basandosi sul valore di ricerca
+      this.filteredLocatori = this.locatori.filter(
+        (locatore: { displayName: string }) =>
+          locatore.displayName.toLowerCase().includes(term)
+      );
+    }
   }
 
   /**Metodo per visualizzare il dettaglio del locatore */

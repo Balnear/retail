@@ -1,7 +1,18 @@
 <div class="container">
+  <div class="search-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ inputConstant.nome }}</mat-label>
+      <input
+        matInput
+        placeholder="Cerca per nome..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterLocatori()"
+      />
+    </mat-form-field>
+  </div>
   <div class="card-container">
     <app-generic-card
-      *ngFor="let user of locatori"
+      *ngFor="let user of filteredLocatori"
       [data]="user"
       [actionCallback]="dettaglioLocatore"
       [locatore]="true"
