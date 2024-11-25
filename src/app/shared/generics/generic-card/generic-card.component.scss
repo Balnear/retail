@@ -1,0 +1,216 @@
+@import "../../../../assets/scss/variables.scss";
+
+.container-content {
+  width: 260px;
+  height: 300px;
+  border-radius: 8px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $grey-card;
+  border: 2px solid $grey-border-card;
+  .image-profile {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 160px;
+    .logo {
+      width: 100%;
+      height: 160px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .status {
+      position: absolute;
+      top: 36%;
+      width: 12vw;
+      height: 6vh;
+      background-color: $info-color;
+      opacity: 0.8;
+      border: 2px solid $grey-border-card;
+      border-radius: 8px;
+      .status_content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        @include text($font-20, 700, $secondary, none, none);
+      }
+      .on-green {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        border: 2px solid $black;
+        border-radius: 8px;
+        background-color: greenyellow;
+      }
+      .of-red {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        width: 10px;
+        height: 10px;
+        border: 2px solid $black;
+        border-radius: 8px;
+        background-color: red;
+      }
+      /* Media Queries per risoluzioni diverse */
+      @media (max-width: 1700px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 25%;
+        }
+      }
+      @media (max-width: 1400px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 22%;
+        }
+      }
+      @media (max-width: 1200px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 19%;
+        }
+      }
+      @media (max-width: 1024px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 12%;
+        }
+      }
+      @media (max-width: 940px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 9%;
+        }
+      }
+      @media (max-width: 840px) {
+        .on-green,
+        .of-red {
+          position: absolute;
+          top: 40%;
+          left: 6%;
+        }
+      }
+    }
+  }
+  .flex {
+    display: flex;
+    width: 100%;
+
+    &.sp-between {
+      justify-content: space-between;
+      align-items: center;
+    }
+    &.flex-end {
+      padding: 16px;
+      justify-content: end;
+      align-items: end;
+    }
+    button {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 500;
+      color: $brown;
+      text-shadow: none;
+      background: transparent;
+      cursor: pointer;
+      box-shadow: transparent;
+      border: 1px solid $black;
+      transition: 0.5s ease;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-content: center;
+      justify-content: center;
+    }
+    #btn:hover,
+    :focus {
+      color: #ffffff;
+      background: #008cff;
+      border: 1px solid #008cff;
+      text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff;
+      box-shadow: 0 0 5px #008cff, 0 0 20px #008cff, 0 0 50px #008cff,
+        0 0 100px #008cff;
+    }
+    /* From Uiverse.io by mi-series */
+    .btn {
+      outline: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #008cff;
+      min-width: 200px;
+      border: 0;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      padding: 16px 20px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      opacity: 0.95;
+    }
+
+    .btn .animation {
+      border-radius: 100%;
+      animation: ripple 0.6s linear infinite;
+    }
+
+    @keyframes ripple {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1),
+          0 0 0 20px rgba(255, 255, 255, 0.1),
+          0 0 0 40px rgba(255, 255, 255, 0.1),
+          0 0 0 60px rgba(255, 255, 255, 0.1);
+      }
+
+      100% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1),
+          0 0 0 40px rgba(255, 255, 255, 0.1),
+          0 0 0 60px rgba(255, 255, 255, 0.1), 0 0 0 80px rgba(255, 255, 255, 0);
+      }
+    }
+  }
+  .container-title {
+    text-align: center;
+    max-width: 80%;
+    height: 114px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .title {
+      @include text($font-20, 700, $brown, 38px, none);
+    }
+  }
+}

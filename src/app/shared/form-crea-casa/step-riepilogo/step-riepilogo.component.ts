@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
-import { CaseService } from '../../../services';
+import { CaseService, LocatoriService } from '../../../services';
 import {
   ICON_CONSTANT,
   INPUT_CONSTANT,
@@ -50,6 +50,8 @@ export class StepRiepilogoComponent {
   primoIndirizzo!: string;
   /** Citta iniziale */
   primaCitta!: string;
+  /** Mappa */
+  private map!: L.Map;
 
   /**
    * Il costruttore della classe
@@ -59,6 +61,7 @@ export class StepRiepilogoComponent {
    */
   constructor(
     public caseService: CaseService,
+    private locatoriService: LocatoriService,
     private genericStepperModal: GenericStepperModal,
     private parentF: FormGroupDirective
   ) {
@@ -71,6 +74,15 @@ export class StepRiepilogoComponent {
     this.primoIndirizzo = this.formValue.indirizzo;
     this.primaCitta = this.formValue.citta;
     this.ricercaIndirizzo(this.formValue.indirizzo, this.formValue.citta);
+    this.locatoriService.getLocatore(this.formValue.locatore.id).subscribe({
+      next: (user) => {
+        this.formValue.locatore.displayName = user?.displayName;
+        this.formValue.locatore.phoneNumber = user?.phoneNumber;
+      },
+      error: (err) => {
+        console.error("Errore nel recupero dell'utente:", err);
+      },
+    });
   }
 
   /**
@@ -80,8 +92,6 @@ export class StepRiepilogoComponent {
   changeStep(step: number) {
     this.genericStepperModal.changeStep(step);
   }
-
-  private map!: L.Map;
 
   // Definisci la mappa con il layer satellitare
   private initMap(): void {

@@ -1,0 +1,68 @@
+@import "../../../assets/scss/variables.scss";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  height: auto;
+  border: 1px solid rgba(37, 18, 0, 0.1);
+  border-radius: 8px;
+  .informazioni {
+    background-color: $sand;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 24px;
+    height: auto;
+    width: 100%;
+    .content_informazioni {
+      @include text($font-16, 700, $lite-brown, 19px, none);
+      width: 100%;
+      border-bottom: 1px solid grey;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+      gap: 16px;
+      .content {
+        @include text($font-16, 400, $brown-opacity-80, 19px, none);
+        display: flex;
+        gap: 8px;
+        .mt-4 {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+  .container-case {
+    width: 100%;
+    height: auto;
+    padding: 12px;
+    background-color: $white;
+    border-radius: 8px;
+    overflow-y: auto;
+    .card-container {
+      display: flex;
+      gap: 16px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    .container-ricerca-case {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -7,15 +7,17 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
+import { doc, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   User as FirebaseUser,
   setPersistence,
-} from 'firebase/auth'; // Firebase User Type
-import { BehaviorSubject, Observable, from, map, switchMap } from 'rxjs';
-import { User } from '../models';
+} from 'firebase/auth';
+
 import { MatDialog } from '@angular/material/dialog';
+import { BehaviorSubject, Observable, from, map, switchMap } from 'rxjs';
 import { PanelService } from './panel.service';
+import { profiloUser, User } from '../models';
 
 /**L'injectable del service login service */
 @Injectable({
@@ -40,6 +42,8 @@ export class LoginService {
   numberPhone!: string;
   /**dati utente */
   datiUser: any;
+  /** Booleana per verificare la presenza dell'email*/
+  emailPresent: boolean | null = null;
   /**Subject per tenere traccia dell'utente corrente */
   private currentUserSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
@@ -56,10 +60,23 @@ export class LoginService {
   constructor(
     private router: Router,
     private auth: Auth,
+    private firestore: Firestore,
     private panelService: PanelService,
     private dialog: MatDialog
   ) {
     this.initCurrentUser();
+    /**
+     * Se desideri che lo stato cambi anche quando l'utente
+     * chiude la finestra o si disconnette dalla rete, puoi
+     * aggiungere un gestore beforeunload o ascoltare eventi
+     * online/offline.
+     */
+    window.addEventListener('beforeunload', () => {
+      const currentUser = this.auth.currentUser;
+      if (currentUser) {
+        this.updateUserStatus(currentUser.uid, 'Offline');
+      }
+    });
   }
 
   /**Inizializza l'utente corrente all'avvio del servizio */
@@ -72,6 +89,19 @@ export class LoginService {
   }
 
   /**
+   * Aggiorna lo stato dell'utente nel documento Firestore.
+   */
+  updateUserStatus(
+    userId: string,
+    status: 'Online' | 'Offline'
+  ): Promise<void> {
+    const userDocRef = doc(this.firestore, `locatori/${userId}`);
+    return updateDoc(userDocRef, {
+      status,
+    });
+  }
+
+  /**
    * Effettua l'accesso all'applicazione
    */
   login(email: string, password: string): Observable<User | null> {
@@ -79,13 +109,64 @@ export class LoginService {
     // Imposta la persistenza su 'session' per mantenere l'utente autenticato anche dopo il refresh
     return from(setPersistence(this.auth, browserSessionPersistence)).pipe(
       switchMap(() =>
-        from(signInWithEmailAndPassword(this.auth, email, password))
-      ),
-      map((userCredential) => {
-        const user = this.mapFirebaseUserToUser(userCredential.user);
-        // Salva le informazioni dell'utente nel localStorage
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
+        from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
+          switchMap((userCredential) => {
+            console.log(userCredential, 'usercredntial');
+
+            const user = userCredential.user;
+            if (user) {
+              // Imposta lo stato dell'utente a "online" su Firestore
+              this.updateUserStatus(user.uid, 'Online');
+            }
+            return this.getUserProfile(user.uid).pipe(
+              map((profileData) => {
+                const user = this.mapFirebaseUserToUser(
+                  userCredential.user,
+                  profileData
+                );
+
+                if (user) {
+                  const storageKey =
+                    user.userType === 'Locatore'
+                      ? 'landlordUser'
+                      : 'tenantUser';
+                  localStorage.setItem(storageKey, JSON.stringify(user));
+                }
+
+                return user;
+              })
+            );
+          })
+        )
+      )
+    );
+  }
+
+  /**Recupera il profile del utente */
+  private getUserProfile(
+    uid: string | undefined
+  ): Observable<profiloUser | null> {
+    if (!uid) return from([null]); // Restituisce null se uid è undefined
+    const userDocRef = doc(this.firestore, `locatori/${uid}`);
+    return from(getDoc(userDocRef)).pipe(
+      map((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          console.log(data, 'data');
+
+          return {
+            uid,
+            email: data?.['email'] || '',
+            displayName: data?.['displayName'] || '',
+            photoURL: data?.['photoURL'] || '',
+            emailVerified: data?.['emailVerified'] || false,
+            userType: data?.['userType'] || 'Inquilino',
+            status: data?.['status'] || 'Offline',
+            phoneNumber: data?.['phoneNumber'] || '',
+          } as profiloUser;
+        } else {
+          return null;
+        }
       })
     );
   }
@@ -93,6 +174,24 @@ export class LoginService {
   /**Effettua la disconnessione dall'applicazione */
   logout(): Observable<void> {
     return from(signOut(this.auth));
+  }
+
+  /**
+   * Recupera il profilo dell'utente loggato dal localStorage
+   * Restituisce l'utente in base al tipo, o null se non è presente.
+   */
+  getCurrentUserFromLocalStorage(): User | null {
+    const landlordUser = localStorage.getItem('landlordUser');
+    const tenantUser = localStorage.getItem('tenantUser');
+
+    // Restituisce il profilo in base al tipo di utente
+    const user = landlordUser
+      ? JSON.parse(landlordUser)
+      : tenantUser
+      ? JSON.parse(tenantUser)
+      : null;
+    console.log('User recuperato dal localStorage:', user);
+    return user;
   }
 
   /** Metodo per ottenere il profilo dell'utente autenticato */
@@ -105,7 +204,8 @@ export class LoginService {
 
   /** Mappa l'oggetto Firebase User al modello User */
   private mapFirebaseUserToUser(
-    firebaseUser: FirebaseUser | null
+    firebaseUser: FirebaseUser | null,
+    profileData?: any
   ): User | null {
     if (!firebaseUser) {
       return null;
@@ -114,9 +214,12 @@ export class LoginService {
     return {
       uid: firebaseUser.uid,
       email: firebaseUser.email || '',
-      displayName: firebaseUser.displayName || '',
-      photoURL: firebaseUser.photoURL || '',
+      displayName: profileData?.displayName || firebaseUser.displayName || '',
+      photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
       emailVerified: firebaseUser.emailVerified,
+      userType: profileData?.userType || 'Inquilino',
+      status: profileData?.status || 'Offline',
+      phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
     };
   }
 

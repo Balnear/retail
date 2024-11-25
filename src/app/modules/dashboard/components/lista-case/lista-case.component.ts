@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -29,19 +29,18 @@ import {
   ICON_CONSTANT,
   TABLE_INPUT_CONSTANT,
 } from '../../../../constants';
-import { GenericDropDownMenuComponent } from '../../../../shared/generics/generic-drop-down-menu/generic-drop-down-menu.component';
 import {
   DettaglioCasaComponent,
   GenericConfirmModalComponent,
   GenericDetailModalComponent,
   GenericFeedbackModalComponent,
   GenericStepperModal,
+  HeaderCasaComponent,
 } from '../../../../shared';
 import { StepInformazioniComponent } from '../../../../shared/form-crea-casa/step-informazioni/step-informazioni.component';
 import { StepCaratteristicheComponent } from '../../../../shared/form-crea-casa/step-caratteristiche/step-caratteristiche.component';
 import { StepCostiComponent } from '../../../../shared/form-crea-casa/step-costi/step-costi.component';
 import { StepRiepilogoComponent } from '../../../../shared/form-crea-casa/step-riepilogo/step-riepilogo.component';
-import { HeaderCasaComponent } from '../../../../shared/header-casa/header-casa.component';
 import { CustomValidator } from '../../../../utils';
 
 /** Componente per la lista delle case */
@@ -55,7 +54,6 @@ import { CustomValidator } from '../../../../utils';
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    GenericDropDownMenuComponent,
   ],
 })
 export default class ListaCaseComponent {
@@ -106,7 +104,7 @@ export default class ListaCaseComponent {
   ];
 
   /**
-   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case instanziata nel resolver
+   * Il costruttore della classe, si popola la variabile listaCase con la lista delle case
    * @param {CaseService} caseService L'injectable del service CaseService
    * @param {LoaderSpinnerService} loaderSpinnerService L'injectable del service LoaderSpinnerService
    * @param {PanelService} panelService L'injectable del service pannello
@@ -170,8 +168,7 @@ export default class ListaCaseComponent {
     this.loaderSpinnerService.show();
     this.caseService.getCasa(id).subscribe({
       next: (res) => {
-        const obj = res._document.data.value.mapValue.fields;
-        this.caseService.dettaglioCasa = obj;
+        this.caseService.dettaglioCasa = res;
         this.loaderSpinnerService.hide();
         this.panelService.open(GenericDetailModalComponent, {
           backdropClass: 'custom-backdrop',
@@ -191,6 +188,7 @@ export default class ListaCaseComponent {
       next: (casa) => {
         this.loaderSpinnerService.hide();
         const objCasa = casa._document.data.value.mapValue.fields;
+        const objLocatore = objCasa.locatore.mapValue.fields;
         const objCaratteristiche =
           casa._document.data.value.mapValue.fields.caratteristiche.mapValue
             .fields;
@@ -235,9 +233,9 @@ export default class ListaCaseComponent {
               //TODO: VERIFICARE COME INSERIRE QUESTO
               // assegnaCasa: [objCasa.assegnaCasa],
               locatore: this.fb.group({
-                id: [objCasa.locatore.id],
-                displayName: [objCasa.locatore.displayName],
-                phoneNumber: [objCasa.locatore.phoneNumber],
+                id: [objLocatore.id.stringValue],
+                displayName: [objLocatore.displayName.stringValue],
+                phoneNumber: [objLocatore.phoneNumber.stringValue],
               }),
               caratteristiche: this.fb.group({
                 dimensione: [

@@ -70,4 +70,6 @@ export const ICON_CONSTANT = {
   payments: 'payments',
   attach_money: 'attach_money',
   login: 'login',
+  cancel: 'cancel',
+  arrow_back: 'arrow_back',
 };

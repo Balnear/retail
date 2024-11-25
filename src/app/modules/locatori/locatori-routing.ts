@@ -6,7 +6,8 @@ export const routes: Routes = [
   {
     path: '',
     title: 'Locatori',
-    loadComponent: () => import('./components/locatori/locatori.component'),
+    loadComponent: () =>
+      import('./components/lista-locatori/lista-locatori.component'),
     resolve: {
       listaLocatori: () => inject(LocatoriService),
     },

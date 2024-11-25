@@ -15,7 +15,6 @@ import {
   ERROR_CONSTANT,
   INPUT_CONSTANT,
 } from '../../constants';
-import { TrimDirective, NoEmojiDirective } from '../../directives';
 
 /**Componente per l'eliminazione di una tipologia */
 @Component({
@@ -26,8 +25,6 @@ import { TrimDirective, NoEmojiDirective } from '../../directives';
     ReactiveFormsModule,
     FormsModule,
     AngularMaterialModule,
-    TrimDirective,
-    NoEmojiDirective,
   ],
   templateUrl: './select-elimina-tipologia.component.html',
   styleUrls: ['./select-elimina-tipologia.component.scss'],
@@ -39,9 +36,9 @@ import { TrimDirective, NoEmojiDirective } from '../../directives';
   ],
 })
 export class SelectEliminaTipologiaComponent {
-  /**Form creazione gestore */
+  /**Form elimina tipologia */
   form!: FormGroup;
-  /**Costanti gestore */
+  /**Costanti tipologia */
   labelConstant = LABEL_CONSTANT;
   /** Label per gli errori */
   errorConstant = ERROR_CONSTANT;

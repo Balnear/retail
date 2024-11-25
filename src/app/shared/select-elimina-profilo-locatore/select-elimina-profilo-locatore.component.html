@@ -1,0 +1,11 @@
+<div class="container-form" [formGroup]="form">
+  <mat-form-field class="font-text w-100" appearance="outline">
+    <mat-label>{{ labelConstant.locatore }}</mat-label>
+    <mat-select formControlName="elementSelected">
+      <mat-option *ngFor="let opt of listaLocatori" [value]="opt.uid">{{
+        opt.displayName | titlecase
+      }}</mat-option>
+    </mat-select>
+    <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+  </mat-form-field>
+</div>

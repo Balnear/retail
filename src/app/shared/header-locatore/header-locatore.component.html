@@ -1,0 +1,41 @@
+<!-- Dettaglio Casa-->
+<div class="header">
+  <!-- Header -->
+  <div class="header__upper">
+    <img class="logo" [src]="locatore.photoURL" alt="image-profile" />
+    <button class="header__actions">
+      <span
+        (click)="editStatus = !editStatus"
+        class="material-symbols-outlined header__icon"
+        matTooltip="Menu"
+        >{{ iconCostant.more_horiz }}</span
+      >
+      <span
+        class="material-symbols-outlined header__icon"
+        (click)="closeDialog()"
+        matTooltip="Chiudi"
+        >{{ iconCostant.close }}</span
+      >
+      <div class="menu" *ngIf="editStatus">
+        <p
+          class="menu__item"
+          (click)="modificaLocatore(locatore.uid)"
+        >
+          <span class="material-symbols-outlined menu__icon">{{
+            iconCostant.edit
+          }}</span
+          >{{ labelCostant.modifica }}
+        </p>
+        <p
+          class="menu__item"
+          (click)="eliminaLocatore(locatore.uid)"
+        >
+          <span class="material-symbols-outlined menu__icon">{{
+            iconCostant.delete
+          }}</span
+          >{{ labelCostant.elimina }}
+        </p>
+      </div>
+    </button>
+  </div>
+</div>

@@ -10,6 +10,12 @@ export interface User {
   photoURL?: string;
   /**Flag che indica se l'email è verificata */
   emailVerified: boolean;
+  /**Tipologia di utente */
+  userType: 'Locatore' | 'Inquilino';
+  /**Numero di telefono */
+  phoneNumber: string;
+  /**Stato di attività */
+  status: 'Online' | 'Offline';
 }
 
 /** Modello per nominativoUser */
@@ -19,7 +25,13 @@ export interface profiloUser {
   /**Email dell'utente */
   email: string;
   /**Nome visualizzato */
-  displayName?: string;
+  displayName: string;
   /**URL della foto del profilo */
   photoURL?: string;
+  /**Tipologia di utente */
+  userType: 'Locatore' | 'Inquilino';
+  /**Numero di telefono */
+  phoneNumber: string;
+  /**Stato di attività */
+  status: 'Online' | 'Offline';
 }

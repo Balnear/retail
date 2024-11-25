@@ -77,6 +77,7 @@ export const LABEL_CONSTANT = {
   tipologia_aggiunta: 'Tipologia aggiunta',
   dati_tipologia_aggiunta: 'Hai aggiunto correttamente la tipologia',
   elimina_dati: 'Vuoi eliminare la seguente tipologia?',
+  elimina_dati_locatore: 'Vuoi eliminare questo locatore?',
   tipologia_eliminata: 'Tipologia eliminata',
   dati_tipologia_eliminati:
     'Tutti i dati associati alla tipologia sono stati eliminati',
@@ -85,6 +86,27 @@ export const LABEL_CONSTANT = {
   carateristiche: 'Caratteristiche',
   affitto: 'Affitto',
   manutenzione: 'Manutenzione',
+  aggiungi_locatore: 'Aggiungi locatore',
+  inserisci_dati_locatore: 'Inserisci i dati del locatore',
+  locatore_creato: 'Locatore creato correttamente',
+  dati_locatore_creato: 'Hai creato correttamente il locatore!',
+  mia_immagine: 'Immagine',
+  tipologia_user: 'Tipologia',
+  stato_di_attivita: 'Stato',
+  case_associate: 'Case associate',
+  localita: 'Locatità',
+  modifica_locatore: 'Modifica locatore',
+  elimina_locatore: 'Elimina locatore',
+  modifica_profilo: 'Modifica profilo',
+  aggiorna_dati_profilo: 'Aggiorna i dati del tuo profilo',
+  elimina_profilo_locatore: 'Elimina profilo locatore',
+  aggiorna_dati_locatore: 'Aggiorna i dati del seguente locatore',
+  vuoi_eliminare_locatore: 'Vuoi eliminare il locatore?',
+  tutti_i_dati_locatore:
+    'Tutti i dati relativi al locatore comprese le case associate verranno eliminati definitivamente.',
+  profilo_eliminato: 'Profilo eliminato',
+  dati_profilo_eliminati:
+    'Tutti i dati associati al locatore comprese le case sono stati eliminati',
 
   anagrafica: 'ANAGRAFICA',
   ruolo: 'RUOLO',
@@ -99,4 +121,6 @@ export const LABEL_CONSTANT = {
 export const RESULT_CONSTANT = {
   nessun_risultato: 'Nessun risultato trovato.',
   nessuna_casa: 'Nessuna casa trovata.',
+  nessuna_casa_associata: 'Nessuna casa associata',
+  nessun_locatore_trovato: 'Nessun locatore trovato',
 };

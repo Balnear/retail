@@ -18,9 +18,11 @@ import {
 } from '../../../../constants/index';
 import {
   LoaderSpinnerService,
+  LocatoriService,
   LoginService,
   NotificationService,
 } from '../../../../services';
+import { take } from 'rxjs';
 
 /** Una classe per il componente del form di login */
 @Component({
@@ -48,7 +50,7 @@ export default class LoginComponent {
   buttonConstant = BUTTON_CONSTANT;
   /** Label per gli errori */
   errorConstant = ERROR_CONSTANT;
-  /** messaggio errore email o password */
+  /** Messaggio errore email o password */
   errorLogin?: string;
 
   /**
@@ -62,6 +64,7 @@ export default class LoginComponent {
   constructor(
     private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
+    private locatoriService: LocatoriService,
     private notifica: NotificationService,
     private fb: FormBuilder,
     private router: Router
@@ -85,28 +88,46 @@ export default class LoginComponent {
         ],
       ],
     });
+    
   }
 
   /**
    * Submit del form di login.
-   * Nella callback salva il nominativo dell'utente nel localStorage e il token nel localStorage o sessionStorage (in base alla selezione remember me).
+   * Nella callback salva il nominativo dell'utente nel localStorage e il token nel localStorage o sessionStorage.
+   * Verifica se l'email inserita ha un profilo attivo
    */
   submitForm() {
     this.loaderSpinnerService.show();
     const email = this.form.value.email;
     const password = this.form.value.password;
-    this.loginService.login(email, password).subscribe({
-      next: (res) => {
-        this.router.navigate(['/bo/dashboard']);
-        console.log(res, 'credenziali');
+    this.locatoriService.verificaEmailLocatore(email).pipe(take(1)).subscribe((exists) => {
+      if (exists) {
         this.loaderSpinnerService.hide();
-        this.notifica.show('Accesso eseguito correttamente', -1, 'success');
-      },
-      error: (error) => {
+        this.loginService.login(email, password).pipe(take(1)).subscribe({
+          next: (res) => {
+            this.loaderSpinnerService.hide();
+            if (res) {
+              if (res.userType === 'Locatore') {
+                console.log(res, 'credenziali');
+                this.router.navigate(['/bo/dashboard']);
+                this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+              } else if (res.userType === 'Inquilino') {
+                console.log(res, 'credenziali');
+                this.router.navigate(['/bo/dashboard']);
+                this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+              }
+            }
+          },
+          error: (error) => {
+            this.loaderSpinnerService.hide();
+            this.firebaseError(error.code);
+          },
+        });
+      } else {
         this.loaderSpinnerService.hide();
-        this.firebaseError(error.code);
-      },
-    });
+        this.notifica.show('Le credenziali non sono valide', -1, 'error');
+      }
+    });  
   }
   /**
   Funzione per il recupero della password

@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { NoopScrollStrategy } from '@angular/cdk/overlay';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AngularMaterialModule } from '../../../material-module';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LoginService, LoaderSpinnerService } from '../../../../services';
+import {
+  LoginService,
+  LoaderSpinnerService,
+  LocatoriService,
+  NotificationService,
+  CaseService,
+} from '../../../../services';
 import {
   LABEL_CONSTANT,
   ICON_CONSTANT,
@@ -20,9 +25,11 @@ import {
 import { BreadcrumbsPipe } from '../../../../pipes';
 import {
   GenericConfirmModalComponent,
-  GenericFormModalComponent,
   GenericFeedbackModalComponent,
+  GenericFormModalComponent,
 } from '../../../../shared';
+import { FormCreaLocatoreComponent } from '../../../../shared/form-crea-locatore/form-crea-locatore.component';
+import { CustomValidator } from '../../../../utils';
 
 /**Component utilizzato come header per le pagine dell'applicazione.*/
 @Component({
@@ -61,7 +68,7 @@ export class HeaderComponent {
     {
       icon: this.iconConstant.person,
       label: this.labelConstant.profilo,
-      callback: () => this.editOrChangeProfile(),
+      callback: () => this.modificaProfilo(),
     },
     {
       icon: this.iconConstant.logout,
@@ -73,17 +80,25 @@ export class HeaderComponent {
   matDialog: any;
   /**DialogRef riferimento al dialog*/
   dialogRef: any;
+  /** Contiene il form */
+  form!: FormGroup;
+  /** URL del imagine del profilo */
+  image!: string;
 
   /**
    * Il costruttore della classe
    * @param {LoginService} loginService Injectable del service Login
-   * @param {LoaderSpinnerService} loadSpinnerService Injecatble del service loadSpinner
+   * @param {LocatoriService} locatoriService Injectable del service Locatori
+   * @param {LoaderSpinnerService} loadSpinner Injecatble del service loadSpinner
    * @param {MatDialog} dialog Injectable del service MatDialog
    * @param {Router} router L'injectable del service router per la navigazione tra viste e url
    */
   constructor(
     private loginService: LoginService,
+    private locatoriService: LocatoriService,
+    private caseService: CaseService,
     private loaderSpinner: LoaderSpinnerService,
+    private notifica: NotificationService,
     private dialog: MatDialog,
     private router: Router,
     private fb: FormBuilder
@@ -94,7 +109,7 @@ export class HeaderComponent {
   ngOnInit() {
     this.currentUser = this.loginService.getCurrentUser();
     // Se desideri anche recuperare dal localStorage:
-    this.data = this.loginService.getUserFromLocalStorage();
+    this.data = this.loginService.getCurrentUserFromLocalStorage();
     console.log('utente dal localStorage:', this.data);
   }
 
@@ -106,6 +121,7 @@ export class HeaderComponent {
       .subscribe({
         next: (res) => {
           if (res) {
+            this.loginService.updateUserStatus(this.data.uid, 'Offline');
             this.loginService.logout();
             this.loginService.goToLogin();
             this.loginService.clearStorage();
@@ -115,49 +131,74 @@ export class HeaderComponent {
       });
   }
 
-  /**Modifica i dati del profilo utente */
-  editOrChangeProfile() {
+  /**Modifica i dati del profilo del locatore */
+  modificaProfilo() {
     const nome = this.data.displayName.split(' ')[0].trim();
     const cognome = this.data.displayName.split(' ').pop().trim();
-    // Data saved successfully!
+    this.locatoriService.email = this.data.email;
     this.dialogRef = this.dialog.open(GenericFormModalComponent, {
       width: '824px',
       height: '864px',
-      scrollStrategy: new NoopScrollStrategy(),
       disableClose: true,
+      autoFocus: false,
       data: {
-        form: this.fb.group({
-          uid: this.data.uid,
-          nome: [{ value: nome, disabled: true }],
-          cognome: [{ value: cognome, disabled: true }],
-          telphoneNumber: [
-            this.data.telphoneNumber,
-            [
-              Validators.required,
-              Validators.minLength(10),
-              Validators.maxLength(15),
-              Validators.pattern('[0-9 +]*'),
+        form: this.fb.group(
+          {
+            uid: this.data.uid,
+            nome: [
+              nome,
+              [Validators.required, Validators.pattern(/^[a-zA-Z]{1,40}$/)],
             ],
-          ],
-          email: [
-            this.data.email,
-            [
-              Validators.required,
-              Validators.pattern(
-                /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-              ),
+            cognome: [
+              cognome,
+              [Validators.required, Validators.pattern(/^[a-zA-Z]{1,40}$/)],
             ],
-          ],
-          profile_picture: [this.data.profile_picture],
-        }),
+            email: [
+              this.data.email,
+              [Validators.required],
+              [this.locatoriService.emailExistsValidator()],
+            ],
+            password: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.pattern(/[A-Z]/), // Almeno una lettera maiuscola
+                Validators.pattern(/[0-9]/), // Almeno un numero
+                CustomValidator.specialCharacterValidator(), // Validatore personalizzato per caratteri speciali
+              ],
+            ],
+            repeatPassword: [
+              '',
+              [
+                Validators.required,
+                Validators.minLength(8),
+                Validators.maxLength(64),
+              ],
+            ],
+            photoURL: [''],
+            userType: [{ value: this.data.userType, disabled: true }],
+            phoneNumber: [
+              this.data.phoneNumber,
+              [
+                Validators.required,
+                Validators.minLength(10),
+                Validators.maxLength(15),
+                Validators.pattern('[0-9 +]*'),
+              ],
+            ],
+          },
+          { validator: this.passwordMatchValidator }
+        ),
+
+        submitFormText: BUTTON_CONSTANT.modifica_profilo,
         headerLabels: {
-          // title: LABEL_CONSTANT.modifica_utente,
-          // subtitle: LABEL_CONSTANT.modifica_dati_utente,
+          title: LABEL_CONSTANT.modifica_profilo,
+          subtitle: LABEL_CONSTANT.aggiorna_dati_profilo,
         },
-        submitFormText: BUTTON_CONSTANT.salva,
-        showTipologia: true,
-        // component: FormAggiornaUtenteComponent,
-        // callback: (form: any) => this.submitForm(form),
+
+        component: FormCreaLocatoreComponent,
+        callback: (form: any) => this.submitForm(form),
       },
     });
     this.dialogRef.backdropClick().subscribe(() => {
@@ -168,50 +209,140 @@ export class HeaderComponent {
           if (res) {
             this.dialogRef.close();
           }
-          this.loaderSpinner.show();
-          setTimeout(() => {
-            this.loaderSpinner.hide();
-          }, 2000); // Nascondi lo spinner dopo la chiusura del modal
         });
     });
   }
 
-  /**Aggiornamento numero di telefono USER */
-  // onUpdatePhoneNumber(userId: string, newPhoneNumber: string) {
-  //   this.userService
-  //     .updatePhoneNumber(userId, newPhoneNumber)
-  //     .subscribe(() => {
-  //       this.data.telphoneNumber = newPhoneNumber;
-  //       localStorage.setItem(`user_${userId}_telphoneNumber`, newPhoneNumber);
-  //     });
-  // }
+  /** Chiude la modale */
+  closeModal() {
+    this.dialogRef.close();
+  }
 
-  /** submitForm aggiornamento profilo utente */
-  // submitForm(form: any) {
-  //   const obj = form.value;
-  //   this.userService
-  //     .editProfile(obj.uid, obj.email, obj.profile_picture)
-  //     .then(() => {
-  //       this.onUpdatePhoneNumber(obj.uid, obj.phoneNumber);
-  //       this.data.telphoneNumber = obj.phoneNumber;
-  //       this.data.profile_picture = obj.profile_picture;
-  //       this.dialogRef.close();
-  //       this.dialog
-  //         .open(
-  //           GenericFeedbackModalComponent,
-  //           GENERIC_FEEDBACK.modifiche_salvate
-  //         )
-  //         .afterClosed()
-  //         .subscribe(() => {
-  //           this.loaderSpinner.show();
-  //           setTimeout(() => {
-  //             this.loaderSpinner.hide();
-  //           }, 2000); // Nascondi lo spinner dopo la chiusura del modal
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       this.loaderSpinner.hide();
-  //       this.userService.firebaseError(error.code);
-  //     });
-  // }
+  /**Password validator match */
+  passwordMatchValidator(form: FormGroup) {
+    const passwordValue = form.get('password')?.value;
+    const repeatPasswordValue = form.get('repeatPassword')?.value;
+
+    if (passwordValue !== repeatPasswordValue) {
+      form.get('repeatPassword')?.setErrors({ passwordMismatch: true });
+    }
+  }
+
+  /** submitForm creazione locatore ed aggiornamento lista locatori */
+  submitForm(form: any) {
+    this.loaderSpinner.show();
+    const uid = this.data.uid;
+    const email = form.value.email;
+    const password = form.value.password;
+    const userType = this.data.userType;
+    const displayName = form.value.nome + ' ' + form.value.cognome;
+    const phoneNumber = form.value.phoneNumber;
+    const status = 'Offline';
+    if (form.value.photoURL === '') {
+      this.locatoriService.imageURL = this.data.photoURL;
+      this.image = this.locatoriService.imageURL;
+    } else {
+      this.image = this.locatoriService.imageUrls;
+    }
+    const photoURL = this.image;
+    // //Aggiorna l'email
+    if (this.data.email != email) {
+      //Se cambia l'email elimina lo user e ne crea un'altro
+      this.locatoriService.deleteCurrentUser().subscribe({
+        next: (userUid) => {
+          this.locatoriService.deleteUserProfile(userUid).subscribe({
+            next: () => {
+              console.log('Utente e profilo eliminati con successo');
+            },
+            error: (err) => {
+              console.error(
+                "Errore durante l'eliminazione del profilo:",
+                err.message || err
+              );
+            },
+          });
+        },
+        error: (err) => {
+          console.error(
+            "Errore durante l'eliminazione dell'utente:",
+            err.message || err
+          );
+        },
+      });
+      this.locatoriService
+        .updateEmail(
+          email,
+          password,
+          displayName,
+          userType,
+          phoneNumber,
+          status,
+          photoURL
+        )
+        .subscribe({
+          next: (res) => {
+            const newId = res?.uid;
+            this.loaderSpinner.hide();
+            this.caseService.updateLocatoreIdForCase(uid, newId).subscribe({
+              next: () => {
+                console.log('Aggiornamento completato con successo');
+              },
+              error: (err) => {
+                console.error(
+                  "Errore durante l'aggiornamento delle case:",
+                  err.message || err
+                );
+              },
+            });
+            this.closeModal();
+            this.dialog
+              .open(
+                GenericFeedbackModalComponent,
+                GENERIC_FEEDBACK.modifiche_salvate
+              )
+              .afterClosed()
+              .subscribe(() => {
+                this.loginService.logout();
+                this.loginService.goToLogin();
+                this.loginService.clearStorage();
+                this.notifica.show(
+                  'Devi riautenticarti per aggiornare le credenziali',
+                  -1,
+                  'success'
+                );
+              });
+          },
+          error: (err) => {
+            this.loaderSpinner.hide();
+          },
+        });
+    } else {
+      this.locatoriService
+        .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber, photoURL)
+        .subscribe({
+          next: (res) => {
+            this.loaderSpinner.hide();
+            this.data = this.loginService.getCurrentUserFromLocalStorage();
+            this.closeModal();
+            this.dialog
+              .open(
+                GenericFeedbackModalComponent,
+                GENERIC_FEEDBACK.modifiche_salvate
+              )
+              .afterClosed()
+              .subscribe(() => {});
+          },
+          error: (err) => {
+            this.loaderSpinner.hide();
+          },
+        });
+    }
+  }
+
+  /**Rimuove il validatore */
+  removeValidationError(...control: string[]) {
+    control.map((c) => {
+      this.form.get(c)?.setErrors(null);
+    });
+  }
 }

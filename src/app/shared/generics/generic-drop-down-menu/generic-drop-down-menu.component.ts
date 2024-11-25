@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ICON_CONSTANT } from '../../../constants';
 import { AngularMaterialModule } from '../../../modules/material-module';
-
-
 
 /**Componente generic-drop-down-menù */
 @Component({

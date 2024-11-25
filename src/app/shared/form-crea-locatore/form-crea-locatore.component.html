@@ -1,0 +1,149 @@
+<div class="container-form">
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.email }}</mat-label>
+      <input
+        type="email"
+        matInput
+        formControlName="email"
+        autocomplete="email"
+        noEmoji
+      />
+      <mat-error>{{
+        this.form.get("email")?.hasError("required") &&
+        !this.form.get("email")?.hasError("emailExists")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.email_usata
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.telefono }}</mat-label>
+      <input type="text" matInput formControlName="phoneNumber" noEmoji />
+      <mat-hint>{{ hintConstant.requisiti_telefono }}</mat-hint>
+      <mat-error>{{
+        form.get("phoneNumber")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="email" appearance="outline">
+      <mat-label> {{ inputConstant.password }} </mat-label>
+      <div class="input-password">
+        <input
+          matInput
+          [type]="passwordHide ? 'password' : 'text'"
+          formControlName="password"
+          noEmoji
+          (input)="validatePassword()"
+        />
+        <mat-icon mat-suffix (click)="passwordHide = !passwordHide">{{
+          passwordHide ? iconConstant.visibility_off : iconConstant.visibility
+        }}</mat-icon>
+      </div>
+      <mat-hint class="password"
+        >{{ hintConstant.requisiti_password }}
+        <button class="faq-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+            <path
+              d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"
+            ></path>
+          </svg>
+          <span class="tooltip">
+            <ng-container class="password_content">
+              <div [ngClass]="getValidationClass(isMinLengthValid)">
+                <mat-icon>{{
+                  isMinLengthValid ? "check_circle" : "cancel"
+                }}</mat-icon>
+                Almeno 8 caratteri
+              </div>
+              <div [ngClass]="getValidationClass(hasUppercase)">
+                <mat-icon>{{
+                  hasUppercase ? "check_circle" : "cancel"
+                }}</mat-icon>
+                Almeno una lettera maiuscola
+              </div>
+              <div [ngClass]="getValidationClass(hasNumber)">
+                <mat-icon>{{ hasNumber ? "check_circle" : "cancel" }}</mat-icon>
+                Almeno un numero
+              </div>
+              <div [ngClass]="getValidationClass(hasSpecialChar)">
+                <mat-icon>{{
+                  hasSpecialChar ? "check_circle" : "cancel"
+                }}</mat-icon>
+                Almeno un carattere speciale (es. !#$%)
+              </div>
+            </ng-container>
+          </span>
+        </button>
+      </mat-hint>
+    </mat-form-field>
+    <mat-form-field class="email" appearance="outline">
+      <mat-label> {{ inputConstant.repetPassword }} </mat-label>
+      <div class="input-password">
+        <input
+          matInput
+          [type]="repeatPasswordHide ? 'password' : 'text'"
+          formControlName="repeatPassword"
+          noEmoji
+        />
+        <mat-icon
+          mat-suffix
+          (click)="repeatPasswordHide = !repeatPasswordHide"
+          >{{
+            repeatPasswordHide
+              ? iconConstant.visibility_off
+              : iconConstant.visibility
+          }}</mat-icon
+        >
+      </div>
+      <mat-error>
+        {{
+          this.form.get("repeatPassword")?.hasError("required")
+            ? errorConstant.campo_obbligatorio
+            : errorConstant.password_non_corrispondono
+        }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.nome }}</mat-label>
+      <input type="text" matInput formControlName="nome" noEmoji />
+      <mat-error>{{
+        form.get("nome")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-49">
+      <mat-label>{{ inputConstant.cognome }}</mat-label>
+      <input type="text" matInput formControlName="cognome" noEmoji />
+      <mat-error>{{
+        form.get("cognome")?.hasError("required")
+          ? errorConstant.campo_obbligatorio
+          : errorConstant.campo_non_valido
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="font-text w-100">
+      <mat-label>{{ inputConstant.userType }}</mat-label>
+      <mat-select formControlName="userType">
+        <mat-option *ngFor="let opt of tipologieUser" [value]="opt">{{
+          opt
+        }}</mat-option>
+      </mat-select>
+      <mat-error>{{ errorConstant.campo_obbligatorio }}</mat-error>
+    </mat-form-field>
+    <h5>{{ labelConstant.mia_immagine }}</h5>
+    <div class="image-profile">
+      <img
+        src="../../../../../assets/images/img-profile.png"
+        *ngIf="!selectedImage"
+      />
+      <img [src]="imageUrl" *ngIf="selectedImage" />
+      <input
+        type="file"
+        (change)="changeImage($event)"
+        formControlName="photoURL"
+      />
+    </div>
+  </form>
+</div>

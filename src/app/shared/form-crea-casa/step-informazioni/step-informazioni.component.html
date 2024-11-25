@@ -79,8 +79,7 @@
     <mat-form-field appearance="outline" class="font-text w-49">
       <mat-label>{{ inputConstant.locatore }}</mat-label>
       <mat-select formControlName="id" noEmoji trim>
-        <mat-option value="">Nessuno</mat-option>
-        <mat-option *ngFor="let opt of locatoriOption" [value]="opt.id">{{
+        <mat-option *ngFor="let opt of locatoriOption" [value]="opt.uid">{{
           opt.displayName | titlecase
         }}</mat-option>
       </mat-select>

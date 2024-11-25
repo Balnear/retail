@@ -13,6 +13,7 @@ export const ERROR_CONSTANT = {
     "L'estensione inserita non deve superare l'estensione della zona.",
   password_non_corrispondono: 'Le password non corrispondono',
   animation_not_supported: 'Animation not supported for your browser',
+  email_usata: 'Email già in uso',
 };
 
 export const PASSWORD_VALIDATORS = [
