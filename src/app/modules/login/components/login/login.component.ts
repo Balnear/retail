@@ -17,6 +17,7 @@ import {
   ERROR_CONSTANT,
 } from '../../../../constants/index';
 import {
+  InquiliniService,
   LoaderSpinnerService,
   LocatoriService,
   LoginService,
@@ -65,6 +66,7 @@ export default class LoginComponent {
     private loaderSpinnerService: LoaderSpinnerService,
     private loginService: LoginService,
     private locatoriService: LocatoriService,
+    private inquiliniService: InquiliniService,
     private notifica: NotificationService,
     private fb: FormBuilder,
     private router: Router
@@ -123,7 +125,37 @@ export default class LoginComponent {
             this.firebaseError(error.code);
           },
         });
-      } else {
+      } else if(!exists){
+        this.inquiliniService.verificaEmailInquilino(email).pipe(take(1)).subscribe((present) => {
+          if (present) {
+            this.loaderSpinnerService.hide();
+            this.loginService.login(email, password).pipe(take(1)).subscribe({
+              next: (res) => {
+                this.loaderSpinnerService.hide();
+                if (res) {
+                  if (res.userType === 'Locatore') {
+                    console.log(res, 'credenziali');
+                    this.router.navigate(['/bo/dashboard']);
+                    this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+                  } else if (res.userType === 'Inquilino') {
+                    console.log(res, 'credenziali');
+                    this.router.navigate(['/bo/dashboard']);
+                    this.notifica.show('Accesso eseguito correttamente', -1, 'success');
+                  }
+                }
+              },
+              error: (error) => {
+                this.loaderSpinnerService.hide();
+                this.firebaseError(error.code);
+              },
+            });
+          } else {
+            this.loaderSpinnerService.hide();
+            this.notifica.show('Le credenziali non sono valide', -1, 'error');
+          }
+        });
+
+      }else{
         this.loaderSpinnerService.hide();
         this.notifica.show('Le credenziali non sono valide', -1, 'error');
       }

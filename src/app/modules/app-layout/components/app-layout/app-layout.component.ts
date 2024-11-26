@@ -67,9 +67,9 @@ import { CustomValidator } from '../../../../utils';
     GenericDropDownMenuComponent,
     ButtonCreaCasaComponent,
     ButtonCreaLocatoreComponent,
-    ButtonCreaInquilinoComponent,
     ButtonAssegnaCasaComponent,
-  ],
+    ButtonCreaInquilinoComponent
+],
 })
 export class AppLayoutComponent {
   /* Dichiarazione delle variabili utilizzate */

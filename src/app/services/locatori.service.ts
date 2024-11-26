@@ -59,7 +59,8 @@ export class LocatoriService {
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
     status: 'Online' | 'Offline',
-    photoURL?: string
+    photoURL?: string,
+    inquilini?: string[] 
   ): Observable<LocatoreProfile | null> {
     const user = this.auth.currentUser; // Ottieni l'utente corrente
 
@@ -82,7 +83,8 @@ export class LocatoriService {
             userType,
             phoneNumber,
             status,
-            photoURL
+            photoURL,
+            inquilini
           );
         } else {
           return of(null);
@@ -103,7 +105,8 @@ export class LocatoriService {
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
     status: 'Online' | 'Offline',
-    photoURL?: string
+    photoURL?: string,
+    inquilini?: string[]
   ): Observable<LocatoreProfile> {
     const firestore = getFirestore();
     const locatoreProfile: LocatoreProfile = {
@@ -115,6 +118,7 @@ export class LocatoriService {
       status,
       photoURL,
       createdAt: new Date(),
+      inquilini,
     };
     const locatoreDocRef = doc(firestore, `locatori/${uid}`);
 
@@ -182,7 +186,8 @@ export class LocatoriService {
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
     status: 'Online' | 'Offline',
-    photoURL?: string
+    photoURL?: string,
+    inquilini?: string[]
   ): Observable<LocatoreProfile | null> {
     return this.creaLocatore(
       email,
@@ -191,7 +196,8 @@ export class LocatoriService {
       userType,
       phoneNumber,
       status,
-      photoURL
+      photoURL,
+      inquilini
     );
   }
 
@@ -207,7 +213,8 @@ export class LocatoriService {
     email: string,
     displayName: string,
     phoneNumber: string,
-    photoURL: string
+    photoURL: string,
+    inquilini?: string[]
   ): Observable<void> {
     const user = this.auth.currentUser;
 
@@ -215,7 +222,7 @@ export class LocatoriService {
       const userDocRef = doc(this.firestore, `locatori/${uid}`);
 
       // Definisci i dati da aggiornare
-      const updateData = { email, displayName, phoneNumber, photoURL };
+      const updateData = { email, displayName, phoneNumber, photoURL, inquilini };
 
       return from(updateDoc(userDocRef, updateData)).pipe(
         tap(() => {
@@ -234,6 +241,31 @@ export class LocatoriService {
     } else {
       throw new Error('Utente non autenticato');
     }
+  }
+
+  /**Aggiorna la lista degli inquilini associati al locatore */
+  aggiornaInquiliniLocatore(uid: string, inquilini: string[]): Observable<void> {
+    const userDocRef = doc(this.firestore, `locatori/${uid}`);
+  
+    // Definisci i dati da aggiornare (solo il campo inquilini)
+    const updateData = { inquilini };
+  
+    return from(updateDoc(userDocRef, updateData)).pipe(
+      tap(() => {
+        // Aggiorna il localStorage con il nuovo campo inquilini
+        const storedUser = JSON.parse(localStorage.getItem('landlordUser') || '{}');
+  
+        // Aggiorna solo il campo inquilini
+        const updatedUser = { ...storedUser, inquilini };
+  
+        // Salva l'oggetto aggiornato nel localStorage
+        localStorage.setItem('landlordUser', JSON.stringify(updatedUser));
+      }),
+      catchError((error) => {
+        console.error('Errore durante l\'aggiornamento degli inquilini:', error);
+        throw error;
+      })
+    );
   }
 
   /**Metodo per eliminare l'utente autenticato */

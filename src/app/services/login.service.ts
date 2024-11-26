@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
+import { doc, DocumentSnapshot, Firestore, getDoc, updateDoc } from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   User as FirebaseUser,
@@ -15,7 +15,7 @@ import {
 } from 'firebase/auth';
 
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Observable, from, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, from, map, of, switchMap } from 'rxjs';
 import { PanelService } from './panel.service';
 import { profiloUser, User } from '../models';
 
@@ -42,6 +42,8 @@ export class LoginService {
   numberPhone!: string;
   /**dati utente */
   datiUser: any;
+  /**Id dell' user corrente */
+  currentId!: string;
   /** Booleana per verificare la presenza dell'email*/
   emailPresent: boolean | null = null;
   /**Subject per tenere traccia dell'utente corrente */
@@ -91,14 +93,28 @@ export class LoginService {
   /**
    * Aggiorna lo stato dell'utente nel documento Firestore.
    */
-  updateUserStatus(
+  async updateUserStatus(
     userId: string,
     status: 'Online' | 'Offline'
   ): Promise<void> {
-    const userDocRef = doc(this.firestore, `locatori/${userId}`);
-    return updateDoc(userDocRef, {
-      status,
-    });
+    const locatoreDocRef = doc(this.firestore, `locatori/${userId}`);
+    const inquilinoDocRef = doc(this.firestore, `inquilini/${userId}`);
+  
+    // Controlla se l'utente esiste nei locatori
+    const locatoreSnap = await getDoc(locatoreDocRef);
+    if (locatoreSnap.exists()) {
+      // Aggiorna lo stato nella collezione "locatori"
+      return updateDoc(locatoreDocRef, { status });
+    }
+  
+    // Controlla se l'utente esiste negli inquilini
+    const inquilinoSnap = await getDoc(inquilinoDocRef);
+    if (inquilinoSnap.exists()) {
+      // Aggiorna lo stato nella collezione "inquilini"
+      return updateDoc(inquilinoDocRef, { status });
+    }
+
+    throw new Error(`User with ID ${userId} not found in either locatori or inquilini`);
   }
 
   /**
@@ -115,6 +131,7 @@ export class LoginService {
 
             const user = userCredential.user;
             if (user) {
+              this.currentId = user.uid;
               // Imposta lo stato dell'utente a "online" su Firestore
               this.updateUserStatus(user.uid, 'Online');
             }
@@ -147,29 +164,48 @@ export class LoginService {
     uid: string | undefined
   ): Observable<profiloUser | null> {
     if (!uid) return from([null]); // Restituisce null se uid è undefined
-    const userDocRef = doc(this.firestore, `locatori/${uid}`);
-    return from(getDoc(userDocRef)).pipe(
-      map((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          console.log(data, 'data');
 
-          return {
-            uid,
-            email: data?.['email'] || '',
-            displayName: data?.['displayName'] || '',
-            photoURL: data?.['photoURL'] || '',
-            emailVerified: data?.['emailVerified'] || false,
-            userType: data?.['userType'] || 'Inquilino',
-            status: data?.['status'] || 'Offline',
-            phoneNumber: data?.['phoneNumber'] || '',
-          } as profiloUser;
-        } else {
-          return null;
+    const locatoreDocRef = doc(this.firestore, `locatori/${uid}`);
+    const inquilinoDocRef = doc(this.firestore, `inquilini/${uid}`);
+  
+    // Recupera il documento dai locatori, e in caso di assenza passa agli inquilini
+    return from(getDoc(locatoreDocRef)).pipe(
+      switchMap((locatoreSnap) => {
+        if (locatoreSnap.exists()) {
+          return of(this.mapUserProfile(locatoreSnap, uid, 'Locatore'));
         }
+        // Se non esiste nei locatori, controlla negli inquilini
+        return from(getDoc(inquilinoDocRef)).pipe(
+          map((inquilinoSnap) => {
+            if (inquilinoSnap.exists()) {
+              return this.mapUserProfile(inquilinoSnap, uid, 'Inquilino');
+            }
+            // Se non trovato in nessuna collezione, restituisci null
+            return null;
+          })
+        );
       })
     );
   }
+
+  /** Mappa i dati del documento nel profilo utente */
+private mapUserProfile(
+  docSnap: DocumentSnapshot,
+  uid: string,
+  userType: 'Locatore' | 'Inquilino'
+): profiloUser {
+  const data = docSnap.data();
+  return {
+    uid,
+    email: data?.['email'] || '',
+    displayName: data?.['displayName'] || '',
+    photoURL: data?.['photoURL'] || '',
+    emailVerified: data?.['emailVerified'] || false,
+    userType,
+    status: data?.['status'] || 'Offline',
+    phoneNumber: data?.['phoneNumber'] || '',
+  } as profiloUser;
+}
 
   /**Effettua la disconnessione dall'applicazione */
   logout(): Observable<void> {

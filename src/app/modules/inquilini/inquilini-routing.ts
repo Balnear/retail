@@ -6,7 +6,8 @@ export const routes: Routes = [
   {
     path: '',
     title: 'Inquilini',
-    loadComponent: () => import('./components/inquilini/inquilini.component'),
+    loadComponent: () =>
+      import('./components/lista-inquilini/lista-inquilini.component'),
     resolve: {
       listaInquilini: () => inject(InquiliniService),
     },

@@ -16,4 +16,6 @@ export interface LocatoreProfile {
   photoURL?: string;
   /**Stato di attività */
   status: 'Online' | 'Offline';
+  /**Id degli inquilini associati */
+  inquilini?: string[];
 }

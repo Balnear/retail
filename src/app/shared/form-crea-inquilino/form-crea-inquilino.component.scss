@@ -1,0 +1,171 @@
+@import "../../../assets/scss/variables.scss";
+
+.container-form {
+  display: flex;
+  width: 100%;
+  height: 90%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  h5 {
+    @include text($font-16, 700, $dark-brown, 19.2px, none);
+  }
+  form {
+    @include flex(flex, row, space-between, unset, unset, wrap);
+    width: 100%;
+    gap: 8px;
+    mat-form-field {
+      width: 49%;
+      &.w-100 {
+        width: 100%;
+      }
+      &.email {
+        display: flex;
+        .text-green {
+          color: greenyellow;
+        }
+        .text-red {
+          color: $secondary;
+        }
+        .password {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-content: center;
+          justify-content: center;
+          align-items: center;
+          gap: 6px;
+          /* From Uiverse.io by vinodjangid07 */
+          .faq-button {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            background-color: $primary;
+            background-image: $primary;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.151);
+            position: relative;
+            top: 2px;
+          }
+          .faq-button svg {
+            height: 1.5em;
+            fill: white;
+          }
+          .faq-button:hover svg {
+            animation: jello-vertical 0.7s both;
+          }
+          @keyframes jello-vertical {
+            0% {
+              transform: scale3d(1, 1, 1);
+            }
+            30% {
+              transform: scale3d(0.75, 1.25, 1);
+            }
+            40% {
+              transform: scale3d(1.25, 0.75, 1);
+            }
+            50% {
+              transform: scale3d(0.85, 1.15, 1);
+            }
+            65% {
+              transform: scale3d(1.05, 0.95, 1);
+            }
+            75% {
+              transform: scale3d(0.95, 1.05, 1);
+            }
+            100% {
+              transform: scale3d(1, 1, 1);
+            }
+          }
+
+          .tooltip {
+            position: absolute;
+            width: 300px;
+            top: 230px;
+            opacity: 0;
+            background-color: $primary;
+            background-image: $primary;
+            color: $secondary;
+            gap: 6px;
+            padding: 17px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            transition-duration: 0.2s;
+            pointer-events: none;
+            letter-spacing: 0.5px;
+            .password_content {
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              align-content: center;
+              justify-content: center;
+              align-items: center;
+              padding: 6px;
+            }
+          }
+
+          .tooltip::before {
+            position: absolute;
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: $primary;
+            background-size: 1000%;
+            background-position: center;
+            transform: rotate(45deg);
+            top: -5%;
+            transition-duration: 0.3s;
+          }
+
+          .faq-button:hover .tooltip {
+            top: 30px;
+            opacity: 1;
+            transition-duration: 0.3s;
+          }
+        }
+      }
+      .input-password {
+        display: flex;
+        cursor: pointer;
+      }
+      .label-sel {
+        @include text($font-12, 400, $grey, 120%, none);
+      }
+      .font-text {
+        @include text($font-16, 400, $dark-brown, 24px, none);
+      }
+    }
+    div {
+      width: 100%;
+      .w-100 {
+        width: 100%;
+      }
+    }
+  }
+  .image-profile {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: #dfdfdf;
+      object-fit: cover;
+    }
+  }
+}
