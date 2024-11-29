@@ -110,10 +110,12 @@ export default class LoginComponent {
             this.loaderSpinnerService.hide();
             if (res) {
               if (res.userType === 'Locatore') {
+                this.loginService.locatore = true;
                 console.log(res, 'credenziali');
                 this.router.navigate(['/bo/dashboard']);
                 this.notifica.show('Accesso eseguito correttamente', -1, 'success');
               } else if (res.userType === 'Inquilino') {
+                this.loginService.locatore = false;//TODO: PROVVISORIO IN ATTESA DEL SUPER ADMIN
                 console.log(res, 'credenziali');
                 this.router.navigate(['/bo/dashboard']);
                 this.notifica.show('Accesso eseguito correttamente', -1, 'success');

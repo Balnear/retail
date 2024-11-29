@@ -18,6 +18,7 @@ export const PAGE_CONSTANT = {
       {
         name: 'Locatori',
         path: 'bo/locatori',
+        // deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'], Verificare se è possibile inserire i permessi
       },
       {
         name: 'Inquilini',
@@ -39,13 +40,6 @@ export const PAGE_CONSTANT = {
     ],
   },
 
-  // colture: {
-  //   name: 'Colture',
-  //   icon: ICON_CONSTANT.colture,
-  //   path: 'bo/colture',
-  //   showChild: false,
-  //   deniedPermission: ['MAGAZZINIERE', 'AMMINISTRATORE'],
-  // },
   // magazzino: {
   //   name: 'Magazzino',
   //   icon: 'warehouse',

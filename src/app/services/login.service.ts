@@ -44,6 +44,8 @@ export class LoginService {
   datiUser: any;
   /**Id dell' user corrente */
   currentId!: string;
+  /**Identifica se è un locatore */
+  locatore!: Boolean;
   /** Booleana per verificare la presenza dell'email*/
   emailPresent: boolean | null = null;
   /**Subject per tenere traccia dell'utente corrente */

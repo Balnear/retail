@@ -165,6 +165,7 @@ export class ButtonCreaLocatoreComponent {
     const photoURL = this.image;
     const displayName = form.value.nome + ' ' + form.value.cognome;
     const status = form.value.status;
+    const inquilini = [''];
     this.locatoriService
       .creaLocatore(
         email,
@@ -173,7 +174,8 @@ export class ButtonCreaLocatoreComponent {
         userType,
         phoneNumber,
         status,
-        photoURL
+        photoURL,
+        inquilini
       )
       .subscribe({
         next: (res) => {

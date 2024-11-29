@@ -8,10 +8,11 @@ import {
   FormGroup,
 } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Auth } from '@angular/fire/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import { AngularMaterialModule } from '../../../modules/material-module';
-import { CaseService, LocatoriService } from '../../../services';
+import { CaseService, LocatoriService, LoginService } from '../../../services';
 import {
   ERROR_CONSTANT,
   HINT_CONSTANT,
@@ -20,7 +21,6 @@ import {
   LABEL_CONSTANT,
 } from '../../../constants';
 import { NoEmojiDirective, TrimDirective } from '../../../directives';
-import { User } from '../../../models';
 
 /** Componente per lo step delle informazioni */
 @Component({
@@ -91,7 +91,9 @@ export class StepInformazioniComponent {
    * Angular, come in attributi src, href o nelle risorse esterne visualizzate.
    */
   constructor(
+    private auth: Auth,
     private locatoriService: LocatoriService,
+    private loginService: LoginService,
     private caseService: CaseService,
     private parentF: FormGroupDirective,
     private sanitizer: DomSanitizer
@@ -99,16 +101,30 @@ export class StepInformazioniComponent {
   /** Lifecycle hook dell'onInit, */
   ngOnInit() {
     this.form = this.parentF.form;
-    this.locatoriService.getAllLocatori().subscribe({
-      next: (users: any) => (this.locatoriOption = users),
-      error: (err) =>
-        console.error('Errore nel recupero degli utenti Locatore:', err),
-    });
+    if (this.loginService.locatore === true) {
+      const user = this.auth.currentUser;
+      if (user) {
+        this.locatoriService.getLocatore(user.uid).subscribe({
+          next: (res) => (this.locatoriOption = [res]),
+        });
+      }
+    } else {
+      this.locatoriService.getAllLocatori().subscribe({
+        next: (users: any) => (this.locatoriOption = users),
+        error: (err) =>
+          console.error('Errore nel recupero degli utenti Locatore:', err),
+      });
+    }
     this.tipologieCase = this.caseService.tipologie;
     console.log(this.form, 'form informazioni');
     this.linkFile = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.form.get('documentoArredamento')?.value
     );
+  }
+
+  /** Lifecycle hook dell'onDestroy, */
+  ngOnDestroy() {
+    this.locatoriOption = {};
   }
 
   /**Metodo per disabilitare i giorni precedenti alla data corrente */
