@@ -6,7 +6,7 @@ import {
   deleteUser,
   UserCredential,
 } from '@angular/fire/auth';
-import { collectionData, Firestore } from '@angular/fire/firestore';
+import { collectionData, Firestore, writeBatch } from '@angular/fire/firestore';
 import {
   collection,
   deleteDoc,
@@ -188,7 +188,7 @@ export class InquiliniService {
     userType: 'Locatore' | 'Inquilino',
     phoneNumber: string,
     status: 'Online' | 'Offline',
-    photoURL?: string,
+    photoURL?: string
   ): Observable<InquilinoProfile | null> {
     return this.creaInquilino(
       locatoreId,
@@ -248,6 +248,46 @@ export class InquiliniService {
     } else {
       throw new Error('Utente non autenticato');
     }
+  }
+
+  /** Ottiene la lista degli inquilini associati a un locatore specifico */
+  getInquiliniByLocatoreId(locatoreId: string): Observable<InquilinoProfile[]> {
+    const inquiliniCollection = collection(this.firestore, 'inquilini');
+    const inquiliniQuery = query(
+      inquiliniCollection,
+      where('locatoreId', '==', locatoreId)
+    );
+
+    // Usa collectionData per ottenere i documenti come Observable
+    return collectionData(inquiliniQuery, { idField: 'uid' }) as Observable<
+      InquilinoProfile[]
+    >;
+  }
+
+  /** Aggiorna il locatoreId per tutti gli inquilini associati a un vecchio locatoreId */
+  aggiornaLocatoreIdInquilini(
+    vecchioLocatoreId: string,
+    nuovoLocatoreId: string | undefined
+  ): Promise<void> {
+    const inquiliniCollection = collection(this.firestore, 'inquilini');
+    const inquiliniQuery = query(
+      inquiliniCollection,
+      where('locatoreId', '==', vecchioLocatoreId)
+    );
+    const batch = writeBatch(this.firestore);
+
+    return getDocs(inquiliniQuery)
+      .then((querySnapshot) => {
+        querySnapshot.forEach((docSnapshot) => {
+          const docRef = doc(this.firestore, `inquilini/${docSnapshot.id}`);
+          batch.update(docRef, { locatoreId: nuovoLocatoreId });
+        });
+        return batch.commit(); // Esegue il batch di aggiornamenti
+      })
+      .catch((error) => {
+        console.error("Errore durante l'aggiornamento del locatoreId:", error);
+        throw error;
+      });
   }
 
   /**Metodo per eliminare l'utente autenticato */

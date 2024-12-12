@@ -59,7 +59,7 @@ export class ButtonCreaInquilinoComponent {
     private dialog: MatDialog,
     private fb: FormBuilder
   ) {
-    this.currentId = loginService.currentId;
+    this.currentId = this.loginService.currentId;
   }
 
   /**Apertura del panel per la creazione del inquilino */
@@ -188,12 +188,15 @@ export class ButtonCreaInquilinoComponent {
       .subscribe({
         next: (res) => {
           const inquilinoId = res?.uid;
+          console.log(locatoreId, 'locatoreid');
           if (inquilinoId) {
             this.loaderSpinnerService.hide();
             this.closeModal();
-            this.locatoriService.aggiornaInquiliniLocatore(locatoreId, [
-              inquilinoId,
-            ]);
+
+            this.locatoriService.aggiornaInquiliniLocatore(
+              locatoreId,
+              inquilinoId
+            );
             this.dialog
               .open(
                 GenericFeedbackModalComponent,

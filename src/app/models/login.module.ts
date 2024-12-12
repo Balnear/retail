@@ -16,6 +16,8 @@ export interface User {
   phoneNumber: string;
   /**Stato di attività */
   status: 'Online' | 'Offline';
+  /**Id degli inquilini associati */
+  inquilini?: string[];
 }
 
 /** Modello per nominativoUser */

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, deleteUser } from '@angular/fire/auth';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
 import {
+  arrayUnion,
   collectionData,
   deleteDoc,
   Firestore,
@@ -60,7 +61,7 @@ export class LocatoriService {
     phoneNumber: string,
     status: 'Online' | 'Offline',
     photoURL?: string,
-    inquilini?: string[] 
+    inquilini?: string[]
   ): Observable<LocatoreProfile | null> {
     const user = this.auth.currentUser; // Ottieni l'utente corrente
 
@@ -117,8 +118,8 @@ export class LocatoriService {
       phoneNumber,
       status,
       photoURL,
-      createdAt: new Date(),
       inquilini,
+      createdAt: new Date(),
     };
     const locatoreDocRef = doc(firestore, `locatori/${uid}`);
 
@@ -222,7 +223,13 @@ export class LocatoriService {
       const userDocRef = doc(this.firestore, `locatori/${uid}`);
 
       // Definisci i dati da aggiornare
-      const updateData = { email, displayName, phoneNumber, photoURL, inquilini };
+      const updateData = {
+        email,
+        displayName,
+        phoneNumber,
+        photoURL,
+        inquilini,
+      };
 
       return from(updateDoc(userDocRef, updateData)).pipe(
         tap(() => {
@@ -244,25 +251,29 @@ export class LocatoriService {
   }
 
   /**Aggiorna la lista degli inquilini associati al locatore */
-  aggiornaInquiliniLocatore(uid: string, inquilini: string[]): Observable<void> {
+  aggiornaInquiliniLocatore(uid: string, inquilini: string): Observable<void> {
     const userDocRef = doc(this.firestore, `locatori/${uid}`);
-  
-    // Definisci i dati da aggiornare (solo il campo inquilini)
-    const updateData = { inquilini };
-  
-    return from(updateDoc(userDocRef, updateData)).pipe(
+
+    // Usa arrayUnion per aggiungere l'inquilino al campo "inquilini"
+    return from(
+      updateDoc(userDocRef, { inquilini: arrayUnion(inquilini) })
+    ).pipe(
       tap(() => {
-        // Aggiorna il localStorage con il nuovo campo inquilini
-        const storedUser = JSON.parse(localStorage.getItem('landlordUser') || '{}');
-  
-        // Aggiorna solo il campo inquilini
-        const updatedUser = { ...storedUser, inquilini };
-  
-        // Salva l'oggetto aggiornato nel localStorage
+        // Aggiorna il localStorage
+        const storedUser = JSON.parse(
+          localStorage.getItem('landlordUser') || '{}'
+        );
+
+        // Aggiorna solo il campo inquilini nel localStorage
+        const updatedUser = {
+          ...storedUser,
+          inquilini: [...(storedUser.inquilini || []), inquilini],
+        };
+
         localStorage.setItem('landlordUser', JSON.stringify(updatedUser));
       }),
       catchError((error) => {
-        console.error('Errore durante l\'aggiornamento degli inquilini:', error);
+        console.error("Errore durante l'aggiunta di un inquilino:", error);
         throw error;
       })
     );

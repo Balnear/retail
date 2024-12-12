@@ -17,7 +17,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Observable, from, map, of, switchMap } from 'rxjs';
 import { PanelService } from './panel.service';
-import { profiloUser, User } from '../models';
+import { LocatoreProfile, profiloUser, User } from '../models';
 
 /**L'injectable del service login service */
 @Injectable({
@@ -197,16 +197,32 @@ private mapUserProfile(
   userType: 'Locatore' | 'Inquilino'
 ): profiloUser {
   const data = docSnap.data();
-  return {
-    uid,
-    email: data?.['email'] || '',
-    displayName: data?.['displayName'] || '',
-    photoURL: data?.['photoURL'] || '',
-    emailVerified: data?.['emailVerified'] || false,
-    userType,
-    status: data?.['status'] || 'Offline',
-    phoneNumber: data?.['phoneNumber'] || '',
-  } as profiloUser;
+  if(userType !== 'Locatore'){
+    return {
+      uid,
+      email: data?.['email'] || '',
+      displayName: data?.['displayName'] || '',
+      photoURL: data?.['photoURL'] || '',
+      emailVerified: data?.['emailVerified'] || false,
+      userType,
+      status: data?.['status'] || 'Offline',
+      phoneNumber: data?.['phoneNumber'] || '',
+    } as profiloUser;
+  }else{
+    return {
+      uid,
+      email: data?.['email'] || '',
+      displayName: data?.['displayName'] || '',
+      photoURL: data?.['photoURL'] || '',
+      emailVerified: data?.['emailVerified'] || false,
+      userType,
+      status: data?.['status'] || 'Offline',
+      phoneNumber: data?.['phoneNumber'] || '',
+      inquilini: data?.['inquilini'] || '',
+      createdAt: data?.['createdAt'] || '',
+    } as LocatoreProfile;
+  }
+  
 }
 
   /**Effettua la disconnessione dall'applicazione */
@@ -249,16 +265,31 @@ private mapUserProfile(
       return null;
     }
 
-    return {
-      uid: firebaseUser.uid,
-      email: firebaseUser.email || '',
-      displayName: profileData?.displayName || firebaseUser.displayName || '',
-      photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
-      emailVerified: firebaseUser.emailVerified,
-      userType: profileData?.userType || 'Inquilino',
-      status: profileData?.status || 'Offline',
-      phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
-    };
+    if(profileData?.userType !== 'Locatore'){
+      return {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email || '',
+        displayName: profileData?.displayName || firebaseUser.displayName || '',
+        photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
+        emailVerified: firebaseUser.emailVerified,
+        userType: profileData?.userType || 'Inquilino',
+        status: profileData?.status || 'Offline',
+        phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
+      };
+    }else{
+      return {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email || '',
+        displayName: profileData?.displayName || firebaseUser.displayName || '',
+        photoURL: profileData?.photoURL || firebaseUser.photoURL || '',
+        emailVerified: firebaseUser.emailVerified,
+        userType: profileData?.userType || 'Inquilino',
+        status: profileData?.status || 'Offline',
+        phoneNumber: profileData?.phoneNumber || firebaseUser.phoneNumber || '',
+        inquilini:  profileData?.inquilini || '',
+      };
+    }
+    
   }
 
   /**Salva il profilo utente nel localStorage */

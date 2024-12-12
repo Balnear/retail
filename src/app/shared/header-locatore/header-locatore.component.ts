@@ -16,6 +16,7 @@ import {
   CaseService,
   LoginService,
   NotificationService,
+  InquiliniService,
 } from '../../services';
 import { CustomDialogService } from '../../services/dialog.service';
 import {
@@ -62,6 +63,8 @@ export class HeaderLocatoreComponent {
   form!: FormGroup;
   /** URL del imagine del profilo */
   image!: string;
+  /** Inquilini associati al locatore */
+  inquilini!: string[];
   /** Dati utente corrente */
   currentUser!: any;
 
@@ -78,6 +81,7 @@ export class HeaderLocatoreComponent {
     private notifica: NotificationService,
     public loginService: LoginService,
     private locatoriService: LocatoriService,
+    private inquiliniService: InquiliniService,
     private caseService: CaseService,
     private customDialogService: CustomDialogService,
     private loaderSpinnerService: LoaderSpinnerService,
@@ -291,7 +295,8 @@ export class HeaderLocatoreComponent {
       this.image = this.locatoriService.imageUrls;
     }
     const photoURL = this.image;
-    // //Aggiorna l'email
+    const inquilini = this.locatore.inquilini;
+    //Aggiorna l'email
     if (this.locatore.email != email) {
       //Se cambia l'email elimina lo user e ne crea un'altro
       this.locatoriService.deleteUserProfile(uid).subscribe({
@@ -313,12 +318,14 @@ export class HeaderLocatoreComponent {
           userType,
           phoneNumber,
           status,
-          photoURL
+          photoURL,
+          inquilini
         )
         .subscribe({
           next: (res) => {
             const newId = res?.uid;
             this.loaderSpinnerService.hide();
+            this.inquiliniService.aggiornaLocatoreIdInquilini(uid, newId);
             this.caseService.updateLocatoreIdForCase(uid, newId).subscribe({
               next: () => {
                 console.log('Aggiornamento completato con successo');
@@ -364,7 +371,14 @@ export class HeaderLocatoreComponent {
         });
     } else {
       this.locatoriService
-        .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber, photoURL)
+        .aggiornaProfiloLocatore(
+          uid,
+          email,
+          displayName,
+          phoneNumber,
+          photoURL,
+          inquilini
+        )
         .subscribe({
           next: (res) => {
             this.loaderSpinnerService.hide();

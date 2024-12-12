@@ -13,6 +13,7 @@ import {
   LocatoriService,
   NotificationService,
   CaseService,
+  InquiliniService,
 } from '../../../../services';
 import {
   LABEL_CONSTANT,
@@ -63,6 +64,8 @@ export class HeaderComponent {
   breadCrumbsListener!: Subscription;
   /**variabile stringa */
   breadCrumb!: string;
+    /** I dati del locatore */
+    locatore: any;
   /**Lista delle opzioni */
   options = [
     {
@@ -96,13 +99,16 @@ export class HeaderComponent {
   constructor(
     private loginService: LoginService,
     private locatoriService: LocatoriService,
+    private inquiliniService: InquiliniService,
     private caseService: CaseService,
     private loaderSpinner: LoaderSpinnerService,
     private notifica: NotificationService,
     private dialog: MatDialog,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.locatore = this.locatoriService.dettaglioLocatore;
+  }
   /**
    * quando viene inizializzata la pagina,
    */
@@ -245,6 +251,7 @@ export class HeaderComponent {
       this.image = this.locatoriService.imageUrls;
     }
     const photoURL = this.image;
+    const inquilini = this.locatore.inquilini;
     // //Aggiorna l'email
     if (this.data.email != email) {
       //Se cambia l'email elimina lo user e ne crea un'altro
@@ -277,12 +284,23 @@ export class HeaderComponent {
           userType,
           phoneNumber,
           status,
-          photoURL
+          photoURL,
+          inquilini
         )
         .subscribe({
           next: (res) => {
             const newId = res?.uid;
             this.loaderSpinner.hide();
+            this.inquiliniService.getInquiliniByLocatoreId(uid).subscribe({
+              next: () => {
+                this.inquiliniService.aggiornaLocatoreIdInquilini(uid, newId);
+                console.log('inquilini aggiornati');
+                
+              },
+              error: (err) => {
+                
+              }, 
+            });
             this.caseService.updateLocatoreIdForCase(uid, newId).subscribe({
               next: () => {
                 console.log('Aggiornamento completato con successo');
@@ -318,7 +336,7 @@ export class HeaderComponent {
         });
     } else {
       this.locatoriService
-        .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber, photoURL)
+        .aggiornaProfiloLocatore(uid, email, displayName, phoneNumber, photoURL, inquilini)
         .subscribe({
           next: (res) => {
             this.loaderSpinner.hide();
