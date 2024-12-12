@@ -251,7 +251,8 @@ export class HeaderComponent {
       this.image = this.locatoriService.imageUrls;
     }
     const photoURL = this.image;
-    const inquilini = this.locatore.inquilini;
+    const inquilini = this.data.inquilini;
+    
     // //Aggiorna l'email
     if (this.data.email != email) {
       //Se cambia l'email elimina lo user e ne crea un'altro
@@ -291,16 +292,7 @@ export class HeaderComponent {
           next: (res) => {
             const newId = res?.uid;
             this.loaderSpinner.hide();
-            this.inquiliniService.getInquiliniByLocatoreId(uid).subscribe({
-              next: () => {
                 this.inquiliniService.aggiornaLocatoreIdInquilini(uid, newId);
-                console.log('inquilini aggiornati');
-                
-              },
-              error: (err) => {
-                
-              }, 
-            });
             this.caseService.updateLocatoreIdForCase(uid, newId).subscribe({
               next: () => {
                 console.log('Aggiornamento completato con successo');
